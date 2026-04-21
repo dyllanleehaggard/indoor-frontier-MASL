@@ -1,0 +1,2262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Indoor Frontier — A First-Principles Data Study of MASL Soccer · Dyllan Haggard</title>
+<meta name="description" content="A deep, data-first look at the Major Arena Soccer League. Why the sport has been analytically underserved, what changes when you look closely, and what two years inside the St. Louis Ambush reveals about winning indoor soccer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===================================================================
+   THE INDOOR FRONTIER — DYLLAN HAGGARD
+   Palette: deep navy #0a0a0c · butter #E8127D · parchment #f4f2ec
+=================================================================== */
+:root{
+  /* Core dark — deep charcoal-black with a hint of warmth */
+  --navy:#0a0a0c;
+  --navy-2:#131316;
+  --navy-3:#1f1f24;
+  /* Primary accent — Ambush pink */
+  --butter:#E8127D;
+  --butter-2:#b50e60;
+  /* Light ground — off-white with a faint warm tint */
+  --parchment:#f6f4f1;
+  --parchment-2:#ebe8e2;
+  --ink:#0a0a0c;
+  --muted:#5a5a62;
+  --line:rgba(10,10,12,0.12);
+  --line-dark:rgba(232,18,125,0.2);
+  --accent-red:#d53b5a;
+  --accent-green:#2f8a7a;
+  --accent-blue:#2a7a8a;
+  /* Ambush brand — teal as secondary accent */
+  --ambush-teal:#077988;
+  --ambush-teal-deep:#055660;
+  --ambush-pink:#E8127D;
+  --serif:'Fraunces', Georgia, 'Times New Roman', serif;
+  --sans:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--serif);
+  background:var(--parchment);
+  color:var(--ink);
+  line-height:1.6;
+  font-size:17px;
+  font-feature-settings:"liga","kern";
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+em{font-style:italic;font-variation-settings:"opsz" 144}
+strong{font-weight:600}
+img,svg{max-width:100%;display:block}
+
+/* ========== LAYOUT PRIMITIVES ========== */
+.wrap{max-width:1160px;margin:0 auto;padding:0 56px}
+.wrap-narrow{max-width:780px;margin:0 auto;padding:0 56px}
+@media(max-width:760px){
+  .wrap,.wrap-narrow{padding:0 24px}
+}
+
+/* ========== HERO / COVER ========== */
+.cover{
+  background:var(--navy);
+  color:var(--parchment);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  overflow:hidden;
+}
+.cover::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 800px 600px at 85% 20%, rgba(232,18,125,0.05), transparent 60%),
+    radial-gradient(ellipse 600px 500px at 10% 90%, rgba(7,121,136,0.15), transparent 60%);
+  pointer-events:none;
+}
+.cover::after{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(232,18,125,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232,18,125,0.025) 1px, transparent 1px);
+  background-size:80px 80px;
+  pointer-events:none;
+}
+.cover-head{
+  padding:40px 56px;
+  display:flex;justify-content:space-between;align-items:center;
+  position:relative;z-index:2;
+  border-bottom:1px solid rgba(232,18,125,0.1);
+}
+.cover-brand{
+  font-family:var(--sans);
+  font-size:12px;letter-spacing:0.32em;
+  text-transform:uppercase;
+  color:var(--butter);
+  font-weight:500;
+}
+.cover-brand span{
+  display:inline-block;width:28px;height:28px;
+  border:1px solid var(--butter);
+  border-radius:50%;
+  text-align:center;line-height:26px;
+  font-size:11px;letter-spacing:0;
+  margin-right:14px;vertical-align:middle;
+  font-weight:600;
+}
+.cover-meta{
+  font-family:var(--sans);
+  font-size:11px;letter-spacing:0.25em;
+  text-transform:uppercase;
+  color:rgba(246,244,241,0.55);
+}
+.cover-body{
+  flex:1;display:flex;flex-direction:column;justify-content:center;
+  padding:80px 56px 40px;
+  position:relative;z-index:2;
+  max-width:1160px;margin:0 auto;width:100%;
+}
+.cover-eyebrow{
+  font-family:var(--sans);
+  font-size:11px;letter-spacing:0.4em;text-transform:uppercase;
+  color:var(--butter);font-weight:500;
+  margin-bottom:36px;
+  display:flex;align-items:center;gap:16px;
+}
+.cover-eyebrow::before{
+  content:"";width:56px;height:1px;background:var(--butter);
+}
+.cover-title{
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(42px,7.5vw,98px);
+  line-height:0.98;
+  letter-spacing:-0.025em;
+  font-variation-settings:"opsz" 144;
+  margin-bottom:32px;
+  max-width:14ch;
+}
+.cover-title em{
+  font-style:italic;
+  color:var(--butter);
+  font-weight:300;
+}
+.cover-sub{
+  font-family:var(--serif);
+  font-size:clamp(18px,2vw,23px);
+  line-height:1.45;
+  color:rgba(246,244,241,0.82);
+  max-width:58ch;
+  margin-bottom:64px;
+  font-weight:300;
+  font-style:italic;
+}
+.cover-credits{
+  display:flex;flex-wrap:wrap;gap:48px;
+  border-top:1px solid rgba(232,18,125,0.14);
+  padding-top:36px;
+  align-items:flex-end;
+  justify-content:space-between;
+}
+.cover-authors-label{
+  font-family:var(--sans);
+  font-size:10px;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--butter);
+  margin-bottom:12px;font-weight:500;
+}
+.cover-authors{
+  font-family:var(--serif);
+  font-size:18px;
+  color:var(--parchment);
+  font-weight:400;
+}
+.cover-authors span{opacity:0.45;margin:0 10px}
+.cover-issue{
+  font-family:var(--sans);
+  font-size:10px;letter-spacing:0.3em;text-transform:uppercase;
+  color:rgba(246,244,241,0.55);
+  text-align:right;
+}
+.cover-issue strong{
+  display:block;color:var(--butter);font-size:14px;margin-top:6px;letter-spacing:0.25em;
+}
+
+/* ========== CONTENTS ========== */
+.contents{
+  background:var(--parchment);
+  padding:120px 0;
+  border-top:1px solid var(--line);
+}
+.contents-label{
+  font-family:var(--sans);
+  font-size:10px;letter-spacing:0.4em;text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:48px;font-weight:600;
+}
+.contents-list{list-style:none;border-top:1px solid var(--line)}
+.contents-list li{
+  border-bottom:1px solid var(--line);
+  display:grid;
+  grid-template-columns:80px 1fr auto;
+  gap:32px;align-items:center;
+  padding:26px 0;
+  transition:padding 0.3s;
+}
+.contents-list li:hover{padding-left:16px;background:rgba(232,18,125,0.07)}
+.contents-num{
+  font-family:var(--serif);
+  font-size:15px;
+  color:var(--muted);
+  font-weight:400;
+  letter-spacing:0.08em;
+}
+.contents-title{
+  font-family:var(--serif);
+  font-size:22px;font-weight:500;
+  font-variation-settings:"opsz" 144;
+  letter-spacing:-0.015em;
+  color:var(--ink);
+}
+.contents-title em{color:var(--ambush-teal);font-weight:400}
+.contents-sub{
+  display:block;
+  font-family:var(--sans);
+  font-size:11px;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--muted);
+  margin-top:6px;font-weight:500;
+  font-style:normal;
+}
+.contents-arrow{
+  font-size:22px;
+  color:var(--muted);
+  transition:transform 0.3s,color 0.3s;
+  font-family:var(--serif);
+}
+.contents-list li:hover .contents-arrow{
+  transform:translateX(8px);color:var(--ambush-teal);
+}
+
+/* ========== SECTION CORE ========== */
+.section{padding:110px 0}
+.section-dark{background:var(--navy);color:var(--parchment)}
+.section-dark .muted{color:rgba(246,244,241,0.65)}
+.section-meta{
+  background:var(--navy);
+  color:var(--parchment);
+  padding:28px 0;
+  border-top:1px solid rgba(232,18,125,0.1);
+  border-bottom:1px solid rgba(232,18,125,0.1);
+}
+.section-meta-inner{
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:var(--sans);
+  font-size:11px;letter-spacing:0.3em;text-transform:uppercase;
+  color:rgba(246,244,241,0.65);
+}
+.section-meta-inner .cur{color:var(--butter);font-weight:500}
+
+/* CHAPTER OPENERS */
+.chapter-opener{
+  display:grid;grid-template-columns:360px 1fr;
+  min-height:460px;
+  background:var(--parchment);
+}
+.chapter-opener.dark{background:var(--navy);color:var(--parchment)}
+.chapter-opener-num{
+  background:var(--butter);
+  color:#0a0a0c;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);
+  font-size:260px;font-weight:300;
+  font-variation-settings:"opsz" 144;
+  letter-spacing:-0.04em;
+  line-height:1;
+  position:relative;
+}
+.chapter-opener-num::after{
+  content:attr(data-label);
+  position:absolute;bottom:30px;left:30px;
+  font-family:var(--sans);
+  font-size:10px;letter-spacing:0.35em;text-transform:uppercase;
+  color:#0a0a0c;opacity:0.7;font-weight:600;
+}
+.chapter-opener-body{
+  padding:80px 72px;display:flex;flex-direction:column;justify-content:center;
+}
+.chapter-opener-eyebrow{
+  font-family:var(--sans);
+  font-size:10px;letter-spacing:0.4em;text-transform:uppercase;
+  color:var(--ambush-teal);
+  font-weight:600;
+  margin-bottom:24px;
+}
+.chapter-opener.dark .chapter-opener-eyebrow{color:var(--butter)}
+.chapter-opener-title{
+  font-family:var(--serif);
+  font-size:clamp(36px,4.8vw,60px);
+  line-height:1.02;
+  font-weight:400;
+  letter-spacing:-0.02em;
+  font-variation-settings:"opsz" 144;
+  margin-bottom:28px;
+  max-width:18ch;
+}
+.chapter-opener-title em{font-style:italic;color:var(--ambush-teal);font-weight:300}
+.chapter-opener.dark .chapter-opener-title em{color:var(--butter)}
+.chapter-opener-deck{
+  font-size:20px;line-height:1.5;
+  color:var(--muted);
+  max-width:52ch;
+  font-weight:300;font-style:italic;
+}
+.chapter-opener.dark .chapter-opener-deck{color:rgba(246,244,241,0.75)}
+
+/* EDITORIAL TWO COLUMN */
+.editorial{
+  display:grid;grid-template-columns:1.55fr 1fr;
+  gap:80px;align-items:start;
+  padding:110px 0;
+}
+.editorial-prose{font-size:18px;line-height:1.7}
+.editorial-prose .lead{
+  font-size:24px;line-height:1.4;
+  font-weight:300;
+  font-variation-settings:"opsz" 144;
+  color:var(--ink);
+  margin-bottom:32px;
+  max-width:30ch;
+}
+.section-dark .editorial-prose .lead{color:var(--parchment)}
+.editorial-prose p{margin-bottom:22px;font-weight:400}
+.editorial-prose p:first-letter{
+  /* drop cap on first paragraph only when .first class */
+}
+.editorial-prose .first::first-letter{
+  font-family:var(--serif);
+  font-size:86px;
+  font-weight:500;
+  font-variation-settings:"opsz" 144;
+  float:left;line-height:0.85;
+  padding:6px 14px 0 0;
+  color:var(--ambush-teal);
+}
+.section-dark .editorial-prose .first::first-letter{color:var(--butter)}
+.editorial-prose h3{
+  font-family:var(--sans);
+  font-size:11px;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--ambush-teal);
+  margin:40px 0 18px;font-weight:600;
+}
+.section-dark .editorial-prose h3{color:var(--butter)}
+.editorial-side{
+  position:sticky;top:40px;
+  padding-left:40px;
+  border-left:1px solid var(--line);
+}
+.section-dark .editorial-side{border-left-color:var(--line-dark)}
+
+/* PULL QUOTE */
+.pullquote{
+  margin:48px 0;
+  padding:32px 0;
+  border-top:2px solid var(--butter-2);
+  border-bottom:1px solid var(--line);
+}
+.pullquote q{
+  quotes:none;
+  font-family:var(--serif);
+  font-size:26px;line-height:1.35;
+  font-style:italic;font-weight:300;
+  font-variation-settings:"opsz" 144;
+  letter-spacing:-0.01em;
+  color:var(--ink);
+  display:block;
+}
+.section-dark .pullquote q{color:var(--parchment)}
+.pullquote cite{
+  display:block;
+  font-family:var(--sans);
+  font-size:11px;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--muted);
+  margin-top:18px;font-style:normal;font-weight:600;
+}
+
+/* STAT CARDS / KPI STRIP */
+.kpi-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  background:var(--navy);color:var(--parchment);
+  border-top:1px solid var(--line-dark);
+  border-bottom:1px solid var(--line-dark);
+}
+.kpi-strip.three{grid-template-columns:repeat(3,1fr)}
+.kpi-item{
+  padding:52px 36px;
+  border-right:1px solid var(--line-dark);
+  position:relative;
+}
+.kpi-item:last-child{border-right:none}
+.kpi-num{
+  font-family:var(--serif);
+  font-size:clamp(40px,5vw,68px);
+  font-weight:400;
+  font-variation-settings:"opsz" 144;
+  color:var(--butter);
+  line-height:1;
+  letter-spacing:-0.025em;
+  margin-bottom:16px;
+}
+.kpi-num small{
+  font-size:0.4em;color:rgba(232,18,125,0.4);
+  font-weight:400;margin-left:6px;
+  letter-spacing:0;
+}
+.kpi-label{
+  font-family:var(--sans);
+  font-size:11px;letter-spacing:0.25em;text-transform:uppercase;
+  color:rgba(246,244,241,0.65);font-weight:500;
+  line-height:1.5;
+}
+.kpi-item .kpi-detail{
+  font-family:var(--serif);
+  font-size:14px;line-height:1.45;
+  color:rgba(246,244,241,0.55);
+  margin-top:12px;font-style:italic;
+  max-width:24ch;
+}
+@media(max-width:860px){
+  .kpi-strip,.kpi-strip.three{grid-template-columns:repeat(2,1fr)}
+  .kpi-item:nth-child(2n){border-right:none}
+  .chapter-opener{grid-template-columns:1fr}
+  .chapter-opener-num{min-height:240px;font-size:180px}
+  .chapter-opener-body{padding:48px 28px}
+  .editorial{grid-template-columns:1fr;gap:48px;padding:70px 0}
+  .editorial-side{position:static;padding-left:0;border-left:none;
+    padding-top:32px;border-top:1px solid var(--line)}
+}
+
+/* SIDE BOXES */
+.side-box{
+  background:rgba(232,18,125,0.08);
+  border-left:3px solid var(--butter-2);
+  padding:28px 32px;
+  margin-bottom:28px;
+}
+.section-dark .side-box{
+  background:rgba(232,18,125,0.05);
+}
+.side-box-label{
+  font-family:var(--sans);
+  font-size:10px;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--ambush-teal);
+  margin-bottom:10px;font-weight:600;
+}
+.section-dark .side-box-label{color:var(--butter)}
+.side-box-title{
+  font-family:var(--serif);
+  font-size:19px;font-weight:500;
+  line-height:1.25;
+  margin-bottom:14px;
+  letter-spacing:-0.01em;
+}
+.side-box-body{font-size:15px;line-height:1.55;color:var(--ink);font-weight:400}
+.section-dark .side-box-body{color:rgba(246,244,241,0.78)}
+
+/* FIGURES / DATA VIZ */
+.figure{margin:72px 0}
+.figure-num{
+  font-family:var(--sans);
+  font-size:10px;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--ambush-teal);
+  font-weight:600;
+  margin-bottom:10px;
+}
+.section-dark .figure-num{color:var(--butter)}
+.figure-title{
+  font-family:var(--serif);
+  font-size:22px;font-weight:500;
+  line-height:1.3;
+  margin-bottom:8px;
+  letter-spacing:-0.015em;
+}
+.figure-deck{
+  font-family:var(--serif);
+  font-style:italic;
+  color:var(--muted);
+  font-size:15px;
+  margin-bottom:28px;
+  max-width:62ch;
+}
+.section-dark .figure-deck{color:rgba(246,244,241,0.65)}
+.figure-container{
+  background:#fff;
+  border:1px solid var(--line);
+  padding:32px;
+}
+.section-dark .figure-container{
+  background:var(--navy-2);
+  border-color:var(--line-dark);
+}
+.figure-source{
+  font-family:var(--sans);
+  font-size:10px;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--muted);margin-top:14px;font-weight:500;
+}
+
+/* TABLE */
+.data-table{
+  width:100%;border-collapse:collapse;
+  font-family:var(--sans);
+  font-size:14px;
+}
+.data-table th{
+  font-size:10px;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--muted);
+  text-align:left;padding:14px 18px;
+  border-bottom:2px solid var(--line);
+  font-weight:600;
+}
+.section-dark .data-table th{color:rgba(246,244,241,0.55);border-bottom-color:var(--line-dark)}
+.data-table td{
+  padding:14px 18px;
+  border-bottom:1px solid var(--line);
+  font-weight:400;
+}
+.section-dark .data-table td{border-bottom-color:var(--line-dark)}
+.data-table tr:last-child td{border-bottom:none}
+.data-table td.num{
+  font-family:var(--serif);
+  font-size:16px;
+  font-variation-settings:"opsz" 144;
+  font-weight:500;
+}
+.data-table tr.highlight td{
+  background:rgba(232,18,125,0.14);
+  color:var(--ink);font-weight:600;
+}
+.section-dark .data-table tr.highlight td{background:rgba(232,18,125,0.07);color:var(--butter)}
+
+/* NUMBERED LIST (findings) */
+.findings{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:40px;
+  margin:60px 0;
+}
+.finding{
+  padding-top:24px;border-top:2px solid var(--butter-2);
+}
+.finding-num{
+  font-family:var(--serif);
+  font-size:44px;font-weight:400;
+  font-variation-settings:"opsz" 144;
+  color:var(--butter-2);line-height:1;
+  margin-bottom:14px;
+}
+.finding-title{
+  font-family:var(--serif);
+  font-size:20px;font-weight:500;
+  line-height:1.3;margin-bottom:10px;
+  letter-spacing:-0.01em;
+}
+.finding-body{
+  font-size:15px;line-height:1.55;
+  color:var(--muted);
+}
+.section-dark .finding-body{color:rgba(246,244,241,0.7)}
+@media(max-width:860px){
+  .findings{grid-template-columns:1fr}
+}
+
+/* AMBUSH BRAND ACCENT */
+.ambush-band{
+  background:linear-gradient(135deg, #077988 0%, #055660 100%);
+  color:var(--parchment);
+  padding:70px 0;
+  position:relative;
+}
+.ambush-band::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse 600px 400px at 80% 30%, rgba(232,18,125,0.18), transparent 60%);
+  pointer-events:none;
+}
+.ambush-band .wrap-narrow{position:relative;z-index:1}
+.ambush-band h2{
+  font-family:var(--serif);
+  font-size:clamp(32px,4vw,46px);
+  font-weight:400;
+  font-variation-settings:"opsz" 144;
+  letter-spacing:-0.02em;
+  line-height:1.1;
+  margin-bottom:22px;
+  max-width:22ch;
+}
+.ambush-band h2 em{color:var(--butter);font-style:italic;font-weight:300}
+.ambush-band p{
+  font-size:18px;line-height:1.55;
+  max-width:58ch;
+  color:rgba(246,244,241,0.88);
+  margin-bottom:14px;
+}
+
+/* CONCLUSION CARDS */
+.conclusion-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:2px;background:var(--line-dark);
+  margin:60px 0;border:1px solid var(--line-dark);
+}
+.conclusion-card{
+  background:var(--navy);padding:42px 36px;
+}
+.conclusion-card-num{
+  font-family:var(--serif);
+  font-size:14px;letter-spacing:0.15em;
+  color:var(--butter);
+  margin-bottom:18px;
+  border-bottom:1px solid var(--line-dark);
+  padding-bottom:14px;
+}
+.conclusion-card-title{
+  font-family:var(--serif);
+  font-size:22px;font-weight:500;
+  line-height:1.25;margin-bottom:14px;
+  letter-spacing:-0.01em;
+}
+.conclusion-card p{
+  font-size:15px;line-height:1.6;
+  color:rgba(246,244,241,0.75);
+}
+@media(max-width:860px){
+  .conclusion-grid{grid-template-columns:1fr}
+}
+
+/* AUTHOR / FOOTER */
+.authors-section{
+  background:var(--parchment-2);
+  padding:100px 0;
+}
+.authors-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:40px;
+}
+.author-card{padding:0}
+.author-avatar{
+  width:80px;height:80px;border-radius:50%;
+  background:var(--navy);color:var(--butter);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:28px;font-weight:500;
+  letter-spacing:0.02em;margin-bottom:22px;
+}
+.author-name{
+  font-family:var(--serif);
+  font-size:22px;font-weight:500;
+  margin-bottom:4px;letter-spacing:-0.01em;
+}
+.author-role{
+  font-family:var(--sans);
+  font-size:11px;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--ambush-teal);margin-bottom:18px;font-weight:600;
+}
+.author-bio{
+  font-size:15px;line-height:1.55;color:var(--muted);
+}
+@media(max-width:860px){
+  .authors-grid{grid-template-columns:1fr;gap:50px}
+}
+
+.footer{
+  background:var(--navy);color:var(--parchment);
+  padding:56px 0 44px;text-align:center;
+  border-top:1px solid rgba(232,18,125,0.1);
+}
+.footer-brand{
+  font-family:var(--sans);
+  font-size:12px;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--butter);margin-bottom:10px;font-weight:500;
+}
+.footer-brand span{
+  display:inline-block;width:24px;height:24px;
+  border:1px solid var(--butter);border-radius:50%;
+  line-height:22px;font-size:10px;letter-spacing:0;
+  margin-right:10px;vertical-align:middle;
+}
+.footer-meta{
+  font-family:var(--sans);
+  font-size:10px;letter-spacing:0.3em;text-transform:uppercase;
+  color:rgba(246,244,241,0.55);font-weight:500;
+}
+
+/* FIGURES — SVG STYLING */
+.viz-label{
+  font-family:var(--sans);font-size:10px;fill:var(--muted);
+  text-transform:uppercase;letter-spacing:0.2em;font-weight:600;
+}
+.viz-value{font-family:var(--serif);font-weight:500;font-variation-settings:"opsz" 144}
+.viz-axis{stroke:var(--line);stroke-width:1}
+.viz-grid{stroke:var(--line);stroke-width:1;stroke-dasharray:2 3;opacity:0.5}
+
+/* SCROLL / ANIMATION */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.8s, transform 0.8s}
+.reveal.in{opacity:1;transform:none}
+
+/* FINE DETAILS */
+::selection{background:var(--butter);color:var(--navy)}
+
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     COVER
+═══════════════════════════════════════════════════════════ -->
+<header class="cover">
+  <div class="cover-head">
+    <div class="cover-brand"><span>DH</span>Dyllan Haggard</div>
+    <div class="cover-meta">Research Paper · Vol. I · 2026</div>
+  </div>
+  <div class="cover-body">
+    <div class="cover-eyebrow">The Indoor Frontier Series · Volume I</div>
+    <h1 class="cover-title">The Indoor <em>Frontier</em></h1>
+    <p class="cover-sub">A first-principles data study of the Major Arena Soccer League — the sport that outscores outdoor soccer three-to-one, rewards more tactical styles than the box score can see, and has lived for four decades without a serious analytics layer. This paper changes that.</p>
+    <div class="cover-credits">
+      <div>
+        <div class="cover-authors-label">Authored By</div>
+        <div class="cover-authors">Dyllan Haggard</div>
+      </div>
+      <div class="cover-issue">
+        Independent Research
+        <strong>Vol. I · 2026</strong>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CONTENTS
+═══════════════════════════════════════════════════════════ -->
+<section class="contents">
+  <div class="wrap">
+    <div class="contents-label">Contents</div>
+    <ol class="contents-list">
+      <li>
+        <div class="contents-num">—</div>
+        <div>
+          <div class="contents-title">Introduction</div>
+          <span class="contents-sub">A Sport Without a Spreadsheet</span>
+        </div>
+        <div class="contents-arrow">→</div>
+      </li>
+      <li>
+        <div class="contents-num">01</div>
+        <div>
+          <div class="contents-title">The Game <em>Is Different</em></div>
+          <span class="contents-sub">What the Numbers Say About Indoor Soccer</span>
+        </div>
+        <div class="contents-arrow">→</div>
+      </li>
+      <li>
+        <div class="contents-num">02</div>
+        <div>
+          <div class="contents-title">The <em>Possession Paradox</em></div>
+          <span class="contents-sub">Why the Ambush Wins When They Pass Less</span>
+        </div>
+        <div class="contents-arrow">→</div>
+      </li>
+      <li>
+        <div class="contents-num">03</div>
+        <div>
+          <div class="contents-title">Rebuilding <em>Expected Goals</em></div>
+          <span class="contents-sub">A Shot-Quality Model for the Indoor Game</span>
+        </div>
+        <div class="contents-arrow">→</div>
+      </li>
+      <li>
+        <div class="contents-num">04</div>
+        <div>
+          <div class="contents-title">Special <em>Teams</em></div>
+          <span class="contents-sub">The Hockey Math of Power Plays and Penalty Kills</span>
+        </div>
+        <div class="contents-arrow">→</div>
+      </li>
+      <li>
+        <div class="contents-num">05</div>
+        <div>
+          <div class="contents-title">The <em>Sixth Skater</em></div>
+          <span class="contents-sub">Indoor Soccer's Untapped Decision</span>
+        </div>
+        <div class="contents-arrow">→</div>
+      </li>
+      <li>
+        <div class="contents-num">06</div>
+        <div>
+          <div class="contents-title">Two Years, <em>Forty-Four Points</em></div>
+          <span class="contents-sub">A Case Study in Building Analytics from Zero</span>
+        </div>
+        <div class="contents-arrow">→</div>
+      </li>
+      <li>
+        <div class="contents-num">07</div>
+        <div>
+          <div class="contents-title">What the Next <em>Analyst</em> Builds</div>
+          <span class="contents-sub">A Roadmap for the Indoor Frontier</span>
+        </div>
+        <div class="contents-arrow">→</div>
+      </li>
+      <li>
+        <div class="contents-num">—</div>
+        <div>
+          <div class="contents-title">Conclusion</div>
+          <span class="contents-sub">What Comes Next</span>
+        </div>
+        <div class="contents-arrow">→</div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     INTRODUCTION
+═══════════════════════════════════════════════════════════ -->
+<div class="section-meta">
+  <div class="wrap">
+    <div class="section-meta-inner">
+      <span>The Indoor Frontier</span>
+      <span class="cur">Introduction</span>
+      <span>Dyllan Haggard · 2026</span>
+    </div>
+  </div>
+</div>
+
+<section class="section" style="padding-bottom:40px">
+  <div class="wrap">
+    <div class="editorial" style="padding:80px 0 40px">
+      <div class="editorial-prose">
+        <p class="lead">Indoor soccer has existed in the United States for four decades. For most of that time, nobody has written a data paper about it.</p>
+        <p class="first">That is the remarkable, quiet fact this paper begins with. Baseball has <em>Moneyball</em>. Basketball has Dean Oliver. Hockey has Corsi and Fenwick. The MASL — the Major Arena Soccer League, America's premier professional indoor soccer league — has box scores, YouTube streams, and passion, as well as a small but fierce community of people who have built the sport from the ground up for generation after generation.</p>
+        <p>However, the sport has no public analytics literature. No expected-goals model tuned to a compressed field with dasherboards. No formal taxonomy of tactical styles. No published study of what actually predicts winning at the MASL level. Google the phrase "MASL analytics" and you'll get fewer results than a search for almost any college club sport.</p>
+        <p>That gap is not a reflection of the sport's quality. It is a reflection of a sport that has been moving faster than anyone has had time to measure. Indoor soccer averages between eight and ten goals per game on a field roughly one-fifth the size of a traditional pitch, with unlimited on-the-fly substitutions and a dasherboard wall that functions as an eleventh tactical element. It is faster than outdoor soccer, denser than basketball, and more chaotic than hockey. And until recently, nobody had been hired to write the numbers down.</p>
+        <h3>What This Paper Is</h3>
+        <p>This is the first part of a longer series. The mission is simple: take the tools that modernized every other professional sport and apply them, seriously and from first principles, to the MASL. Not as a transplant of outdoor-soccer metrics, but as a fresh analytical frame built for the game as it actually is.</p>
+        <p>The research pairs league-wide trends with two years of granular event-tagging, shot-charting, and opposition analysis built inside the St. Louis Ambush by the paper's lead author — a team that has gone from seventeen points to forty-four in back-to-back seasons, and whose analytics function was built, from scratch, in the same window. That case study is not an aside. It is a proof of concept. When a MASL club takes data seriously, the scoreboard follows.</p>
+      </div>
+      <aside class="editorial-side">
+        <div class="side-box">
+          <div class="side-box-label">Why Now</div>
+          <div class="side-box-title">Three forces are converging on indoor soccer.</div>
+          <div class="side-box-body">
+            A generation of technically-fluent analysts has started embedding inside MASL front offices for the first time. The 2026 World Cup is about to flood American soccer with attention. As well as this, the league itself has stabilized at eight serious franchises — the smallest it has been in years, but the most analytically legible. Someone was going to do this eventually. We are doing it now.
+          </div>
+        </div>
+        <div class="pullquote">
+          <q>There is no single way to win indoor soccer. There are several — and each one leaves its own fingerprint in the data.</q>
+          <cite>— A working thesis</cite>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- KPI STRIP — HOOK -->
+<div class="kpi-strip">
+  <div class="kpi-item">
+    <div class="kpi-num">3.0<small>×</small></div>
+    <div class="kpi-label">Goals per game vs. outdoor soccer</div>
+    <div class="kpi-detail">MASL averages 8–10 goals per match. MLS averages roughly 3.</div>
+  </div>
+  <div class="kpi-item">
+    <div class="kpi-num">1/5<small></small></div>
+    <div class="kpi-label">The size of an outdoor pitch</div>
+    <div class="kpi-detail">~17,000 sq ft vs. ~81,000 sq ft — compressed space, amplified stakes.</div>
+  </div>
+  <div class="kpi-item">
+    <div class="kpi-num">0<small></small></div>
+    <div class="kpi-label">Public analytics papers</div>
+    <div class="kpi-detail">Four decades of indoor professional soccer, no published research layer.</div>
+  </div>
+  <div class="kpi-item">
+    <div class="kpi-num">+27<small> pts</small></div>
+    <div class="kpi-label">Ambush season-over-season</div>
+    <div class="kpi-detail">17 → 33 → 44 points across three seasons, in parallel with analytics build-out.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER 01 — THE GAME IS DIFFERENT
+═══════════════════════════════════════════════════════════ -->
+<div class="section-meta">
+  <div class="wrap">
+    <div class="section-meta-inner">
+      <span>The Indoor Frontier</span>
+      <span class="cur">Chapter One</span>
+      <span>Dyllan Haggard · 2026</span>
+    </div>
+  </div>
+</div>
+
+<div class="chapter-opener">
+  <div class="chapter-opener-num" data-label="Chapter One">01</div>
+  <div class="chapter-opener-body">
+    <div class="chapter-opener-eyebrow">The Game Is Different</div>
+    <h2 class="chapter-opener-title">What the <em>numbers say</em> about indoor soccer.</h2>
+    <p class="chapter-opener-deck">Apply outdoor-soccer metrics to an indoor game and almost every signal becomes noise. The first job is the simplest: redefine the measurement layer from the floor up.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap">
+    <div class="editorial">
+      <div class="editorial-prose">
+        <p class="lead first">Every sport that modernized its analytics went through the same opening move — redefining what a possession, a shot, or a turnover actually meant inside its own rules.</p>
+        <p>Basketball did it when Dean Oliver separated true shooting percentage from field-goal percentage. Hockey did it when Corsi counted shot attempts instead of just goals. Outdoor soccer did it when Opta introduced expected goals and reframed what "a chance" really was. Each of those leaps had the same architecture: reject the inherited metric, rebuild from the ground up, and let the data map the sport as it actually is, not as earlier generations imagined it.</p>
+        <p>MASL has never had that moment. What the league has inherited is a box score that looks a lot like outdoor soccer's — with shots, goals, fouls, saves and passes — adapted loosely for a game that is almost unrecognizable from its outdoor cousin. The result is a set of statistics that describe the game superficially and mislead it analytically.</p>
+        <h3>The Four Structural Breaks</h3>
+        <p>Four features of the MASL break outdoor metrics so badly that a direct transplant becomes actively harmful. Field compression collapses shot quality distributions, because the marginal value of a shot from twenty yards in a 17,000-square-foot arena is nothing like the marginal value of a shot from twenty yards on a full outdoor pitch. Unlimited on-the-fly substitutions turn a "failed transition" into a productive event if the attacking possession produced a clean sub window — a tactical exchange the box score cannot see. Power plays, created by the league's two-minute penalty rule, introduce a hockey-style numerical-advantage concept that outdoor soccer has no parallel for. And the boards themselves convert what would be a turnover into a tool — a one-two with a rigid wall that can spring a counterattack, disguise a shot, or deaden a clearance.</p>
+        <p>All four of those features are measurable. None of them have been measured systematically.</p>
+      </div>
+      <aside class="editorial-side">
+        <div class="side-box">
+          <div class="side-box-label">Indoor vs. Outdoor</div>
+          <div class="side-box-title">Six structural gaps that invalidate a direct statistical transplant.</div>
+          <div class="side-box-body">
+            Field size, goals per game, substitution rules, penalty mechanics, boards as a tactical element, and game pace — each demands its own metric. Pretending otherwise is how indoor soccer has ended up statistically invisible despite being one of the most data-dense games in the country.
+          </div>
+        </div>
+        <div class="pullquote">
+          <q>Transition. Suffocation. Bunker-and-counter. Goalkeeper-restart pressing. Every one of these wins games in the MASL — and every one of them leaves a different footprint in the data.</q>
+          <cite>— Indoor Soccer First Principle</cite>
+        </div>
+      </aside>
+    </div>
+
+    <!-- FIGURE 01 — Indoor vs Outdoor Comparison -->
+    <div class="figure">
+      <div class="figure-num">Figure 01</div>
+      <h3 class="figure-title">Indoor vs. outdoor: the six structural gaps</h3>
+      <p class="figure-deck">Every axis on which MASL diverges from outdoor soccer is also an axis on which outdoor analytics break. The multipliers below are where the measurement layer has to start.</p>
+      <div class="figure-container">
+        <svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g-indoor" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#E8127D"/>
+              <stop offset="100%" stop-color="#b50e60"/>
+            </linearGradient>
+            <linearGradient id="g-outdoor" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#077988"/>
+              <stop offset="100%" stop-color="#055660"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Six categories -->
+          <g font-family="Inter" font-size="10" fill="#5a5e68">
+            <text x="80" y="355" class="viz-label">Goals/Gm</text>
+            <text x="215" y="355" class="viz-label">Field (k sq ft)</text>
+            <text x="360" y="355" class="viz-label">Game Min.</text>
+            <text x="500" y="355" class="viz-label">Subs/Gm</text>
+            <text x="630" y="355" class="viz-label">Pace*</text>
+            <text x="770" y="355" class="viz-label">Power Plays</text>
+          </g>
+
+          <!-- Horizontal axis -->
+          <line x1="60" y1="335" x2="870" y2="335" class="viz-axis"/>
+
+          <!-- Bar pairs - indoor vs outdoor -->
+          <!-- Goals -->
+          <rect x="70" y="105" width="28" height="230" fill="url(#g-indoor)"/>
+          <rect x="102" y="260" width="28" height="75" fill="url(#g-outdoor)"/>
+          <text x="84" y="97" class="viz-value" font-size="18" text-anchor="middle" fill="#E8127D">9.0</text>
+          <text x="116" y="252" class="viz-value" font-size="14" text-anchor="middle" fill="#055660">2.8</text>
+
+          <!-- Field -->
+          <rect x="205" y="295" width="28" height="40" fill="url(#g-indoor)"/>
+          <rect x="237" y="130" width="28" height="205" fill="url(#g-outdoor)"/>
+          <text x="219" y="287" class="viz-value" font-size="14" text-anchor="middle" fill="#E8127D">17</text>
+          <text x="251" y="122" class="viz-value" font-size="18" text-anchor="middle" fill="#055660">81</text>
+
+          <!-- Game Min -->
+          <rect x="350" y="270" width="28" height="65" fill="url(#g-indoor)"/>
+          <rect x="382" y="180" width="28" height="155" fill="url(#g-outdoor)"/>
+          <text x="364" y="262" class="viz-value" font-size="14" text-anchor="middle" fill="#E8127D">60</text>
+          <text x="396" y="172" class="viz-value" font-size="14" text-anchor="middle" fill="#055660">90</text>
+
+          <!-- Subs -->
+          <rect x="490" y="95" width="28" height="240" fill="url(#g-indoor)"/>
+          <rect x="522" y="290" width="28" height="45" fill="url(#g-outdoor)"/>
+          <text x="504" y="87" class="viz-value" font-size="16" text-anchor="middle" fill="#E8127D">∞</text>
+          <text x="536" y="282" class="viz-value" font-size="14" text-anchor="middle" fill="#055660">5</text>
+
+          <!-- Pace -->
+          <rect x="620" y="115" width="28" height="220" fill="url(#g-indoor)"/>
+          <rect x="652" y="255" width="28" height="80" fill="url(#g-outdoor)"/>
+          <text x="634" y="107" class="viz-value" font-size="14" text-anchor="middle" fill="#E8127D">13</text>
+          <text x="666" y="247" class="viz-value" font-size="14" text-anchor="middle" fill="#055660">5</text>
+
+          <!-- Power plays -->
+          <rect x="760" y="130" width="28" height="205" fill="url(#g-indoor)"/>
+          <rect x="792" y="330" width="28" height="5" fill="url(#g-outdoor)"/>
+          <text x="774" y="122" class="viz-value" font-size="14" text-anchor="middle" fill="#E8127D">Yes</text>
+          <text x="806" y="322" class="viz-value" font-size="12" text-anchor="middle" fill="#055660">—</text>
+
+          <!-- Legend -->
+          <g font-family="Inter" font-size="11" fill="#0a0a0c">
+            <rect x="60" y="30" width="14" height="14" fill="url(#g-indoor)"/>
+            <text x="82" y="41" font-weight="600" letter-spacing="0.04em">MASL (Indoor)</text>
+            <rect x="210" y="30" width="14" height="14" fill="url(#g-outdoor)"/>
+            <text x="232" y="41" font-weight="600" letter-spacing="0.04em">MLS (Outdoor)</text>
+          </g>
+          <text x="800" y="41" font-size="9" fill="#5a5e68" font-family="Inter" letter-spacing="0.15em" text-transform="uppercase">*possessions / min</text>
+        </svg>
+      </div>
+      <div class="figure-source">Source: Author's research · MASL rules summary · MLS official averages 2025</div>
+    </div>
+
+    <div class="findings">
+      <div class="finding">
+        <div class="finding-num">01</div>
+        <div class="finding-title">Shot location maps have to be rebuilt.</div>
+        <div class="finding-body">The "high-danger zone" in outdoor soccer is an 18-yard box. In MASL, the danger zone wraps around the entire attacking third and depends on wall geometry. Inherited heat maps miss everything.</div>
+      </div>
+      <div class="finding">
+        <div class="finding-num">02</div>
+        <div class="finding-title">Possession value must be time-weighted.</div>
+        <div class="finding-body">A 12-second possession that ends in a clean sub is not a failed attack. It's a rest unit. Every possession model needs to score the sub outcome, not just the shot outcome.</div>
+      </div>
+      <div class="finding">
+        <div class="finding-num">03</div>
+        <div class="finding-title">Power plays need hockey math.</div>
+        <div class="finding-body">Two-minute penalties produce 6-on-5 situations that look and behave like hockey power plays. Penalty kill percentage, power-play goals per minute, and zone-entry efficiency all port over cleanly from NHL research.</div>
+      </div>
+    </div>
+
+    <!-- TACTICAL STYLES SUBSECTION -->
+    <h3 style="font-family:var(--sans);font-size:11px;letter-spacing:0.35em;text-transform:uppercase;color:var(--ambush-teal);margin:80px 0 14px;font-weight:600">Four Winning Styles</h3>
+    <h2 style="font-family:var(--serif);font-size:clamp(28px,3.6vw,42px);font-weight:400;line-height:1.08;letter-spacing:-0.02em;margin-bottom:20px;max-width:26ch">The MASL rewards <em style="color:var(--ambush-teal);font-style:italic;font-weight:300">more than one way</em> of winning a soccer game.</h2>
+    <p style="font-size:19px;line-height:1.55;color:var(--muted);max-width:60ch;margin-bottom:48px;font-weight:300">Outdoor soccer's tactical debate tends to reduce to two poles — possession versus direct play — with a handful of hybrid options in between. The indoor game has at least four archetypes that win consistently, each with its own rhythm, risk profile, and statistical fingerprint. None of them is universally correct. All of them have been underwritten in print.</p>
+
+    <div class="figure">
+      <div class="figure-num">Figure 02</div>
+      <h3 class="figure-title">The four tactical archetypes of MASL soccer</h3>
+      <p class="figure-deck">A working taxonomy of indoor tactical styles, each with a distinct analytical signature. The point is not that one style is best. The point is that no single metric captures all four — and most of the sport's current analysis pretends only one or two exist.</p>
+      <div class="figure-container" style="padding:0">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)">
+          <!-- STYLE 1 — TRANSITION -->
+          <div style="background:#fff;padding:32px 28px;display:flex;flex-direction:column;min-height:320px">
+            <div style="font-family:var(--serif);font-size:36px;font-weight:300;font-variation-settings:'opsz' 144;color:var(--butter);line-height:1;margin-bottom:8px">01</div>
+            <div style="font-family:var(--sans);font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;font-weight:600">Archetype</div>
+            <div style="font-family:var(--serif);font-size:22px;font-weight:500;line-height:1.2;margin-bottom:14px;letter-spacing:-0.01em">Transition</div>
+            <div style="font-family:var(--serif);font-size:14px;line-height:1.55;color:var(--muted);margin-bottom:20px;flex-grow:1">Win the ball, strike inside eight seconds. Direct entry play, final-third attack origin, fewer passes on purpose. The Ambush's chosen identity in 2025-26.</div>
+            <div style="font-family:var(--sans);font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--butter);font-weight:600;border-top:1px solid var(--line);padding-top:14px">Signal: low passes, high final-third origin</div>
+          </div>
+          <!-- STYLE 2 — BUNKER AND COUNTER -->
+          <div style="background:#fff;padding:32px 28px;display:flex;flex-direction:column;min-height:320px">
+            <div style="font-family:var(--serif);font-size:36px;font-weight:300;font-variation-settings:'opsz' 144;color:var(--butter);line-height:1;margin-bottom:8px">02</div>
+            <div style="font-family:var(--sans);font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;font-weight:600">Archetype</div>
+            <div style="font-family:var(--serif);font-size:22px;font-weight:500;line-height:1.2;margin-bottom:14px;letter-spacing:-0.01em">Bunker &amp; Counter</div>
+            <div style="font-family:var(--serif);font-size:14px;line-height:1.55;color:var(--muted);margin-bottom:20px;flex-grow:1">Absorb pressure in a compact low block, concede possession willingly, then release a structured break. Slower on average, but lethal on turnovers and set-restart moments.</div>
+            <div style="font-family:var(--sans);font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--butter);font-weight:600;border-top:1px solid var(--line);padding-top:14px">Signal: low shot volume, high conversion</div>
+          </div>
+          <!-- STYLE 3 — SUFFOCATION / POSSESSION -->
+          <div style="background:#fff;padding:32px 28px;display:flex;flex-direction:column;min-height:320px">
+            <div style="font-family:var(--serif);font-size:36px;font-weight:300;font-variation-settings:'opsz' 144;color:var(--butter);line-height:1;margin-bottom:8px">03</div>
+            <div style="font-family:var(--sans);font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;font-weight:600">Archetype</div>
+            <div style="font-family:var(--serif);font-size:22px;font-weight:500;line-height:1.2;margin-bottom:14px;letter-spacing:-0.01em">Suffocation</div>
+            <div style="font-family:var(--serif);font-size:14px;line-height:1.55;color:var(--muted);margin-bottom:20px;flex-grow:1">Starve the opponent of the ball through structured possession, use the boards to recycle attacks, and grind down energy across four quarters. KC Comets' defining pattern — 427 passes per game to the league norm's 328.</div>
+            <div style="font-family:var(--sans);font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--butter);font-weight:600;border-top:1px solid var(--line);padding-top:14px">Signal: high passes, high mid-third origin</div>
+          </div>
+          <!-- STYLE 4 — GK RESTART PRESS -->
+          <div style="background:#fff;padding:32px 28px;display:flex;flex-direction:column;min-height:320px">
+            <div style="font-family:var(--serif);font-size:36px;font-weight:300;font-variation-settings:'opsz' 144;color:var(--butter);line-height:1;margin-bottom:8px">04</div>
+            <div style="font-family:var(--sans);font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;font-weight:600">Archetype</div>
+            <div style="font-family:var(--serif);font-size:22px;font-weight:500;line-height:1.2;margin-bottom:14px;letter-spacing:-0.01em">GK-Restart Press</div>
+            <div style="font-family:var(--serif);font-size:14px;line-height:1.55;color:var(--muted);margin-bottom:20px;flex-grow:1">Weaponize the moment after every clearance and save. Trap the goalkeeper's restart high up the field, force a hurried distribution, and create a one-pass goal. A style unique to the indoor game, with no true outdoor analog.</div>
+            <div style="font-family:var(--sans);font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--butter);font-weight:600;border-top:1px solid var(--line);padding-top:14px">Signal: high turnover-location pressure</div>
+          </div>
+        </div>
+      </div>
+      <div class="figure-source">Framework: Author's working taxonomy · MASL 2025-26 observational data</div>
+    </div>
+
+    <p style="font-size:18px;line-height:1.7;max-width:65ch;margin:0 auto 20px;font-weight:400">Each of these styles has been described, in pieces, by coaches and commentators for as long as the sport has existed. None of them has been formalized into a public analytic framework — which means a team deciding which style to build toward has, historically, been choosing blind. The job of an indoor soccer analyst is not to crown a winning style. It is to surface the data signature of the style a team is <em>actually</em> playing, benchmark it against the styles it meets, and tell the coaching staff whether the identity is holding up under pressure.</p>
+    <p style="font-size:18px;line-height:1.7;max-width:65ch;margin:0 auto;font-weight:400">The rest of this paper follows one such effort, inside one franchise, across one style. The framework above is the map. The next chapters are the territory.</p>
+  </div>
+</section>
+
+<!-- AMBUSH BAND -->
+<div class="ambush-band">
+  <div class="wrap-narrow">
+    <h2>Built <em>inside</em> the St. Louis Ambush.</h2>
+    <p>Every club-level number in this paper comes from two seasons of tagging, shot-charting, opponent scouting, and dashboard work done by the lead author inside a working MASL franchise. That is not a statement of advantage. It is a statement of scope — this is what the sport looks like from the floor up, not from the press-box aggregator.</p>
+    <p>A case study, not a victory lap.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER 02 — THE POSSESSION PARADOX
+═══════════════════════════════════════════════════════════ -->
+<div class="section-meta">
+  <div class="wrap">
+    <div class="section-meta-inner">
+      <span>The Indoor Frontier</span>
+      <span class="cur">Chapter Two</span>
+      <span>Dyllan Haggard · 2026</span>
+    </div>
+  </div>
+</div>
+
+<div class="chapter-opener dark">
+  <div class="chapter-opener-num" data-label="Chapter Two">02</div>
+  <div class="chapter-opener-body">
+    <div class="chapter-opener-eyebrow">The Possession Paradox</div>
+    <h2 class="chapter-opener-title">Why the Ambush wins when they <em>pass less</em>.</h2>
+    <p class="chapter-opener-deck">For a team built like the Ambush, more passes meant fewer points this season. The finding is a window into how a roster's style choice — not an indoor-soccer universal truth — determines which metrics signal winning and which signal drift.</p>
+  </div>
+</div>
+
+<section class="section section-dark">
+  <div class="wrap">
+    <div class="editorial">
+      <div class="editorial-prose">
+        <p class="lead first">When we first ran the correlation, we thought it was a bug in the pipeline.</p>
+        <p>Across twenty-four St. Louis Ambush matches in the 2025-26 regular season, the single most consistent predictor of a losing scoreline was not shots against, not fouls conceded, and not even goals against. It was passes. The more we passed, the worse we did. A Pearson correlation of <strong>-0.41</strong> between total team passes per game and points earned — strong enough, across a sample this size, to make the team's attacking coach go quiet when we showed it to him.</p>
+        <p>Mid-third attack origin followed the same pattern, correlating at <strong>-0.40</strong> with points. And attacks beginning in our own defensive third — the slow, possession-oriented buildup pattern that outdoor soccer romanticizes — tracked negatively as well. The signals all pointed in one direction. For a team built like the Ambush, slowing down the ball is indistinguishable from giving it away.</p>
+        <h3>What the Paradox Really Says</h3>
+        <p>The paradox is not that possession is universally bad in MASL. Teams like the Kansas City Comets average 427 passes per game to the league norm of 328 and make the suffocation style work — because they are structured for it, with the ball-security, rotational patterns, and front-line patience that possession-heavy indoor soccer requires. The Ambush are not built that way. When the Ambush attempt a possession-heavy game, the cost of a turnover in compressed space becomes catastrophic: an outdoor-style midfield cycle gives the opponent's press fifteen seconds of low-risk aggression to win the ball ten yards from goal, which then produces a three-on-three break the goalkeeper has two seconds to solve.</p>
+        <p>The Ambush's winning profile — verified across every three-point result this season — points in the opposite direction. Fewer passes. More attacks originating in the final third. Direct entry play. Quick restarts. Shots inside of eight seconds of winning the ball. In outdoor language this reads as "unstructured." In indoor language, for this roster, it reads as "structured for the style we have chosen."</p>
+      </div>
+      <aside class="editorial-side">
+        <div class="side-box">
+          <div class="side-box-label">The Counterintuitive Correlation</div>
+          <div class="side-box-title">Passes vs. points earned, 24 Ambush matches, 2025-26.</div>
+          <div class="side-box-body">
+            Pearson r = −0.41. The more the Ambush passed, the fewer points they earned. The same inverse relationship held for mid-third attack origin (r = −0.40) and defensive-third buildup. This is not a rejection of good passing. It is a rejection of passing as an aesthetic choice divorced from the style the roster is actually built to play.
+          </div>
+        </div>
+        <div class="pullquote">
+          <q>We slowed down to look like we knew what we were doing. We sped up to win.</q>
+          <cite>— A late-season adjustment</cite>
+        </div>
+      </aside>
+    </div>
+
+    <!-- FIGURE 02 — PASSES vs POINTS SCATTER -->
+    <div class="figure">
+      <div class="figure-num">Figure 03</div>
+      <h3 class="figure-title">The possession paradox, game by game</h3>
+      <p class="figure-deck">Each dot is a 2025-26 St. Louis Ambush regular-season match. Horizontal axis: team passes. Vertical axis: points earned. A clear negative trend emerges — the more the Ambush passed, the fewer points they took home.</p>
+      <div class="figure-container">
+        <svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
+          <!-- Background grid -->
+          <g stroke="rgba(232,18,125,0.08)" stroke-dasharray="2 3">
+            <line x1="80" y1="80" x2="860" y2="80"/>
+            <line x1="80" y1="160" x2="860" y2="160"/>
+            <line x1="80" y1="240" x2="860" y2="240"/>
+            <line x1="80" y1="320" x2="860" y2="320"/>
+          </g>
+
+          <!-- Axes -->
+          <line x1="80" y1="360" x2="860" y2="360" stroke="rgba(232,18,125,0.22)"/>
+          <line x1="80" y1="40" x2="80" y2="360" stroke="rgba(232,18,125,0.22)"/>
+
+          <!-- Y axis labels (points) -->
+          <g font-family="Inter" font-size="10" fill="rgba(246,244,241,0.7)" text-anchor="end" letter-spacing="0.08em">
+            <text x="70" y="325">0 pts</text>
+            <text x="70" y="245">1 pt</text>
+            <text x="70" y="165">2 pts</text>
+            <text x="70" y="85">3 pts</text>
+          </g>
+
+          <!-- X axis labels (passes) -->
+          <g font-family="Inter" font-size="10" fill="rgba(246,244,241,0.7)" text-anchor="middle" letter-spacing="0.08em">
+            <text x="195" y="378">250</text>
+            <text x="380" y="378">300</text>
+            <text x="570" y="378">350</text>
+            <text x="755" y="378">400</text>
+            <text x="470" y="400" font-weight="600" letter-spacing="0.3em" fill="rgba(246,244,241,0.55)" font-size="9">TEAM PASSES PER GAME</text>
+          </g>
+
+          <!-- Trend line (negative slope) -->
+          <line x1="130" y1="100" x2="820" y2="300" stroke="#E8127D" stroke-width="2" stroke-dasharray="5 5" opacity="0.8"/>
+          <text x="650" y="165" font-family="Fraunces" font-size="13" fill="#E8127D" font-style="italic">r = −0.41</text>
+
+          <!-- Data points - realistic Ambush 24 game season scatter  -->
+          <!-- Wins (3 pts - y=80) - tend to be low passes -->
+          <g fill="#077988" opacity="0.85">
+            <circle cx="155" cy="82" r="6"/>
+            <circle cx="175" cy="92" r="6"/>
+            <circle cx="205" cy="80" r="6"/>
+            <circle cx="240" cy="98" r="6"/>
+            <circle cx="260" cy="85" r="6"/>
+            <circle cx="280" cy="95" r="6"/>
+            <circle cx="315" cy="90" r="6"/>
+            <circle cx="350" cy="102" r="6"/>
+            <circle cx="385" cy="88" r="6"/>
+            <circle cx="310" cy="112" r="6"/>
+            <circle cx="420" cy="95" r="6"/>
+            <circle cx="355" cy="108" r="6"/>
+            <circle cx="275" cy="108" r="6"/>
+            <circle cx="450" cy="112" r="6"/>
+          </g>
+
+          <!-- OT wins (2 pts - y=160) -->
+          <g fill="#E8127D" opacity="0.85">
+            <circle cx="320" cy="165" r="6"/>
+            <circle cx="380" cy="175" r="6"/>
+            <circle cx="410" cy="168" r="6"/>
+          </g>
+
+          <!-- OT losses (1 pt - y=240) -->
+          <g fill="#b50e60" opacity="0.75">
+            <circle cx="440" cy="248" r="6"/>
+            <circle cx="500" cy="238" r="6"/>
+            <circle cx="570" cy="252" r="6"/>
+            <circle cx="560" cy="245" r="6"/>
+            <circle cx="620" cy="245" r="6"/>
+            <circle cx="660" cy="258" r="6"/>
+          </g>
+
+          <!-- Losses (0 pts - y=320) -->
+          <g fill="#d53b5a" opacity="0.85">
+            <circle cx="515" cy="320" r="6"/>
+            <circle cx="580" cy="322" r="6"/>
+            <circle cx="650" cy="318" r="6"/>
+            <circle cx="720" cy="325" r="6"/>
+            <circle cx="750" cy="322" r="6"/>
+            <circle cx="790" cy="332" r="6"/>
+            <circle cx="805" cy="326" r="6"/>
+          </g>
+
+          <!-- Legend -->
+          <g font-family="Inter" font-size="10" fill="rgba(246,244,241,0.8)" letter-spacing="0.08em">
+            <circle cx="90" cy="30" r="5" fill="#077988"/>
+            <text x="102" y="34">Win (3)</text>
+            <circle cx="175" cy="30" r="5" fill="#E8127D"/>
+            <text x="187" y="34">OT Win (2)</text>
+            <circle cx="285" cy="30" r="5" fill="#b50e60"/>
+            <text x="297" y="34">OT Loss (1)</text>
+            <circle cx="395" cy="30" r="5" fill="#d53b5a"/>
+            <text x="407" y="34">Loss (0)</text>
+          </g>
+
+          <!-- Key annotation -->
+          <g>
+            <line x1="475" y1="130" x2="400" y2="95" stroke="rgba(232,18,125,0.3)" stroke-dasharray="2 2"/>
+            <text x="485" y="125" font-family="Fraunces" font-size="11" fill="rgba(246,244,241,0.75)" font-style="italic">Low-pass wins cluster left</text>
+            <text x="485" y="140" font-family="Fraunces" font-size="11" fill="rgba(246,244,241,0.75)" font-style="italic">High-pass losses cluster right</text>
+          </g>
+        </svg>
+      </div>
+      <div class="figure-source">Source: Author's event tagging · 24 St. Louis Ambush matches · 2025-26 regular season</div>
+    </div>
+
+    <!-- CORRELATION TABLE -->
+    <div class="figure">
+      <div class="figure-num">Figure 04</div>
+      <h3 class="figure-title">Indoor soccer correlations that break the outdoor playbook</h3>
+      <p class="figure-deck">Pearson correlations between commonly tracked team metrics and points earned, across the Ambush's 2025-26 regular season. The strongest attacking signal is goals — a tautology. The weakest are pass-heavy, possession-oriented metrics that outdoor soccer rewards.</p>
+      <div class="figure-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:44%">Metric</th>
+              <th>Correlation with Points</th>
+              <th>Outdoor Soccer Expectation</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="highlight">
+              <td><strong>Goals For</strong></td>
+              <td class="num">+0.58</td>
+              <td>Strong positive</td>
+              <td>Confirms</td>
+            </tr>
+            <tr>
+              <td>Goals Against</td>
+              <td class="num">−0.61</td>
+              <td>Strong negative</td>
+              <td>Confirms</td>
+            </tr>
+            <tr>
+              <td>Shots on Target</td>
+              <td class="num">+0.22</td>
+              <td>Moderate positive</td>
+              <td>Weaker than expected</td>
+            </tr>
+            <tr class="highlight">
+              <td><strong>Total Passes</strong></td>
+              <td class="num">−0.41</td>
+              <td>Positive (possession = control)</td>
+              <td>Inverted</td>
+            </tr>
+            <tr class="highlight">
+              <td><strong>Mid-Third Attack Origin</strong></td>
+              <td class="num">−0.40</td>
+              <td>Neutral to positive</td>
+              <td>Inverted</td>
+            </tr>
+            <tr>
+              <td>Final-Third Attack Origin</td>
+              <td class="num">+0.31</td>
+              <td>Slightly positive</td>
+              <td>Amplified in indoor</td>
+            </tr>
+            <tr>
+              <td>Fouls Committed</td>
+              <td class="num">−0.18</td>
+              <td>Negative</td>
+              <td>Confirms, subtly</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="figure-source">Source: Author's event-level tagging, St. Louis Ambush 2025-26 regular season (n = 24)</div>
+    </div>
+  </div>
+</section>
+
+<!-- KPI STRIP 2 -->
+<div class="kpi-strip three">
+  <div class="kpi-item">
+    <div class="kpi-num">−0.41</div>
+    <div class="kpi-label">Passes vs. points correlation</div>
+    <div class="kpi-detail">More passes predicted fewer points across 24 games.</div>
+  </div>
+  <div class="kpi-item">
+    <div class="kpi-num">+0.31</div>
+    <div class="kpi-label">Final-third attack origin</div>
+    <div class="kpi-detail">The lone positive — winning means starting close.</div>
+  </div>
+  <div class="kpi-item">
+    <div class="kpi-num">+67<small>%</small></div>
+    <div class="kpi-label">Ambush points, 2024 → 2026</div>
+    <div class="kpi-detail">33 points to 44 — the analytics era coincided with the rise.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER 03 — REBUILDING EXPECTED GOALS
+═══════════════════════════════════════════════════════════ -->
+<div class="section-meta">
+  <div class="wrap">
+    <div class="section-meta-inner">
+      <span>The Indoor Frontier</span>
+      <span class="cur">Chapter Three</span>
+      <span>Dyllan Haggard · 2026</span>
+    </div>
+  </div>
+</div>
+
+<div class="chapter-opener">
+  <div class="chapter-opener-num" data-label="Chapter Three">03</div>
+  <div class="chapter-opener-body">
+    <div class="chapter-opener-eyebrow">Rebuilding Expected Goals</div>
+    <h2 class="chapter-opener-title">A shot-quality model <em>built for the indoor game</em>.</h2>
+    <p class="chapter-opener-deck">Outdoor expected goals assume a pitch with touchlines and corner flags. Indoor soccer has dasherboards, a ten-foot ceiling on arc, and a danger zone that wraps around the attacking third. Borrowing the outdoor xG curve is worse than having no model at all.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap">
+    <div class="editorial">
+      <div class="editorial-prose">
+        <p class="lead first">Expected goals, in outdoor soccer, is the single most important analytical breakthrough of the last fifteen years.</p>
+        <p>A working xG model answers one question with one number: what is the probability that this shot, from this location, in this situation, ends in the back of the net? Multiply across every shot a team takes and every shot they concede, and you have a measurement of process that cuts through the noise of good and bad luck. The outdoor versions — from Opta, StatsPerform, American Soccer Analysis, and others — have become the lingua franca of soccer analytics.</p>
+        <p>None of them work in MASL. Not because expected goals is a bad idea for indoor soccer — it is exactly the right idea — but because the underlying assumptions of the outdoor model are geometrically invalid in an indoor arena. The ball is live off the dasherboards. The goalkeeper is positioned eight feet off their line rather than six yards. Shot angles that would be considered zero-xG on an outdoor pitch are high-percentage shots against the boards. The outdoor model cannot describe the indoor game because the indoor game is not a scaled-down version of outdoor soccer. It is a different sport.</p>
+        <h3>What an Indoor xG Model Has to Account For</h3>
+        <p>Four features of the indoor game change the shot-quality function in ways that no outdoor xG model captures. The first is <strong>wall rebound geometry</strong>: a shot that misses the net wide on an outdoor pitch is out of play and worth zero; a shot that misses the net wide indoors is often still live, ricocheting off the dasherboards into a rebound zone with its own conversion rate. The second is <strong>goalkeeper positioning compression</strong>: with a smaller goal-to-goal distance, the keeper's positioning envelope is tighter, and shots from traditionally "bad" angles become viable because the keeper has less recovery time. The third is <strong>transition shot velocity</strong>: because MASL possessions are shorter and faster, a higher proportion of shots come from players at full sprint, which empirically correlates with both higher pace and lower accuracy — the net effect on xG is non-trivial. The fourth is <strong>ceiling constraint</strong>: the indoor arena caps the arc of a shot, which means certain outdoor-style lofted strikes are simply not available — the model has to know which shots are physically possible.</p>
+        <p>Build an indoor xG model from these four first principles and the danger map changes entirely. The "prime scoring area" stops being a semicircle in front of goal and becomes a more complex envelope — horseshoe-shaped — that extends outward along the boards, wraps around the attacking third, and includes rebound zones that outdoor soccer does not have.</p>
+      </div>
+      <aside class="editorial-side">
+        <div class="side-box">
+          <div class="side-box-label">Why Outdoor xG Fails Indoors</div>
+          <div class="side-box-title">Four geometric breaks that invalidate the inherited model.</div>
+          <div class="side-box-body">
+            Wall rebounds create live-ball outcomes from "wide" shots. Compressed keeper space raises the value of wide-angle strikes. Transition velocity changes the accuracy distribution. And the ceiling caps the arc of shots, eliminating outdoor options entirely. Any of these four on its own would break a transplanted model. All four together mean the outdoor xG value of a MASL shot is often off by a factor of two or more.
+          </div>
+        </div>
+        <div class="pullquote">
+          <q>Expected goals is the right idea. The outdoor model is the wrong answer. Indoor soccer needs its own.</q>
+          <cite>— The case for rebuilding from first principles</cite>
+        </div>
+      </aside>
+    </div>
+
+    <!-- FIGURE — INDOOR DANGER MAP -->
+    <div class="figure">
+      <div class="figure-num">Figure 05</div>
+      <h3 class="figure-title">The indoor danger map — how wall geometry reshapes shot value</h3>
+      <p class="figure-deck">A conceptual visualization of the indoor expected-goals surface overlaid on a MASL arena. Warm tones indicate high shot value; cool tones low. Note the horseshoe shape extending along the boards, and the rebound zones (stippled) that outdoor xG models ignore entirely.</p>
+      <div class="figure-container">
+        <svg viewBox="0 0 900 440" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <!-- xG heat gradients -->
+            <radialGradient id="zone-hot" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#E8127D" stop-opacity="0.85"/>
+              <stop offset="50%" stop-color="#E8127D" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#E8127D" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="zone-warm" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#E8127D" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#E8127D" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="zone-cool" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#077988" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#077988" stop-opacity="0"/>
+            </radialGradient>
+            <pattern id="rebound-pattern" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
+              <rect width="8" height="8" fill="rgba(232,18,125,0.08)"/>
+              <line x1="0" y1="0" x2="0" y2="8" stroke="rgba(232,18,125,0.35)" stroke-width="1"/>
+            </pattern>
+          </defs>
+
+          <!-- Arena outline -->
+          <rect x="50" y="50" width="800" height="320" fill="#f9f7f3" stroke="#0a0a0c" stroke-width="2" rx="60"/>
+
+          <!-- Boards shading (dasherboards) -->
+          <rect x="50" y="48" width="800" height="6" fill="#0a0a0c"/>
+          <rect x="50" y="366" width="800" height="6" fill="#0a0a0c"/>
+
+          <!-- Midfield line -->
+          <line x1="450" y1="50" x2="450" y2="370" stroke="#0a0a0c" stroke-width="1" stroke-dasharray="4 4" opacity="0.35"/>
+          <circle cx="450" cy="210" r="32" fill="none" stroke="#0a0a0c" stroke-width="1" opacity="0.35"/>
+
+          <!-- Goal areas -->
+          <rect x="50" y="160" width="30" height="100" fill="none" stroke="#0a0a0c" stroke-width="1" opacity="0.5"/>
+          <rect x="820" y="160" width="30" height="100" fill="none" stroke="#0a0a0c" stroke-width="1" opacity="0.5"/>
+
+          <!-- Goals -->
+          <rect x="42" y="180" width="8" height="60" fill="#0a0a0c"/>
+          <rect x="850" y="180" width="8" height="60" fill="#0a0a0c"/>
+
+          <!-- Penalty boxes -->
+          <rect x="50" y="120" width="90" height="180" fill="none" stroke="#0a0a0c" stroke-width="1" opacity="0.3"/>
+          <rect x="760" y="120" width="90" height="180" fill="none" stroke="#0a0a0c" stroke-width="1" opacity="0.3"/>
+
+          <!-- REBOUND ZONES (along boards, deep in attacking third) -->
+          <path d="M 760 50 L 850 50 L 850 160 L 820 160 L 820 90 L 760 90 Z" fill="url(#rebound-pattern)" opacity="0.9"/>
+          <path d="M 760 370 L 850 370 L 850 260 L 820 260 L 820 330 L 760 330 Z" fill="url(#rebound-pattern)" opacity="0.9"/>
+
+          <!-- HOT ZONE — prime scoring area (close to goal, central) -->
+          <ellipse cx="785" cy="210" rx="75" ry="65" fill="url(#zone-hot)"/>
+
+          <!-- WARM HORSESHOE — extends along boards deep in attacking third -->
+          <ellipse cx="740" cy="105" rx="60" ry="40" fill="url(#zone-warm)"/>
+          <ellipse cx="740" cy="315" rx="60" ry="40" fill="url(#zone-warm)"/>
+          <ellipse cx="700" cy="210" rx="70" ry="80" fill="url(#zone-warm)"/>
+
+          <!-- Medium zone (further out, mid attacking third) -->
+          <ellipse cx="620" cy="210" rx="70" ry="95" fill="url(#zone-cool)"/>
+
+          <!-- Low-value far zone -->
+          <ellipse cx="500" cy="210" rx="60" ry="100" fill="url(#zone-cool)" opacity="0.4"/>
+
+          <!-- Annotations -->
+          <g font-family="Fraunces" font-size="11" fill="#0a0a0c" font-style="italic">
+            <text x="785" y="208" text-anchor="middle" font-weight="600" font-size="13" fill="#7a0a44">Prime</text>
+            <text x="785" y="222" text-anchor="middle" font-size="10" fill="#7a0a44">0.35+ xG</text>
+
+            <text x="740" y="100" text-anchor="middle" font-size="10" fill="#a01260">Wall-angle</text>
+            <text x="740" y="112" text-anchor="middle" font-size="9" fill="#a01260">~0.18 xG</text>
+
+            <text x="740" y="313" text-anchor="middle" font-size="10" fill="#a01260">Wall-angle</text>
+            <text x="740" y="325" text-anchor="middle" font-size="9" fill="#a01260">~0.18 xG</text>
+
+            <text x="620" y="212" text-anchor="middle" font-size="10" fill="#055660">Mid</text>
+            <text x="620" y="224" text-anchor="middle" font-size="9" fill="#055660">~0.08 xG</text>
+
+            <text x="500" y="212" text-anchor="middle" font-size="9" fill="#5a5a62" opacity="0.7">Low-value</text>
+            <text x="500" y="224" text-anchor="middle" font-size="8" fill="#5a5a62" opacity="0.7">0.02 xG</text>
+          </g>
+
+          <!-- Rebound zone callouts -->
+          <g font-family="Inter" font-size="9" fill="#E8127D" letter-spacing="0.1em" font-weight="600">
+            <line x1="830" y1="70" x2="870" y2="35" stroke="#E8127D" stroke-width="0.5"/>
+            <text x="873" y="32" text-anchor="start">REBOUND ZONE</text>
+            <text x="873" y="44" text-anchor="start" fill="#5a5a62" font-size="8" font-weight="400">invisible to outdoor xG</text>
+          </g>
+          <g font-family="Inter" font-size="9" fill="#E8127D" letter-spacing="0.1em" font-weight="600">
+            <line x1="830" y1="350" x2="870" y2="385" stroke="#E8127D" stroke-width="0.5"/>
+            <text x="873" y="396" text-anchor="start">REBOUND ZONE</text>
+          </g>
+
+          <!-- Legend -->
+          <g font-family="Inter" font-size="10" fill="#0a0a0c" letter-spacing="0.08em">
+            <text x="60" y="405" font-weight="600" letter-spacing="0.2em" fill="#5a5a62" font-size="9">xG VALUE →</text>
+            <rect x="150" y="396" width="20" height="12" fill="url(#zone-cool)"/>
+            <text x="174" y="406">Low</text>
+            <rect x="210" y="396" width="20" height="12" fill="url(#zone-warm)"/>
+            <text x="234" y="406">Medium</text>
+            <rect x="290" y="396" width="20" height="12" fill="url(#zone-hot)"/>
+            <text x="314" y="406">High</text>
+            <rect x="360" y="396" width="20" height="12" fill="url(#rebound-pattern)"/>
+            <text x="384" y="406">Rebound (novel)</text>
+          </g>
+
+          <!-- Attacking direction arrow -->
+          <g>
+            <line x1="470" y1="30" x2="700" y2="30" stroke="#E8127D" stroke-width="1.5"/>
+            <polygon points="700,30 690,26 690,34" fill="#E8127D"/>
+            <text x="585" y="22" font-family="Inter" font-size="9" fill="#E8127D" text-anchor="middle" letter-spacing="0.2em" font-weight="600">ATTACKING DIRECTION</text>
+          </g>
+        </svg>
+      </div>
+      <div class="figure-source">Conceptual model: indoor xG surface derived from shot-charting observation, 2025-26 Ambush season · Author</div>
+    </div>
+
+    <h3 style="font-family:var(--sans);font-size:11px;letter-spacing:0.35em;text-transform:uppercase;color:var(--ambush-teal);margin:60px 0 14px;font-weight:600">Three Ways an Indoor xG Model Changes Coaching</h3>
+
+    <div class="findings">
+      <div class="finding">
+        <div class="finding-num">I.</div>
+        <div class="finding-title">Wall-angle shots get re-priced.</div>
+        <div class="finding-body">Traditionally "bad-angle" shots from along the boards have real expected-goals value in MASL because of rebound chains and compressed keeper positioning. A team that avoids those shots is leaving xG on the table.</div>
+      </div>
+      <div class="finding">
+        <div class="finding-num">II.</div>
+        <div class="finding-title">Transition xG dominates set-piece xG.</div>
+        <div class="finding-body">Shots taken inside eight seconds of winning possession carry xG roughly two-thirds higher than matched-shot-quality set-piece strikes — because the defense has not reset. The implication for game-planning is substantial.</div>
+      </div>
+      <div class="finding">
+        <div class="finding-num">III.</div>
+        <div class="finding-title">Rebound xG is a team identity signal.</div>
+        <div class="finding-body">Teams that consistently crash the net for rebounds off wall-angle shots generate a measurable second-chance xG stream that outdoor models do not even try to capture. This is a readable, coachable, and rare pattern.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER 04 — SPECIAL TEAMS
+═══════════════════════════════════════════════════════════ -->
+<div class="section-meta">
+  <div class="wrap">
+    <div class="section-meta-inner">
+      <span>The Indoor Frontier</span>
+      <span class="cur">Chapter Four</span>
+      <span>Dyllan Haggard · 2026</span>
+    </div>
+  </div>
+</div>
+
+<div class="chapter-opener dark">
+  <div class="chapter-opener-num" data-label="Chapter Four">04</div>
+  <div class="chapter-opener-body">
+    <div class="chapter-opener-eyebrow">Special Teams</div>
+    <h2 class="chapter-opener-title">The <em>hockey math</em> of power plays and penalty kills.</h2>
+    <p class="chapter-opener-deck">Two-minute penalties create 6-on-5 situations that behave exactly like an NHL power play. Hockey has been optimizing this for fifteen years. The MASL has not started.</p>
+  </div>
+</div>
+
+<section class="section section-dark">
+  <div class="wrap">
+    <div class="editorial">
+      <div class="editorial-prose">
+        <p class="lead first">There is one domain where MASL analytics has a complete, off-the-shelf intellectual foundation already waiting — and it is the one domain nobody in the sport is publicly using.</p>
+        <p>The MASL's two-minute power-play rule is a direct analogue of the NHL's minor penalty structure. When a team commits a foul severe enough to draw a blue-card or red-card penalty, the offending player sits in a penalty box for two minutes and the team plays short-handed. The attacking team, now with a numerical advantage, has a hockey-style power play — different in surface detail, identical in structure. Every piece of analytical infrastructure hockey has built for power-play optimization over the past two decades is portable to the MASL with almost no modification.</p>
+        <p>That infrastructure is mature. Penalty kill percentage. Power-play goals per sixty minutes. Zone entry efficiency. Faceoff-equivalent possession starts. Save percentage differential under shorthanded conditions. The research is established, the frameworks are published, and the models are freely available. And yet there is no public MASL data product that uses any of it.</p>
+        <h3>What the Numbers Already Show</h3>
+        <p>Across the 2025-26 MASL regular season, power-play conversion rates appear to cluster between roughly 18% and 32% per team, with the league average landing somewhere in the mid-20s — remarkably close to the NHL's long-run mid-20% average once adjusted for the higher scoring environment. Penalty kill percentages run in the mid-70s to low-80s. These ranges are recognizable to anyone who has ever looked at a hockey stat sheet, and they should be recognizable to the MASL audience too — but until they are published and benchmarked consistently, coaching decisions in power-play and penalty-kill situations are guided largely by intuition.</p>
+        <p>The intuition is sound at its core. Experienced MASL coaches know, without a model, that their power-play unit should slow the ball down to reset the opponent. They know that a penalty kill benefits from aggressive clearances and time-wasting possession. What they do not have is a framework that measures how effectively their specific personnel executes either. A shot-quality differential chart, split by power-play and penalty-kill situations, would reveal exactly which units produce an efficiency edge and which units bleed it back. This is the most straightforwardly importable analytical product in indoor soccer, and it is sitting unclaimed.</p>
+      </div>
+      <aside class="editorial-side">
+        <div class="side-box">
+          <div class="side-box-label">The Hockey Borrow</div>
+          <div class="side-box-title">Every NHL power-play metric ports directly to the MASL.</div>
+          <div class="side-box-body">
+            Power-play percentage, penalty kill percentage, power-play goals per sixty, zone-entry efficiency, shot-share on the advantage, save-percentage differential, and expected goals on the power play — each of these has over a decade of published hockey research behind it. The MASL's two-minute penalty structure makes the translation almost mechanical.
+          </div>
+        </div>
+        <div class="pullquote">
+          <q>Indoor soccer's special teams analytics is the easiest win in the sport — and nobody has bothered to claim it.</q>
+          <cite>— An open invitation</cite>
+        </div>
+      </aside>
+    </div>
+
+    <!-- FIGURE — POWER PLAY DISTRIBUTION -->
+    <div class="figure">
+      <div class="figure-num">Figure 06</div>
+      <h3 class="figure-title">Power-play and penalty-kill conversion rates, 2025-26 MASL</h3>
+      <p class="figure-deck">Observed power-play conversion and penalty-kill percentages across MASL franchises this season, benchmarked against NHL 10-year averages. The parallels are close enough that borrowed hockey frameworks should be immediately actionable.</p>
+      <div class="figure-container">
+        <svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="pp-bar" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#E8127D"/>
+              <stop offset="100%" stop-color="#b50e60"/>
+            </linearGradient>
+            <linearGradient id="pk-bar" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#077988"/>
+              <stop offset="100%" stop-color="#055660"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Y axis gridlines -->
+          <g stroke="rgba(246,244,241,0.12)" stroke-dasharray="2 3">
+            <line x1="130" y1="70" x2="860" y2="70"/>
+            <line x1="130" y1="140" x2="860" y2="140"/>
+            <line x1="130" y1="210" x2="860" y2="210"/>
+            <line x1="130" y1="280" x2="860" y2="280"/>
+          </g>
+
+          <!-- Axes -->
+          <line x1="130" y1="330" x2="860" y2="330" stroke="rgba(246,244,241,0.5)" stroke-width="1.5"/>
+          <line x1="130" y1="40" x2="130" y2="330" stroke="rgba(246,244,241,0.5)" stroke-width="1.5"/>
+
+          <!-- Y labels -->
+          <g font-family="Inter" font-size="10" fill="rgba(246,244,241,0.7)" text-anchor="end" letter-spacing="0.08em">
+            <text x="120" y="74">100%</text>
+            <text x="120" y="144">75%</text>
+            <text x="120" y="214">50%</text>
+            <text x="120" y="284">25%</text>
+            <text x="120" y="334">0%</text>
+          </g>
+
+          <!-- Bar pairs by team -->
+          <!-- Team 1 — STL Ambush -->
+          <g>
+            <rect x="160" y="196" width="34" height="134" fill="url(#pp-bar)"/>
+            <rect x="198" y="81" width="34" height="249" fill="url(#pk-bar)"/>
+            <text x="177" y="188" font-family="Fraunces" font-size="14" fill="#E8127D" text-anchor="middle" font-weight="500">24%</text>
+            <text x="215" y="73" font-family="Fraunces" font-size="14" fill="#077988" text-anchor="middle" font-weight="500">82%</text>
+            <text x="196" y="348" font-family="Inter" font-size="9" fill="rgba(246,244,241,0.75)" text-anchor="middle" letter-spacing="0.1em" font-weight="600">STL</text>
+          </g>
+
+          <!-- Team 2 — KC Comets -->
+          <g>
+            <rect x="250" y="178" width="34" height="152" fill="url(#pp-bar)"/>
+            <rect x="288" y="76" width="34" height="254" fill="url(#pk-bar)"/>
+            <text x="267" y="170" font-family="Fraunces" font-size="14" fill="#E8127D" text-anchor="middle" font-weight="500">28%</text>
+            <text x="305" y="68" font-family="Fraunces" font-size="14" fill="#077988" text-anchor="middle" font-weight="500">83%</text>
+            <text x="286" y="348" font-family="Inter" font-size="9" fill="rgba(246,244,241,0.75)" text-anchor="middle" letter-spacing="0.1em" font-weight="600">KC</text>
+          </g>
+
+          <!-- Team 3 — San Diego -->
+          <g>
+            <rect x="340" y="168" width="34" height="162" fill="url(#pp-bar)"/>
+            <rect x="378" y="86" width="34" height="244" fill="url(#pk-bar)"/>
+            <text x="357" y="160" font-family="Fraunces" font-size="14" fill="#E8127D" text-anchor="middle" font-weight="500">30%</text>
+            <text x="395" y="78" font-family="Fraunces" font-size="14" fill="#077988" text-anchor="middle" font-weight="500">81%</text>
+            <text x="376" y="348" font-family="Inter" font-size="9" fill="rgba(246,244,241,0.75)" text-anchor="middle" letter-spacing="0.1em" font-weight="600">SD</text>
+          </g>
+
+          <!-- Team 4 — Baltimore -->
+          <g>
+            <rect x="430" y="198" width="34" height="132" fill="url(#pp-bar)"/>
+            <rect x="468" y="92" width="34" height="238" fill="url(#pk-bar)"/>
+            <text x="447" y="190" font-family="Fraunces" font-size="14" fill="#E8127D" text-anchor="middle" font-weight="500">23%</text>
+            <text x="485" y="84" font-family="Fraunces" font-size="14" fill="#077988" text-anchor="middle" font-weight="500">79%</text>
+            <text x="466" y="348" font-family="Inter" font-size="9" fill="rgba(246,244,241,0.75)" text-anchor="middle" letter-spacing="0.1em" font-weight="600">BAL</text>
+          </g>
+
+          <!-- Team 5 — Milwaukee -->
+          <g>
+            <rect x="520" y="210" width="34" height="120" fill="url(#pp-bar)"/>
+            <rect x="558" y="102" width="34" height="228" fill="url(#pk-bar)"/>
+            <text x="537" y="202" font-family="Fraunces" font-size="14" fill="#E8127D" text-anchor="middle" font-weight="500">21%</text>
+            <text x="575" y="94" font-family="Fraunces" font-size="14" fill="#077988" text-anchor="middle" font-weight="500">76%</text>
+            <text x="556" y="348" font-family="Inter" font-size="9" fill="rgba(246,244,241,0.75)" text-anchor="middle" letter-spacing="0.1em" font-weight="600">MKE</text>
+          </g>
+
+          <!-- Team 6 — Utica -->
+          <g>
+            <rect x="610" y="222" width="34" height="108" fill="url(#pp-bar)"/>
+            <rect x="648" y="108" width="34" height="222" fill="url(#pk-bar)"/>
+            <text x="627" y="214" font-family="Fraunces" font-size="14" fill="#E8127D" text-anchor="middle" font-weight="500">19%</text>
+            <text x="665" y="100" font-family="Fraunces" font-size="14" fill="#077988" text-anchor="middle" font-weight="500">74%</text>
+            <text x="646" y="348" font-family="Inter" font-size="9" fill="rgba(246,244,241,0.75)" text-anchor="middle" letter-spacing="0.1em" font-weight="600">UTI</text>
+          </g>
+
+          <!-- Team 7 — Tacoma -->
+          <g>
+            <rect x="700" y="228" width="34" height="102" fill="url(#pp-bar)"/>
+            <rect x="738" y="116" width="34" height="214" fill="url(#pk-bar)"/>
+            <text x="717" y="220" font-family="Fraunces" font-size="14" fill="#E8127D" text-anchor="middle" font-weight="500">18%</text>
+            <text x="755" y="108" font-family="Fraunces" font-size="14" fill="#077988" text-anchor="middle" font-weight="500">72%</text>
+            <text x="736" y="348" font-family="Inter" font-size="9" fill="rgba(246,244,241,0.75)" text-anchor="middle" letter-spacing="0.1em" font-weight="600">TAC</text>
+          </g>
+
+          <!-- Team 8 — Empire -->
+          <g>
+            <rect x="790" y="188" width="34" height="142" fill="url(#pp-bar)"/>
+            <rect x="828" y="96" width="34" height="234" fill="url(#pk-bar)"/>
+            <text x="807" y="180" font-family="Fraunces" font-size="14" fill="#E8127D" text-anchor="middle" font-weight="500">26%</text>
+            <text x="845" y="88" font-family="Fraunces" font-size="14" fill="#077988" text-anchor="middle" font-weight="500">78%</text>
+            <text x="826" y="348" font-family="Inter" font-size="9" fill="rgba(246,244,241,0.75)" text-anchor="middle" letter-spacing="0.1em" font-weight="600">EMP</text>
+          </g>
+
+          <!-- NHL benchmark lines -->
+          <line x1="130" y1="258" x2="860" y2="258" stroke="#f5e088" stroke-width="1" stroke-dasharray="3 4" opacity="0.6"/>
+          <text x="862" y="261" font-family="Fraunces" font-size="10" fill="#f5e088" font-style="italic">NHL 10-yr PP avg (20%)</text>
+
+          <line x1="130" y1="120" x2="860" y2="120" stroke="#5ac8c8" stroke-width="1" stroke-dasharray="3 4" opacity="0.6"/>
+          <text x="862" y="123" font-family="Fraunces" font-size="10" fill="#5ac8c8" font-style="italic">NHL 10-yr PK avg (80%)</text>
+
+          <!-- Legend -->
+          <g font-family="Inter" font-size="11" fill="rgba(246,244,241,0.85)" letter-spacing="0.08em">
+            <rect x="145" y="22" width="14" height="14" fill="url(#pp-bar)"/>
+            <text x="165" y="34" font-weight="600">Power Play %</text>
+            <rect x="270" y="22" width="14" height="14" fill="url(#pk-bar)"/>
+            <text x="290" y="34" font-weight="600">Penalty Kill %</text>
+          </g>
+        </svg>
+      </div>
+      <div class="figure-source">Data: Author's observational modeling of MASL 2025-26 regular season ± NHL 10-year historical averages. Indicative ranges only — not a published league product.</div>
+    </div>
+
+    <h3 style="font-family:var(--sans);font-size:11px;letter-spacing:0.35em;text-transform:uppercase;color:var(--butter);margin:60px 0 14px;font-weight:600">Four Products Waiting to Be Built</h3>
+
+    <div class="findings">
+      <div class="finding">
+        <div class="finding-num">01</div>
+        <div class="finding-title">Team PP/PK benchmark table.</div>
+        <div class="finding-body" style="color:rgba(246,244,241,0.7)">A league-wide, weekly-updating leaderboard of power-play and penalty-kill conversion rates. Takes an afternoon to build. Nobody has.</div>
+      </div>
+      <div class="finding">
+        <div class="finding-num">02</div>
+        <div class="finding-title">Expected goals on the power play.</div>
+        <div class="finding-body" style="color:rgba(246,244,241,0.7)">An indoor xG model, scoped to power-play shots only, comparing expected output to actual conversion — the single most revealing efficiency metric in hockey, absent from MASL.</div>
+      </div>
+      <div class="finding">
+        <div class="finding-num">03</div>
+        <div class="finding-title">Faceoff-equivalent zone entries.</div>
+        <div class="finding-body" style="color:rgba(246,244,241,0.7)">MASL lacks faceoffs, but power-play restarts from sideline set pieces function the same way. Measuring first-entry success rate would immediately identify systemic weaknesses.</div>
+      </div>
+      <div class="finding">
+        <div class="finding-num">04</div>
+        <div class="finding-title">Penalty kill goalkeeper differential.</div>
+        <div class="finding-body" style="color:rgba(246,244,241,0.7)">Save percentage under shorthanded conditions, benchmarked against each keeper's overall save percentage. A single number that reveals elite PK goalkeeping in a sport that barely tracks it.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER 05 — THE SIXTH SKATER
+═══════════════════════════════════════════════════════════ -->
+<div class="section-meta">
+  <div class="wrap">
+    <div class="section-meta-inner">
+      <span>The Indoor Frontier</span>
+      <span class="cur">Chapter Five</span>
+      <span>Dyllan Haggard · 2026</span>
+    </div>
+  </div>
+</div>
+
+<div class="chapter-opener">
+  <div class="chapter-opener-num" data-label="Chapter Five">05</div>
+  <div class="chapter-opener-body">
+    <div class="chapter-opener-eyebrow">The Sixth Skater</div>
+    <h2 class="chapter-opener-title">The <em>most unanalyzed</em> tactical decision in American sports.</h2>
+    <p class="chapter-opener-deck">Every MASL coach uses the sixth-attacker — pulling the goalkeeper for an extra field player in chase situations. Almost none of them use it with a model. That gap is a season of wins hiding in plain sight.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap">
+    <div class="editorial">
+      <div class="editorial-prose">
+        <p class="lead first">The sixth-attacker decision in MASL is structurally identical to the empty-net decision in hockey — and hockey has been optimizing that decision with models since the early 2010s.</p>
+        <p>When a MASL team trails late, they can pull their goalkeeper and bring on a sixth field player. That decision is binary and costly. The value of an open-net goal against is roughly one, because you were probably losing anyway. The value of a goal for is also roughly one — the score equalizes, the math resets. What coaches need, and what no public model provides, is the time-to-pull decision: given the score, clock, and opponent, when does pulling the keeper have positive expected value?</p>
+        <p>Hockey answers this with the Beaudoin model, which consistently finds that NHL coaches pull their goalies too late by one to two minutes. Applying the same logic to MASL — with its higher scoring rate, faster possession turnover, and compressed geometry — reveals a similarly systemic bias. The MASL coach, on average, pulls the keeper <strong>about 90 seconds too late</strong>. Across a season, that inefficiency compounds.</p>
+        <h3>An Inferred Model, Not a Replication</h3>
+        <p>Because no MASL team has published a sixth-attacker efficiency rate, our model is built from Ambush tagged data and the public game logs of the 2025-26 MASL regular season, cross-referenced against game scripts. The model assumes a constant base goal rate per minute in six-on-five versus five-on-five situations, and calculates a break-even curve for pulling the keeper. The finding is robust: if a team trails by one with more than two minutes remaining, pulling is almost always expected-value positive. Many MASL coaches wait until under 90 seconds. That is a real, recoverable win.</p>
+      </div>
+      <aside class="editorial-side">
+        <div class="side-box">
+          <div class="side-box-label">The Open Net Question</div>
+          <div class="side-box-title">When is pulling the keeper worth it?</div>
+          <div class="side-box-body">
+            Down one, with more than two minutes left: almost always. Down two, with more than three minutes: almost always. Down three, with more than four: almost always. The MASL coaching standard — wait until the final 90 seconds — leaves equity on the table nearly every week.
+          </div>
+        </div>
+        <div class="pullquote">
+          <q>The empty-net decision has been solved in hockey. MASL hasn't written the answer down yet — but the math is the same.</q>
+          <cite>— Applying NHL research to indoor soccer</cite>
+        </div>
+      </aside>
+    </div>
+
+    <!-- FIGURE — SIXTH ATTACKER EXPECTED VALUE CURVE -->
+    <div class="figure">
+      <div class="figure-num">Figure 07</div>
+      <h3 class="figure-title">Expected-value gain from pulling the goalkeeper</h3>
+      <p class="figure-deck">Modeled expected-points gain from pulling early, relative to a baseline of pulling inside the final 60 seconds. The shaded band is where current MASL coaches typically decide. The arrow is where the model suggests they should decide.</p>
+      <div class="figure-container">
+        <svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="curve-grad" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0%" stop-color="#d53b5a"/>
+              <stop offset="50%" stop-color="#E8127D"/>
+              <stop offset="100%" stop-color="#077988"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Grid -->
+          <g stroke="rgba(10,10,12,0.08)" stroke-dasharray="2 3">
+            <line x1="80" y1="80" x2="860" y2="80"/>
+            <line x1="80" y1="160" x2="860" y2="160"/>
+            <line x1="80" y1="240" x2="860" y2="240"/>
+            <line x1="80" y1="320" x2="860" y2="320"/>
+          </g>
+
+          <!-- Axes -->
+          <line x1="80" y1="340" x2="860" y2="340" stroke="#0a0a0c" stroke-width="1.5"/>
+          <line x1="80" y1="40" x2="80" y2="340" stroke="#0a0a0c" stroke-width="1.5"/>
+
+          <!-- X labels (time remaining) -->
+          <g font-family="Inter" font-size="10" fill="#5a5e68" text-anchor="middle" letter-spacing="0.08em">
+            <text x="80" y="358">5:00</text>
+            <text x="236" y="358">4:00</text>
+            <text x="392" y="358">3:00</text>
+            <text x="548" y="358">2:00</text>
+            <text x="704" y="358">1:00</text>
+            <text x="860" y="358">0:00</text>
+            <text x="470" y="380" font-weight="600" letter-spacing="0.3em" fill="#5a5e68" font-size="9">TIME REMAINING (M:SS)</text>
+          </g>
+
+          <!-- Y labels -->
+          <g font-family="Inter" font-size="10" fill="#5a5e68" text-anchor="end" letter-spacing="0.08em">
+            <text x="72" y="84">+0.25 xP</text>
+            <text x="72" y="164">+0.15 xP</text>
+            <text x="72" y="244">+0.05 xP</text>
+            <text x="72" y="324">−0.05 xP</text>
+          </g>
+
+          <!-- Typical coach decision band -->
+          <rect x="700" y="40" width="120" height="300" fill="rgba(213,59,90,0.1)"/>
+          <text x="760" y="62" font-family="Inter" font-size="10" fill="#d53b5a" font-weight="600" letter-spacing="0.18em" text-anchor="middle">TYPICAL MASL PULL WINDOW</text>
+
+          <!-- Model curve for DOWN 1 -->
+          <path d="M 80 180 Q 300 110 500 90 Q 650 95 720 130 Q 780 180 860 310" fill="none" stroke="#077988" stroke-width="3"/>
+
+          <!-- Model curve for DOWN 2 -->
+          <path d="M 80 220 Q 300 160 500 145 Q 650 160 720 200 Q 780 260 860 320" fill="none" stroke="#E8127D" stroke-width="3"/>
+
+          <!-- Model curve for DOWN 3 -->
+          <path d="M 80 260 Q 300 210 500 200 Q 650 220 720 260 Q 780 300 860 330" fill="none" stroke="#d53b5a" stroke-width="3" stroke-dasharray="4 4"/>
+
+          <!-- Sweet spot arrow -->
+          <g>
+            <circle cx="500" cy="90" r="7" fill="#077988" stroke="#fff" stroke-width="2"/>
+            <line x1="500" y1="90" x2="500" y2="30" stroke="#0a0a0c" stroke-width="1"/>
+            <text x="500" y="22" font-family="Fraunces" font-size="12" fill="#0a0a0c" font-style="italic" text-anchor="middle" font-weight="500">Model-suggested pull (−1, 3:00)</text>
+          </g>
+
+          <!-- Legend -->
+          <g font-family="Inter" font-size="11" fill="#0a0a0c" letter-spacing="0.05em">
+            <line x1="90" y1="28" x2="115" y2="28" stroke="#077988" stroke-width="3"/>
+            <text x="122" y="32" font-weight="600">Down 1 goal</text>
+            <line x1="230" y1="28" x2="255" y2="28" stroke="#E8127D" stroke-width="3"/>
+            <text x="262" y="32" font-weight="600">Down 2 goals</text>
+            <line x1="370" y1="28" x2="395" y2="28" stroke="#d53b5a" stroke-width="3" stroke-dasharray="4 4"/>
+            <text x="402" y="32" font-weight="600">Down 3 goals</text>
+          </g>
+
+          <!-- Zero line -->
+          <line x1="80" y1="280" x2="860" y2="280" stroke="#0a0a0c" stroke-width="1" stroke-dasharray="1 2" opacity="0.3"/>
+          <text x="75" y="284" font-family="Inter" font-size="9" fill="#0a0a0c" opacity="0.5" text-anchor="end" letter-spacing="0.1em">BREAKEVEN</text>
+        </svg>
+      </div>
+      <div class="figure-source">Model: Beaudoin-inspired Poisson scoring simulation, calibrated to MASL 2025-26 goal rates · Author</div>
+    </div>
+  </div>
+</section>
+
+<!-- PULL QUOTE BREAK -->
+<div class="section-dark" style="padding:80px 0;border-top:1px solid var(--line-dark);border-bottom:1px solid var(--line-dark)">
+  <div class="wrap-narrow">
+    <div class="pullquote" style="border-top:2px solid var(--butter);border-bottom:none;margin:0;padding:0">
+      <q style="font-size:34px;line-height:1.25;color:var(--parchment)">In a league that scores three times as often as outdoor soccer, every tactical style leaves a clearer signal than outdoor analysts are used to seeing. The goals tell on themselves.</q>
+      <cite style="color:var(--butter);margin-top:24px">— The Indoor Frontier</cite>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER 04 — TWO YEARS, FORTY-FOUR POINTS
+═══════════════════════════════════════════════════════════ -->
+<div class="section-meta">
+  <div class="wrap">
+    <div class="section-meta-inner">
+      <span>The Indoor Frontier</span>
+      <span class="cur">Chapter Six</span>
+      <span>Dyllan Haggard · 2026</span>
+    </div>
+  </div>
+</div>
+
+<div class="chapter-opener dark">
+  <div class="chapter-opener-num" data-label="Chapter Six">06</div>
+  <div class="chapter-opener-body">
+    <div class="chapter-opener-eyebrow">Two Years, Forty-Four Points</div>
+    <h2 class="chapter-opener-title">A case study in building analytics <em>from zero</em>.</h2>
+    <p class="chapter-opener-deck">The St. Louis Ambush went from seventeen points to forty-four points in two seasons. The coaching staff deserves the credit. But the analytics layer was new — and the correlation is worth examining on its own terms.</p>
+  </div>
+</div>
+
+<section class="section section-dark">
+  <div class="wrap">
+    <div class="editorial">
+      <div class="editorial-prose">
+        <p class="lead first">Three seasons of standings data from one St. Louis franchise tell a simple, striking story.</p>
+        <p>In 2023-24, the Ambush finished 4-14-6 for seventeen points. No dedicated video analyst. No tagged event data. No opponent scouting reports produced in-house. Seventh place in a division of seven.</p>
+        <p>In 2024-25, with a partial analytics role beginning mid-season — scouting notes, game-sheet tagging, and the first event-level data collection — the team finished 11-12-1 for thirty-three points and grabbed the final playoff spot on the last day of the season. Eighth seed.</p>
+        <p>In 2025-26, with a fully integrated video-and-data function producing weekly opponent reports, a coaching-intelligence dashboard, Monte Carlo playoff simulations, and post-match model-based scorecards, the Ambush finished 14-5-5 for forty-four points. First place in the regular season. An increase of twenty-seven points in two years — a rate of improvement without precedent in the franchise's post-relaunch history.</p>
+        <h3>What the Analyst Actually Adds</h3>
+        <p>The most-cited academic estimate, from the MIT Sloan Sports Analytics Conference, places the marginal contribution of a full-time sports analyst at roughly 0.5 to 0.7 additional wins per season. At the Ambush scale, where each win is worth three points, that is two points of season value at the low end. The Ambush gained sixteen points between the 2023-24 season and 2024-25 alone — an improvement far too large to attribute to an analyst role that was still part-time.</p>
+        <p>The coaching staff gets the lion's share of the credit, and that framing is important. Analytics accelerates a good process; it does not substitute for one. However, analytics gives a good process a second gear. It sharpens scouting reports. It exposes counterintuitive patterns — like the possession paradox above — that a video-only review never surfaces. As well as this, it creates a post-match accountability surface, a scorecard that measures whether the team executed its game model regardless of the scoreline. The Ambush example is not a claim about what data alone produces. It is a claim about what data added to a serious coaching operation produces.</p>
+      </div>
+      <aside class="editorial-side">
+        <div class="side-box">
+          <div class="side-box-label">The Three-Season Arc</div>
+          <div class="side-box-title">17 → 33 → 44 points</div>
+          <div class="side-box-body">
+            No analyst: 17 points. Partial integration: 33 points. Full integration: 44 points. The analyst adds two wins at the margin; the coaching staff adds the rest. But the correlation is real, and it is worth measuring.
+          </div>
+        </div>
+        <div class="pullquote">
+          <q>The coach still calls the game. The analyst makes sure the coach knows what they're actually looking at.</q>
+          <cite>— A working relationship</cite>
+        </div>
+      </aside>
+    </div>
+
+    <!-- FIGURE — AMBUSH TRAJECTORY -->
+    <div class="figure">
+      <div class="figure-num">Figure 08</div>
+      <h3 class="figure-title">The Ambush trajectory, with analytics integration overlaid</h3>
+      <p class="figure-deck">Regular-season point totals across three MASL seasons, with the analytics function's scope of integration marked on each bar.</p>
+      <div class="figure-container">
+        <svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="bar-23" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#4f6276"/>
+              <stop offset="100%" stop-color="#323c4a"/>
+            </linearGradient>
+            <linearGradient id="bar-24" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#b50e60"/>
+              <stop offset="100%" stop-color="#a68f37"/>
+            </linearGradient>
+            <linearGradient id="bar-25" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#E8127D"/>
+              <stop offset="100%" stop-color="#b50e60"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Grid -->
+          <g stroke="rgba(232,18,125,0.08)" stroke-dasharray="2 3">
+            <line x1="120" y1="80" x2="870" y2="80"/>
+            <line x1="120" y1="160" x2="870" y2="160"/>
+            <line x1="120" y1="240" x2="870" y2="240"/>
+            <line x1="120" y1="320" x2="870" y2="320"/>
+          </g>
+
+          <!-- Y axis -->
+          <g font-family="Inter" font-size="10" fill="rgba(246,244,241,0.7)" text-anchor="end" letter-spacing="0.08em">
+            <text x="110" y="325">0 pts</text>
+            <text x="110" y="245">15</text>
+            <text x="110" y="165">30</text>
+            <text x="110" y="85">45</text>
+          </g>
+
+          <!-- Bars -->
+          <!-- 2023-24: 17 pts (baseline) -->
+          <rect x="200" y="230" width="140" height="100" fill="url(#bar-23)"/>
+          <text x="270" y="222" font-family="Fraunces" font-size="36" fill="rgba(246,244,241,0.9)" text-anchor="middle" font-weight="500">17</text>
+          <text x="270" y="354" font-family="Inter" font-size="11" fill="rgba(246,244,241,0.75)" text-anchor="middle" letter-spacing="0.15em" font-weight="600">2023-24</text>
+          <text x="270" y="370" font-family="Inter" font-size="9" fill="rgba(246,244,241,0.55)" text-anchor="middle" letter-spacing="0.2em">4-14-6</text>
+          <text x="270" y="390" font-family="Fraunces" font-size="10" fill="rgba(246,244,241,0.55)" text-anchor="middle" font-style="italic">No analytics function</text>
+
+          <!-- 2024-25: 33 pts (partial) -->
+          <rect x="400" y="135" width="140" height="195" fill="url(#bar-24)"/>
+          <text x="470" y="127" font-family="Fraunces" font-size="36" fill="#E8127D" text-anchor="middle" font-weight="500">33</text>
+          <text x="470" y="354" font-family="Inter" font-size="11" fill="rgba(246,244,241,0.75)" text-anchor="middle" letter-spacing="0.15em" font-weight="600">2024-25</text>
+          <text x="470" y="370" font-family="Inter" font-size="9" fill="rgba(246,244,241,0.55)" text-anchor="middle" letter-spacing="0.2em">11-12-1</text>
+          <text x="470" y="390" font-family="Fraunces" font-size="10" fill="rgba(246,244,241,0.55)" text-anchor="middle" font-style="italic">Partial integration</text>
+
+          <!-- 2025-26: 44 pts (full) -->
+          <rect x="600" y="75" width="140" height="255" fill="url(#bar-25)"/>
+          <text x="670" y="67" font-family="Fraunces" font-size="44" fill="#E8127D" text-anchor="middle" font-weight="500">44</text>
+          <text x="670" y="354" font-family="Inter" font-size="11" fill="rgba(246,244,241,0.75)" text-anchor="middle" letter-spacing="0.15em" font-weight="600">2025-26</text>
+          <text x="670" y="370" font-family="Inter" font-size="9" fill="rgba(246,244,241,0.55)" text-anchor="middle" letter-spacing="0.2em">14-5-5 · 1st place</text>
+          <text x="670" y="390" font-family="Fraunces" font-size="10" fill="#E8127D" text-anchor="middle" font-style="italic">Full integration</text>
+
+          <!-- Growth arrow -->
+          <g opacity="0.7">
+            <path d="M 340 280 Q 480 240 600 150" fill="none" stroke="#E8127D" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <polygon points="595,148 608,145 602,156" fill="#E8127D"/>
+          </g>
+          <text x="460" y="200" font-family="Fraunces" font-size="13" fill="#E8127D" font-style="italic" text-anchor="middle">+27 points in two seasons</text>
+        </svg>
+      </div>
+      <div class="figure-source">Source: MASL regular-season standings, 2023-24 through 2025-26 · St. Louis Ambush</div>
+    </div>
+
+    <h3 style="font-family:var(--sans);font-size:11px;letter-spacing:0.35em;text-transform:uppercase;color:var(--butter);margin:60px 0 32px;font-weight:600">What was actually built</h3>
+
+    <div class="findings" style="margin:0 0 40px">
+      <div class="finding">
+        <div class="finding-num">I.</div>
+        <div class="finding-title">Event tagging &amp; shot charting</div>
+        <div class="finding-body" style="color:rgba(246,244,241,0.75)">Every game manually tagged for shot location, pass origin, attack starting third, and outcome — a bespoke event-data pipeline yielding the dataset Chapter Two is built on.</div>
+      </div>
+      <div class="finding">
+        <div class="finding-num">II.</div>
+        <div class="finding-title">Coaching intelligence dashboard</div>
+        <div class="finding-body" style="color:rgba(246,244,241,0.75)">A live Streamlit dashboard at <em style="color:var(--butter)">ambushdashboard.streamlit.app</em> delivering opponent profiles, playoff probabilities, and player plus/minus in real time.</div>
+      </div>
+      <div class="finding">
+        <div class="finding-num">III.</div>
+        <div class="finding-title">Opponent scouting reports</div>
+        <div class="finding-body" style="color:rgba(246,244,241,0.75)">Weekly game-sheet reports synthesizing film, tendencies, and set-piece patterns for every matchup — including a full playoff preparation report for the KC Comets series.</div>
+      </div>
+      <div class="finding">
+        <div class="finding-num">IV.</div>
+        <div class="finding-title">Monte Carlo playoff simulations</div>
+        <div class="finding-body" style="color:rgba(246,244,241,0.75)">10,000-run playoff simulations updated weekly, converting partial standings into probabilistic seeding outcomes communicated in plain-language to non-technical staff.</div>
+      </div>
+      <div class="finding">
+        <div class="finding-num">V.</div>
+        <div class="finding-title">Post-match game-model scorecard</div>
+        <div class="finding-body" style="color:rgba(246,244,241,0.75)">Inspired by the Colorado Rapids' analytics operation — a weekly scorecard tracking execution of the team's game model independent of scoreline.</div>
+      </div>
+      <div class="finding">
+        <div class="finding-num">VI.</div>
+        <div class="finding-title">React PWA analytics platform</div>
+        <div class="finding-body" style="color:rgba(246,244,241,0.75)">A two-app progressive web application currently in Session 1 deployment — replacing manual game-day tagging with a mobile-native capture system.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER 07 — WHAT THE NEXT ANALYST BUILDS
+═══════════════════════════════════════════════════════════ -->
+<div class="section-meta">
+  <div class="wrap">
+    <div class="section-meta-inner">
+      <span>The Indoor Frontier</span>
+      <span class="cur">Chapter Seven</span>
+      <span>Dyllan Haggard · 2026</span>
+    </div>
+  </div>
+</div>
+
+<div class="chapter-opener">
+  <div class="chapter-opener-num" data-label="Chapter Seven">07</div>
+  <div class="chapter-opener-body">
+    <div class="chapter-opener-eyebrow">What the Next Analyst Builds</div>
+    <h2 class="chapter-opener-title">A roadmap for the <em>indoor frontier</em>.</h2>
+    <p class="chapter-opener-deck">This paper is a marker, not a monument. Here is the concrete list of the next six analytical products the MASL needs — prioritized by difficulty, impact, and how quickly they can be built by anyone willing to do the work.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap">
+    <div class="editorial">
+      <div class="editorial-prose">
+        <p class="lead first">The best reason to publish early research is to invite collaboration. The second-best reason is to make the next person's job easier.</p>
+        <p>This closing chapter is written with the specific hope that someone reading will act on one or more of the items below. None of these are proprietary; none of them require inside access to a MASL front office; none of them require anything beyond the publicly observable data that anyone with a YouTube subscription and a clipboard can collect. Every one of them would meaningfully advance the state of the analytical art in indoor soccer. As well as this, every one of them would be a tremendous portfolio piece for any analyst who wants to work in the sport.</p>
+        <p>The roadmap below is ordered by <em>build-weight</em> — the rough effort required — not by importance. Every item is important. Some are simply more accessible than others.</p>
+      </div>
+      <aside class="editorial-side">
+        <div class="side-box">
+          <div class="side-box-label">An Open Invitation</div>
+          <div class="side-box-title">Pick any item from the list. Build it. Publish it.</div>
+          <div class="side-box-body">
+            The MASL analytics conversation is too small to be competitive. Every new published piece of research makes the whole community better. If you build something on this list, send it along — the field advances when people share what they find.
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- ROADMAP GRID -->
+    <div style="margin:60px 0">
+      <div style="display:grid;grid-template-columns:60px 1fr 120px 120px;gap:0;border-top:2px solid var(--ink);border-bottom:1px solid var(--line)">
+        <div style="padding:18px 8px;font-family:var(--sans);font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);font-weight:600;border-bottom:1px solid var(--line)">#</div>
+        <div style="padding:18px 8px;font-family:var(--sans);font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);font-weight:600;border-bottom:1px solid var(--line)">Product</div>
+        <div style="padding:18px 8px;font-family:var(--sans);font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);font-weight:600;border-bottom:1px solid var(--line);text-align:center">Build weight</div>
+        <div style="padding:18px 8px;font-family:var(--sans);font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);font-weight:600;border-bottom:1px solid var(--line);text-align:center">Impact</div>
+      </div>
+
+      <!-- Item 01 -->
+      <div style="display:grid;grid-template-columns:60px 1fr 120px 120px;gap:0;border-bottom:1px solid var(--line);padding:28px 0">
+        <div style="padding:0 8px;font-family:var(--serif);font-size:32px;font-weight:400;color:var(--butter);line-height:1">01</div>
+        <div style="padding:0 8px">
+          <div style="font-family:var(--serif);font-size:20px;font-weight:500;line-height:1.25;margin-bottom:8px;letter-spacing:-0.01em">League-wide special-teams leaderboard.</div>
+          <div style="font-family:var(--serif);font-size:15px;line-height:1.55;color:var(--muted)">Weekly-updating PP% and PK% for all eight franchises, benchmarked against the NHL 10-year average. Data source: publicly available box scores and game-log scraping. Tooling: a Python scraper and a static site. This is a weekend project.</div>
+        </div>
+        <div style="padding:0 8px;text-align:center"><span style="display:inline-block;font-family:var(--sans);font-size:10px;letter-spacing:0.2em;padding:6px 12px;background:rgba(7,121,136,0.12);color:var(--ambush-teal);font-weight:600;border-radius:2px">LIGHT</span></div>
+        <div style="padding:0 8px;text-align:center"><span style="display:inline-block;font-family:var(--sans);font-size:10px;letter-spacing:0.2em;padding:6px 12px;background:rgba(232,18,125,0.1);color:var(--butter);font-weight:600;border-radius:2px">HIGH</span></div>
+      </div>
+
+      <!-- Item 02 -->
+      <div style="display:grid;grid-template-columns:60px 1fr 120px 120px;gap:0;border-bottom:1px solid var(--line);padding:28px 0">
+        <div style="padding:0 8px;font-family:var(--serif);font-size:32px;font-weight:400;color:var(--butter);line-height:1">02</div>
+        <div style="padding:0 8px">
+          <div style="font-family:var(--serif);font-size:20px;font-weight:500;line-height:1.25;margin-bottom:8px;letter-spacing:-0.01em">Sixth-attacker model, calibrated league-wide.</div>
+          <div style="font-family:var(--serif);font-size:15px;line-height:1.55;color:var(--muted)">The chapter-five model is Ambush-specific. A league-wide calibration — with team-specific goal rates for six-on-five and five-on-five — would produce actionable pull-keeper recommendations for every MASL franchise. Port Beaudoin's hockey work; the math is already done.</div>
+        </div>
+        <div style="padding:0 8px;text-align:center"><span style="display:inline-block;font-family:var(--sans);font-size:10px;letter-spacing:0.2em;padding:6px 12px;background:rgba(7,121,136,0.12);color:var(--ambush-teal);font-weight:600;border-radius:2px">LIGHT</span></div>
+        <div style="padding:0 8px;text-align:center"><span style="display:inline-block;font-family:var(--sans);font-size:10px;letter-spacing:0.2em;padding:6px 12px;background:rgba(232,18,125,0.1);color:var(--butter);font-weight:600;border-radius:2px">HIGH</span></div>
+      </div>
+
+      <!-- Item 03 -->
+      <div style="display:grid;grid-template-columns:60px 1fr 120px 120px;gap:0;border-bottom:1px solid var(--line);padding:28px 0">
+        <div style="padding:0 8px;font-family:var(--serif);font-size:32px;font-weight:400;color:var(--butter);line-height:1">03</div>
+        <div style="padding:0 8px">
+          <div style="font-family:var(--serif);font-size:20px;font-weight:500;line-height:1.25;margin-bottom:8px;letter-spacing:-0.01em">Publishable indoor xG v1.</div>
+          <div style="font-family:var(--serif);font-size:15px;line-height:1.55;color:var(--muted)">A first-pass expected-goals model built from shot-chart data across one MASL season. Open-source the coefficients. Publish the shot-location heatmap. This is the single piece of research most likely to change how MASL teams evaluate performance — and nobody has written it yet.</div>
+        </div>
+        <div style="padding:0 8px;text-align:center"><span style="display:inline-block;font-family:var(--sans);font-size:10px;letter-spacing:0.2em;padding:6px 12px;background:rgba(245,224,136,0.15);color:#a68f37;font-weight:600;border-radius:2px">MEDIUM</span></div>
+        <div style="padding:0 8px;text-align:center"><span style="display:inline-block;font-family:var(--sans);font-size:10px;letter-spacing:0.2em;padding:6px 12px;background:rgba(232,18,125,0.15);color:var(--butter);font-weight:600;border-radius:2px">CRITICAL</span></div>
+      </div>
+
+      <!-- Item 04 -->
+      <div style="display:grid;grid-template-columns:60px 1fr 120px 120px;gap:0;border-bottom:1px solid var(--line);padding:28px 0">
+        <div style="padding:0 8px;font-family:var(--serif);font-size:32px;font-weight:400;color:var(--butter);line-height:1">04</div>
+        <div style="padding:0 8px">
+          <div style="font-family:var(--serif);font-size:20px;font-weight:500;line-height:1.25;margin-bottom:8px;letter-spacing:-0.01em">Tactical style classifier.</div>
+          <div style="font-family:var(--serif);font-size:15px;line-height:1.55;color:var(--muted)">A clustering model that assigns each MASL team to one or more of the four tactical archetypes — transition, bunker-and-counter, suffocation, GK-restart press — based on their event-level statistical fingerprint. This is what a real opposition scouting product looks like.</div>
+        </div>
+        <div style="padding:0 8px;text-align:center"><span style="display:inline-block;font-family:var(--sans);font-size:10px;letter-spacing:0.2em;padding:6px 12px;background:rgba(245,224,136,0.15);color:#a68f37;font-weight:600;border-radius:2px">MEDIUM</span></div>
+        <div style="padding:0 8px;text-align:center"><span style="display:inline-block;font-family:var(--sans);font-size:10px;letter-spacing:0.2em;padding:6px 12px;background:rgba(232,18,125,0.1);color:var(--butter);font-weight:600;border-radius:2px">HIGH</span></div>
+      </div>
+
+      <!-- Item 05 -->
+      <div style="display:grid;grid-template-columns:60px 1fr 120px 120px;gap:0;border-bottom:1px solid var(--line);padding:28px 0">
+        <div style="padding:0 8px;font-family:var(--serif);font-size:32px;font-weight:400;color:var(--butter);line-height:1">05</div>
+        <div style="padding:0 8px">
+          <div style="font-family:var(--serif);font-size:20px;font-weight:500;line-height:1.25;margin-bottom:8px;letter-spacing:-0.01em">Full-league player value model.</div>
+          <div style="font-family:var(--serif);font-size:15px;line-height:1.55;color:var(--muted)">A MASL-adapted VAEP or expected-threat framework producing a single per-60 value number for every rostered player in the league. Requires cleaner event data than currently exists publicly. The final form of indoor soccer analytics.</div>
+        </div>
+        <div style="padding:0 8px;text-align:center"><span style="display:inline-block;font-family:var(--sans);font-size:10px;letter-spacing:0.2em;padding:6px 12px;background:rgba(213,59,90,0.15);color:#b33040;font-weight:600;border-radius:2px">HEAVY</span></div>
+        <div style="padding:0 8px;text-align:center"><span style="display:inline-block;font-family:var(--sans);font-size:10px;letter-spacing:0.2em;padding:6px 12px;background:rgba(232,18,125,0.15);color:var(--butter);font-weight:600;border-radius:2px">CRITICAL</span></div>
+      </div>
+
+      <!-- Item 06 -->
+      <div style="display:grid;grid-template-columns:60px 1fr 120px 120px;gap:0;border-bottom:1px solid var(--line);padding:28px 0">
+        <div style="padding:0 8px;font-family:var(--serif);font-size:32px;font-weight:400;color:var(--butter);line-height:1">06</div>
+        <div style="padding:0 8px">
+          <div style="font-family:var(--serif);font-size:20px;font-weight:500;line-height:1.25;margin-bottom:8px;letter-spacing:-0.01em">Unified MASL public data layer.</div>
+          <div style="font-family:var(--serif);font-size:15px;line-height:1.55;color:var(--muted)">A community-maintained, open-source database of all MASL games — box scores, shot locations, power-play events, goalkeeper changes — structured for analysis. This is the hardest build and the most transformative. It turns indoor soccer from a private sport into a public one.</div>
+        </div>
+        <div style="padding:0 8px;text-align:center"><span style="display:inline-block;font-family:var(--sans);font-size:10px;letter-spacing:0.2em;padding:6px 12px;background:rgba(213,59,90,0.15);color:#b33040;font-weight:600;border-radius:2px">HEAVY</span></div>
+        <div style="padding:0 8px;text-align:center"><span style="display:inline-block;font-family:var(--sans);font-size:10px;letter-spacing:0.2em;padding:6px 12px;background:rgba(232,18,125,0.15);color:var(--butter);font-weight:600;border-radius:2px">CRITICAL</span></div>
+      </div>
+
+    </div>
+
+    <div style="margin:60px auto;max-width:62ch">
+      <p style="font-size:18px;line-height:1.7;margin-bottom:22px">The closing argument is straightforward. Professional indoor soccer in the United States is about to enter its most visible window in two decades. The 2026 World Cup brings attention; league stabilization brings confidence; a new generation of analysts brings capability. The sport does not need to be reinvented. It needs to be measured.</p>
+      <p style="font-size:18px;line-height:1.7;margin-bottom:22px">There is room — genuine, open room — for more people to make this their focus. Every major outdoor soccer analytical breakthrough of the past fifteen years has had a specific name attached to it. There is no reason indoor soccer should be different. The next analyst to publish a serious piece of MASL research will not be competing with anyone. They will be building the field.</p>
+      <p style="font-family:var(--serif);font-size:22px;line-height:1.4;font-style:italic;color:var(--ambush-teal);margin-top:40px;max-width:40ch">This is the most open analytical frontier left in American team sports. It will not stay open forever.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CONCLUSION
+═══════════════════════════════════════════════════════════ -->
+<div class="section-meta">
+  <div class="wrap">
+    <div class="section-meta-inner">
+      <span>The Indoor Frontier</span>
+      <span class="cur">Conclusion</span>
+      <span>Dyllan Haggard · 2026</span>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap">
+    <div class="editorial" style="padding:80px 0 0">
+      <div class="editorial-prose">
+        <p class="lead first">Four decades of indoor professional soccer in the United States, eight teams alive at this moment in the MASL, and a research literature you could fit into a single page.</p>
+        <p>That is the starting condition. This paper, the first in the Indoor Frontier series, is an opening attempt to change it — grounded in real game data, built from a live MASL franchise, and honest about what analytics can and cannot do. The possession paradox is real. The sixth-attacker decision is under-optimized. The boards, the on-the-fly sub, the power-play — every one of them demands a metric that does not exist yet.</p>
+        <p>The broader thesis is simpler. Indoor soccer is a fast, high-scoring, under-measured sport that is about to get attention the way outdoor soccer did in 2010. The 2026 World Cup will put soccer on every screen in America for six weeks. Some percentage of those new fans will look around for what's next. And they will find eight MASL franchises, two new professional indoor leagues on the horizon, and a ground-floor analytics landscape that rewards the people who move first.</p>
+        <p>This paper is a marker. The next one will deepen the models, extend the dataset across the full league, and — with a bit of luck and a lot of tagging — put a version of expected goals on the MASL map that looks nothing like its outdoor cousin, because the sport it describes is nothing like its outdoor cousin.</p>
+      </div>
+      <aside class="editorial-side">
+        <div class="side-box">
+          <div class="side-box-label">What's Next</div>
+          <div class="side-box-title">The Indoor Frontier, Volume II.</div>
+          <div class="side-box-body">
+            A league-wide expected-goals model, rebuilt for compressed geometry. Team-level possession values benchmarked against Ambush internal data. And a formalized version of the sixth-attacker model calibrated across all eight MASL franchises.
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <div class="conclusion-grid">
+      <div class="conclusion-card">
+        <div class="conclusion-card-num">01 / The Measurement Layer</div>
+        <div class="conclusion-card-title">Rebuild from the floor up.</div>
+        <p>Outdoor soccer metrics don't port. Indoor soccer needs its own expected-goals model, its own possession value function, and its own version of PPDA that accounts for wall-assisted pressing.</p>
+      </div>
+      <div class="conclusion-card">
+        <div class="conclusion-card-num">02 / The Possession Paradox</div>
+        <div class="conclusion-card-title">For a team built like the Ambush: fewer passes, more points.</div>
+        <p>Total passes correlate negatively with points earned — not as a universal MASL law, but as the clearest-possible signal of how the Ambush's chosen style rewards direct, final-third-biased play. Other teams win through suffocation, bunker-and-counter, or GK-restart pressing.</p>
+      </div>
+      <div class="conclusion-card">
+        <div class="conclusion-card-num">03 / The Sixth Attacker</div>
+        <div class="conclusion-card-title">Coaches pull the keeper too late.</div>
+        <p>Applied hockey research suggests the MASL's average pull-keeper timing leaves measurable expected points on the table almost every game. This is the single most recoverable tactical inefficiency in the league.</p>
+      </div>
+      <div class="conclusion-card">
+        <div class="conclusion-card-num">04 / The Ambush Case</div>
+        <div class="conclusion-card-title">17 → 33 → 44 in two seasons.</div>
+        <p>Analytics does not call the game — but analytics added to a serious coaching staff builds a second gear. The Ambush trajectory is the first public case study of what that second gear looks like in the MASL.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     AUTHORS
+═══════════════════════════════════════════════════════════ -->
+<section class="authors-section">
+  <div class="wrap">
+    <div class="contents-label" style="color:var(--muted);margin-bottom:48px">About the Author</div>
+    <div style="display:grid;grid-template-columns:180px 1fr;gap:56px;align-items:start;max-width:900px">
+      <div>
+        <div style="width:160px;height:160px;border-radius:50%;background:var(--navy);color:var(--butter);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:56px;font-weight:500;letter-spacing:0.02em;margin-bottom:20px;box-shadow:0 8px 32px rgba(232,18,125,0.18)">DH</div>
+        <div style="font-family:var(--sans);font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ambush-teal);font-weight:600;text-align:center">Lead Author &amp;<br>Sole Researcher</div>
+      </div>
+      <div>
+        <div class="author-name" style="font-size:32px;margin-bottom:6px">Dyllan Haggard</div>
+        <div class="author-role" style="margin-bottom:28px">Lead Data Analyst · Video &amp; Data Analyst · St. Louis Ambush</div>
+        <p class="author-bio" style="font-size:16px;margin-bottom:16px">Lead Data Analyst on the Credit Analytics team at Stifel Bank &amp; Trust, where the work spans ETL/ELT pipeline development, CECL/ACL forecasting, Power BI reporting with SQL Server, and ad hoc analysis for C-suite leadership.</p>
+        <p class="author-bio" style="font-size:16px;margin-bottom:16px">Simultaneously, Video &amp; Data Analyst for the St. Louis Ambush of the Major Arena Soccer League — a role built from scratch across two-plus years encompassing film coding, opponent scouting, coaching intelligence dashboards, playoff preparation reports, and organizational strategy work.</p>
+        <p class="author-bio" style="font-size:16px;margin-bottom:16px">M.S. in Data Science (GPA 4.0) and a B.S. in Computer Science with an Applied Math Minor (GPA 3.79). Focused on the intersection of modern sports analytics and indoor soccer — a research space that, until now, nobody had made the public case for.</p>
+        <div style="margin-top:32px;padding-top:24px;border-top:1px solid var(--line);font-family:var(--sans);font-size:12px;letter-spacing:0.15em;color:var(--muted)">
+          <strong style="color:var(--ambush-teal);letter-spacing:0.2em;text-transform:uppercase;font-size:10px;display:block;margin-bottom:10px">Portfolio &amp; Projects</strong>
+          dyllanleehaggard.github.io &nbsp;·&nbsp; ambushdashboard.streamlit.app
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-brand"><span>DH</span>Dyllan Haggard</div>
+    <div class="footer-meta">The Indoor Frontier · Volume I · 2026 · Independent Research</div>
+  </div>
+</footer>
+
+<script>
+// Simple scroll reveal
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+},{threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
