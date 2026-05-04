@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Indoor Frontier — A research series on indoor soccer analytics by Dyllan Haggard</title>
+<meta name="description" content="An independent, multi-volume research series building the analytical foundation for indoor soccer. Volume I lays the framework; Volume II resolves the playoff paradox; Volume III, on roster construction, is in development.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FFFCF7;
+  --paper: #FFF9F0;
+  --ink: #0A0A0A;
+  --ink-soft: #1F1F1F;
+  --muted: #6B6B6B;
+  --hair: rgba(10,10,10,0.12);
+  --hair-strong: rgba(10,10,10,0.2);
+  --pink: #E8127D;
+  --teal: #077988;
+  --teal-deep: #054B57;
+  --serif: 'Fraunces', 'Iowan Old Style', 'Palatino', Georgia, serif;
+  --sans: 'Inter', -apple-system, system-ui, sans-serif;
+  --mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.55;
+  font-feature-settings: "liga", "kern", "onum";
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--pink); color: var(--bg); }
+a { color: inherit; text-decoration: underline; text-decoration-color: var(--pink); text-decoration-thickness: 1.5px; text-underline-offset: 3px; transition: all .15s; }
+a:hover { color: var(--pink); }
+
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+.narrow { max-width: 740px; margin: 0 auto; padding: 0 32px; }
+
+/* ─────────── MASTHEAD ─────────── */
+.masthead {
+  border-bottom: 1px solid var(--hair-strong);
+  padding: 18px 0;
+  background: rgba(255,252,247,0.92);
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.masthead-inner {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.masthead-left { display: flex; align-items: center; gap: 14px; }
+.masthead-mark {
+  width: 28px; height: 28px; border-radius: 4px;
+  background: linear-gradient(135deg, var(--pink) 0%, var(--teal) 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-family: var(--serif); font-weight: 700; font-size: 16px;
+}
+.masthead-title { color: var(--ink); }
+.masthead-title em { color: var(--pink); font-style: italic; font-family: var(--serif); text-transform: none; font-size: 14px; letter-spacing: 0; font-weight: 500; }
+.masthead-right { color: var(--muted); }
+
+/* ─────────── SERIES NAV BAND ─────────── */
+.series-nav {
+  border-bottom: 1px solid var(--hair-strong);
+  padding: 14px 0;
+  font-family: var(--sans);
+  background: rgba(255,249,240,0.94);
+  position: sticky; top: 65px; z-index: 49;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.series-nav-inner {
+  display: flex; justify-content: center; align-items: center;
+  gap: 14px; flex-wrap: wrap;
+}
+.series-nav-item {
+  display: inline-flex; align-items: baseline; gap: 10px;
+  padding: 4px 12px;
+  text-decoration: none; color: var(--ink);
+  border-radius: 2px;
+  transition: background .15s, color .15s;
+}
+.series-nav-item:hover { background: rgba(232,18,125,0.06); color: var(--pink); text-decoration: none; }
+.series-nav-item.is-current { background: var(--ink); color: var(--bg); }
+.series-nav-item.is-current:hover { background: var(--ink); color: var(--bg); }
+.series-nav-item.is-future { color: var(--muted); cursor: default; opacity: 0.6; }
+.series-nav-item.is-future:hover { background: transparent; color: var(--muted); }
+.series-nav-num {
+  font-family: var(--serif); font-style: italic;
+  font-size: 18px; font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--pink); line-height: 1;
+}
+.series-nav-item.is-current .series-nav-num { color: var(--pink); }
+.series-nav-item.is-future .series-nav-num { color: var(--muted); }
+.series-nav-label {
+  font-size: 12px; letter-spacing: 0.02em;
+  font-weight: 500; font-family: var(--sans); text-transform: none;
+}
+.series-nav-divider {
+  color: var(--muted); font-size: 14px; opacity: 0.5;
+}
+@media (max-width: 600px) {
+  .series-nav-inner { gap: 4px; }
+  .series-nav-item { padding: 4px 8px; gap: 6px; }
+  .series-nav-label { font-size: 11px; }
+  .series-nav-divider { display: none; }
+}
+
+/* ─────────── HERO ─────────── */
+.hero {
+  padding: 110px 0 100px;
+  border-bottom: 2px solid var(--ink);
+  background:
+    radial-gradient(ellipse 800px 600px at 80% -10%, rgba(232,18,125,0.08), transparent 70%),
+    radial-gradient(ellipse 600px 500px at 0% 100%, rgba(7,121,136,0.06), transparent 70%),
+    var(--bg);
+}
+.hero-eyebrow {
+  font-family: var(--sans); font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; font-weight: 600; color: var(--pink);
+  padding-bottom: 18px; margin-bottom: 36px;
+  border-bottom: 1px solid var(--hair-strong);
+  display: flex; justify-content: space-between; align-items: baseline;
+}
+.hero-eyebrow .right { color: var(--muted); font-weight: 500; }
+.hero-title {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(64px, 11vw, 156px);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  margin: 0 0 32px;
+  color: var(--ink);
+}
+.hero-title em {
+  font-style: italic; color: var(--pink); font-weight: 400;
+  font-feature-settings: "liga", "swsh";
+}
+.hero-deck {
+  font-family: var(--serif);
+  font-size: clamp(22px, 2.6vw, 30px);
+  line-height: 1.3; letter-spacing: -0.012em; font-weight: 400;
+  max-width: 760px; color: var(--ink-soft);
+  margin: 0 0 40px;
+}
+.hero-cta-row {
+  display: flex; gap: 18px; flex-wrap: wrap;
+  align-items: center;
+}
+.hero-cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 24px;
+  background: var(--ink); color: var(--bg);
+  font-family: var(--sans); font-size: 13px; letter-spacing: 0.04em;
+  font-weight: 600; text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: background .15s, transform .15s;
+}
+.hero-cta:hover {
+  background: var(--pink); color: var(--bg); text-decoration: none;
+  transform: translateY(-1px);
+}
+.hero-cta-arrow { font-family: var(--serif); font-style: italic; font-size: 18px; }
+.hero-cta.secondary {
+  background: transparent; color: var(--ink);
+  border: 1.5px solid var(--ink);
+}
+.hero-cta.secondary:hover {
+  background: var(--ink); color: var(--bg);
+  border-color: var(--ink);
+}
+
+/* ─────────── VOLUMES SECTION ─────────── */
+.volumes {
+  padding: 100px 0 80px;
+  border-top: 2px solid var(--ink);
+  background:
+    linear-gradient(180deg, rgba(7,121,136,0.04) 0%, transparent 60%),
+    var(--bg);
+}
+.volumes-header {
+  display: grid; grid-template-columns: 1fr;
+  gap: 14px;
+  border-bottom: 1px solid var(--hair-strong);
+  padding-bottom: 28px; margin-bottom: 50px;
+}
+.volumes-header-label {
+  font-family: var(--sans); font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; font-weight: 600; color: var(--pink);
+}
+.volumes-header h2 {
+  font-family: var(--serif); font-size: clamp(36px, 4.5vw, 52px);
+  line-height: 1.0; letter-spacing: -0.025em; font-weight: 400;
+  margin: 0; max-width: 14ch;
+}
+.volumes-header h2 em { color: var(--pink); font-style: italic; }
+
+.volume-card {
+  display: grid;
+  grid-template-columns: 180px 1fr auto;
+  gap: 48px;
+  align-items: start;
+  padding: 44px 0;
+  border-bottom: 1px solid var(--hair);
+  transition: background .2s;
+  text-decoration: none;
+  color: inherit;
+}
+.volume-card:hover {
+  background: rgba(232,18,125,0.025);
+  text-decoration: none;
+}
+.volume-card.is-future {
+  opacity: 0.7;
+  cursor: default;
+}
+.volume-card.is-future:hover { background: transparent; }
+
+.volume-num {
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(80px, 10vw, 130px);
+  line-height: 0.85; font-weight: 300;
+  color: var(--pink);
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+.volume-card.is-future .volume-num { color: var(--muted); }
+
+.volume-body { padding-top: 18px; }
+.volume-status {
+  font-family: var(--sans); font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; font-weight: 700; color: var(--teal);
+  margin-bottom: 12px;
+}
+.volume-card.is-future .volume-status { color: var(--muted); }
+
+.volume-title {
+  font-family: var(--serif); font-size: clamp(28px, 3.4vw, 42px);
+  line-height: 1.05; letter-spacing: -0.02em; font-weight: 400;
+  margin: 0 0 14px;
+  color: var(--ink);
+}
+.volume-title em { color: var(--pink); font-style: italic; font-weight: 500; }
+.volume-card:hover .volume-title { color: var(--pink); }
+.volume-card.is-future:hover .volume-title { color: var(--ink); }
+
+.volume-deck {
+  font-family: var(--serif); font-size: 17px; line-height: 1.5;
+  color: var(--ink-soft); max-width: 56ch; margin: 0 0 18px;
+}
+
+.volume-meta {
+  font-family: var(--sans); font-size: 12px; letter-spacing: 0.04em;
+  color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap;
+}
+.volume-meta span { display: inline-flex; align-items: center; gap: 6px; }
+.volume-meta strong { color: var(--ink); font-weight: 600; }
+
+.volume-arrow {
+  padding-top: 36px;
+  font-family: var(--serif); font-size: 36px; color: var(--muted);
+  font-style: italic; font-weight: 300;
+  transition: transform .2s, color .2s;
+}
+.volume-card:hover .volume-arrow {
+  color: var(--pink);
+  transform: translateX(8px);
+}
+.volume-card.is-future .volume-arrow { color: var(--hair-strong); }
+
+/* ─────────── ABOUT AUTHOR (compact) ─────────── */
+.author {
+  padding: 70px 0;
+  border-top: 1px solid var(--hair-strong);
+  background: var(--paper);
+}
+.author-grid {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 40px; align-items: center;
+}
+.author-photo {
+  width: 160px; height: 192px;
+  object-fit: cover;
+  border-radius: 2px;
+  display: block;
+}
+.author-label {
+  font-family: var(--sans); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; font-weight: 600; color: var(--muted);
+  margin-bottom: 8px;
+}
+.author-name {
+  font-family: var(--serif); font-size: 30px; font-weight: 500;
+  letter-spacing: -0.02em; margin: 0 0 12px; line-height: 1;
+}
+.author-role {
+  font-family: var(--sans); font-size: 12px; letter-spacing: 0.04em;
+  font-weight: 500; color: var(--pink); margin-bottom: 18px;
+  text-transform: uppercase;
+}
+.author-bio {
+  font-family: var(--serif); font-size: 16px; line-height: 1.55;
+  color: var(--ink-soft); max-width: 60ch; margin: 0 0 14px;
+}
+.author-contact {
+  font-family: var(--sans); font-size: 12px;
+  color: var(--muted);
+}
+.author-contact a { color: var(--teal); text-decoration-color: var(--teal); }
+
+/* ─────────── FOOTER ─────────── */
+.footer {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 50px 0;
+  text-align: center;
+  font-family: var(--sans); font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; font-weight: 500;
+}
+.footer-mark {
+  font-family: var(--serif); font-style: italic; font-size: 18px;
+  letter-spacing: -0.01em; color: var(--pink);
+  margin-bottom: 8px; text-transform: none;
+}
+
+/* ─────────── RESPONSIVE ─────────── */
+@media (max-width: 760px) {
+  body { font-size: 17px; }
+  .wrap, .narrow { padding: 0 22px; }
+  .hero { padding: 60px 0 70px; }
+  .volume-card {
+    grid-template-columns: 60px 1fr;
+    gap: 22px; padding: 32px 0;
+  }
+  .volume-arrow { display: none; }
+  .volume-num { font-size: 50px; }
+  .author-grid { grid-template-columns: 1fr; gap: 24px; }
+  .author-photo { width: 120px; height: 144px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MASTHEAD
+═══════════════════════════════════════════════════════════ -->
+<header class="masthead">
+  <div class="wrap masthead-inner">
+    <div class="masthead-left">
+      <div class="masthead-mark">F</div>
+      <div class="masthead-title">The Indoor <em>Frontier</em></div>
+    </div>
+    <div class="masthead-right">A Research Series · 2025–2026</div>
+  </div>
+</header>
+
+<!-- Series nav band -->
+<nav class="series-nav">
+  <div class="wrap series-nav-inner">
+    <a class="series-nav-item" href="vol1/">
+      <span class="series-nav-num">I</span>
+      <span class="series-nav-label">A Foundational Framework</span>
+    </a>
+    <span class="series-nav-divider">·</span>
+    <a class="series-nav-item" href="vol2/">
+      <span class="series-nav-num">II</span>
+      <span class="series-nav-label">The Playoff Paradox</span>
+    </a>
+    <span class="series-nav-divider">·</span>
+    <span class="series-nav-item is-future">
+      <span class="series-nav-num">III</span>
+      <span class="series-nav-label">Forthcoming</span>
+    </span>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow">
+      <span>Independent Research · Indoor Soccer Analytics</span>
+      <span class="right">2025 →</span>
+    </div>
+    <h1 class="hero-title">The Indoor <em>Frontier</em></h1>
+    <p class="hero-deck">A multi-volume research series building the analytical foundation for a sport that has spent four decades without one.</p>
+    <div class="hero-cta-row">
+      <a class="hero-cta" href="vol2/">
+        Read the latest volume <span class="hero-cta-arrow">→</span>
+      </a>
+      <a class="hero-cta secondary" href="vol1/">
+        Start from Volume I
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     VOLUMES
+═══════════════════════════════════════════════════════════ -->
+<section class="volumes">
+  <div class="wrap">
+    <div class="volumes-header">
+      <div class="volumes-header-label">The Series</div>
+      <h2>Three volumes, <em>one trajectory</em>.</h2>
+    </div>
+
+    <a class="volume-card" href="vol1/">
+      <div class="volume-num">I</div>
+      <div class="volume-body">
+        <div class="volume-status">Published · 2025</div>
+        <h3 class="volume-title">A Foundational <em>Framework</em></h3>
+        <p class="volume-deck">Why indoor soccer needs its own analytical vocabulary, and the first version of an indoor-calibrated expected-goals model. Eight chapters covering possession structure, shot quality in confined space, and the historical context for why indoor analytics has lagged every other major sport.</p>
+        <div class="volume-meta">
+          <span><strong>8 chapters</strong></span>
+          <span>·</span>
+          <span>Foundational xG framework</span>
+          <span>·</span>
+          <span>~30 min</span>
+        </div>
+      </div>
+      <div class="volume-arrow">→</div>
+    </a>
+
+    <a class="volume-card" href="vol2/">
+      <div class="volume-num">II</div>
+      <div class="volume-body">
+        <div class="volume-status">Published · 2026</div>
+        <h3 class="volume-title">The Playoff <em>Paradox</em></h3>
+        <p class="volume-deck">A retrospective of the 2026 Ron Newman Cup and the first published Pythagorean expectation for the MASL. Derives the league's exponent (N&nbsp;=&nbsp;2.76) from 149 team-seasons and explains, via 100,000 Monte Carlo simulations, why the regular-season leader has won the championship just 30 percent of the time.</p>
+        <div class="volume-meta">
+          <span><strong>8 chapters</strong></span>
+          <span>·</span>
+          <span>Pythagorean derivation</span>
+          <span>·</span>
+          <span>Bracket Monte Carlo</span>
+          <span>·</span>
+          <span>~40 min</span>
+        </div>
+      </div>
+      <div class="volume-arrow">→</div>
+    </a>
+
+    <div class="volume-card is-future">
+      <div class="volume-num">III</div>
+      <div class="volume-body">
+        <div class="volume-status">In Development · 2026</div>
+        <h3 class="volume-title">Roster Construction &amp; <em>The Series-Level Player</em></h3>
+        <p class="volume-deck">The next paper. Translates Volume II's structural finding — that short-series formats reward variance reduction over offensive ceiling — into a player-level analysis of MASL playoff performance, and into operational guidance for front offices and coaching staffs.</p>
+        <div class="volume-meta">
+          <span>Player-level series performance</span>
+          <span>·</span>
+          <span>Variance &amp; depth modeling</span>
+          <span>·</span>
+          <span>Expected 2026</span>
+        </div>
+      </div>
+      <div class="volume-arrow">→</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     AUTHOR (compact)
+═══════════════════════════════════════════════════════════ -->
+<section class="author">
+  <div class="wrap">
+    <div class="author-grid">
+      <img class="author-photo" src="headshot.jpg" alt="Dyllan Haggard">
+      <div>
+        <div class="author-label">Authored By</div>
+        <h2 class="author-name">Dyllan Haggard</h2>
+        <div class="author-role">Lead Data Analyst · Video &amp; Data Analyst, St. Louis Ambush (MASL)</div>
+        <p class="author-bio">Lead Data Analyst at Stifel Bank &amp; Trust by day; Video and Data Analyst for the St. Louis Ambush of the MASL by night. M.S. Data Science and B.S. Computer Science from Fontbonne University. Co-founder of Footy Collective. The Indoor Frontier is his independent research project.</p>
+        <div class="author-contact">
+          <a href="mailto:dyllanleehaggard@gmail.com">dyllanleehaggard@gmail.com</a> &nbsp;·&nbsp; <a href="https://dyllanleehaggard.github.io">Portfolio</a> &nbsp;·&nbsp; <a href="https://www.linkedin.com/in/dyllan-haggard">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-mark">The Indoor Frontier</div>
+    <div>An independent research series · 2025–2026 · © Dyllan Haggard</div>
+  </div>
+</footer>
+
+</body>
+</html>
