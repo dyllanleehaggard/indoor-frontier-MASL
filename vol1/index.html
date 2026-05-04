@@ -54,6 +54,51 @@ em{font-style:italic;font-variation-settings:"opsz" 144}
 strong{font-weight:600}
 img,svg{max-width:100%;display:block}
 
+/* ─────────── SERIES NAV BAND ─────────── */
+.series-nav {
+  border-bottom: 1px solid var(--hair-strong);
+  padding: 14px 0;
+  font-family: var(--sans);
+  background: rgba(255,249,240,0.94);
+  position: sticky; top: 65px; z-index: 49;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.series-nav-inner {
+  display: flex; justify-content: center; align-items: center;
+  gap: 14px; flex-wrap: wrap;
+}
+.series-nav-item {
+  display: inline-flex; align-items: baseline; gap: 10px;
+  padding: 4px 12px;
+  text-decoration: none; color: var(--ink);
+  border-radius: 2px;
+  transition: background .15s, color .15s;
+}
+.series-nav-item:hover { background: rgba(232,18,125,0.06); color: var(--pink); text-decoration: none; }
+.series-nav-item.is-current { background: var(--ink); color: var(--bg); }
+.series-nav-item.is-current:hover { background: var(--ink); color: var(--bg); }
+.series-nav-item.is-future { color: var(--muted); cursor: default; opacity: 0.6; }
+.series-nav-item.is-future:hover { background: transparent; color: var(--muted); }
+.series-nav-num {
+  font-family: var(--serif); font-style: italic;
+  font-size: 18px; font-weight: 500;
+  letter-spacing: -0.02em; color: var(--pink); line-height: 1;
+}
+.series-nav-item.is-current .series-nav-num { color: var(--pink); }
+.series-nav-item.is-future .series-nav-num { color: var(--muted); }
+.series-nav-label {
+  font-size: 12px; letter-spacing: 0.02em;
+  font-weight: 500; font-family: var(--sans); text-transform: none;
+}
+.series-nav-divider { color: var(--muted); font-size: 14px; opacity: 0.5; }
+@media (max-width: 600px) {
+  .series-nav-inner { gap: 4px; }
+  .series-nav-item { padding: 4px 8px; gap: 6px; }
+  .series-nav-label { font-size: 11px; }
+  .series-nav-divider { display: none; }
+}
+   
 /* ========== LAYOUT PRIMITIVES ========== */
 .wrap{max-width:1160px;margin:0 auto;padding:0 56px}
 .wrap-narrow{max-width:780px;margin:0 auto;padding:0 56px}
