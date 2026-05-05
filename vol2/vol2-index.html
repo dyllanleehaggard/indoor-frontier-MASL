@@ -1,0 +1,1981 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Indoor Frontier — Volume II · The Playoff Paradox · Dyllan Haggard</title>
+<meta name="description" content="The first published Pythagorean expectation for the MASL, a retrospective analysis of the 2026 Ron Newman Cup bracket, and the structural explanation for why the regular-season leader so rarely wins indoor soccer's championship. Volume II of The Indoor Frontier.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FFFCF7;
+  --paper: #FFF9F0;
+  --ink: #0A0A0A;
+  --ink-soft: #1F1F1F;
+  --muted: #6B6B6B;
+  --hair: rgba(10,10,10,0.12);
+  --hair-strong: rgba(10,10,10,0.2);
+  --rule: rgba(10,10,10,0.85);
+  --pink: #E8127D;
+  --teal: #077988;
+  --teal-deep: #054B57;
+  --warning: #C9302C;
+  --highlight: #FFF1AC;
+  --pull-bg: #0A0A0A;
+  --pull-ink: #FFFCF7;
+  --serif: 'Fraunces', 'Iowan Old Style', 'Palatino', Georgia, serif;
+  --sans: 'Inter', -apple-system, system-ui, sans-serif;
+  --mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.55;
+  font-feature-settings: "liga", "kern", "onum";
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--pink); color: var(--bg); }
+
+a { color: inherit; text-decoration: underline; text-decoration-color: var(--pink); text-decoration-thickness: 1.5px; text-underline-offset: 3px; transition: all .15s; }
+a:hover { color: var(--pink); }
+
+img { max-width: 100%; display: block; }
+
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+.narrow { max-width: 740px; margin: 0 auto; padding: 0 32px; }
+
+/* ─────────── MASTHEAD ─────────── */
+.masthead {
+  border-bottom: 1px solid var(--hair-strong);
+  padding: 18px 0;
+  background: var(--bg);
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background: rgba(255,252,247,0.92);
+}
+.masthead-inner {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.masthead-left { display: flex; align-items: center; gap: 14px; }
+.masthead-mark {
+  width: 28px; height: 28px; border-radius: 4px;
+  background: linear-gradient(135deg, var(--pink) 0%, var(--teal) 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-family: var(--serif); font-weight: 700; font-size: 16px;
+}
+.masthead-title { color: var(--ink); }
+.masthead-title em { color: var(--pink); font-style: italic; font-family: var(--serif); text-transform: none; font-size: 14px; letter-spacing: 0; font-weight: 500; }
+.masthead-right { color: var(--muted); }
+
+/* ─────────── COVER ─────────── */
+.cover {
+  padding: 80px 0 110px;
+  border-bottom: 2px solid var(--ink);
+  background:
+    radial-gradient(ellipse 800px 600px at 80% -10%, rgba(232,18,125,0.06), transparent 70%),
+    radial-gradient(ellipse 600px 500px at 0% 100%, rgba(7,121,136,0.05), transparent 70%),
+    var(--bg);
+}
+.cover-inner { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+.cover-eyebrow {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-family: var(--sans); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; font-weight: 600;
+  color: var(--ink); padding-bottom: 18px;
+  border-bottom: 1px solid var(--hair-strong);
+  margin-bottom: 60px;
+}
+.cover-eyebrow .right { color: var(--muted); font-weight: 500; }
+
+.cover-volume {
+  font-family: var(--sans); font-size: 13px; letter-spacing: 0.16em;
+  text-transform: uppercase; font-weight: 600; color: var(--pink);
+  margin-bottom: 28px;
+}
+.cover-volume strong { font-weight: 700; }
+
+.cover-title {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(70px, 12vw, 168px);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  margin: 0 0 36px;
+  color: var(--ink);
+}
+.cover-title em {
+  font-style: italic; color: var(--pink); font-weight: 400;
+  font-feature-settings: "liga", "swsh";
+}
+
+.cover-subtitle {
+  font-family: var(--serif);
+  font-size: clamp(22px, 2.8vw, 30px);
+  line-height: 1.3; letter-spacing: -0.012em; font-weight: 400;
+  max-width: 880px; color: var(--ink-soft);
+  margin: 0 0 48px;
+}
+
+.cover-abstract {
+  font-family: var(--serif);
+  font-size: 18px; line-height: 1.6;
+  max-width: 760px; color: var(--ink-soft);
+  border-left: 3px solid var(--pink);
+  padding: 0 0 0 22px;
+  margin: 0 0 56px;
+}
+.cover-abstract strong { color: var(--ink); font-weight: 600; }
+
+.cover-credits {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: end;
+  padding-top: 36px;
+  border-top: 1px solid var(--hair-strong);
+}
+.cover-authors-label {
+  font-family: var(--sans); font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; font-weight: 600; color: var(--muted);
+  margin-bottom: 6px;
+}
+.cover-authors {
+  font-family: var(--serif); font-size: 24px; font-weight: 500;
+  letter-spacing: -0.01em; color: var(--ink);
+}
+.cover-authors em {
+  display: block;
+  font-family: var(--sans); font-size: 12px; letter-spacing: 0.04em;
+  font-weight: 400; font-style: normal;
+  color: var(--muted); margin-top: 4px; text-transform: none;
+}
+.cover-issue {
+  font-family: var(--sans); font-size: 11px; letter-spacing: 0.16em;
+  text-transform: uppercase; font-weight: 500; color: var(--muted);
+  text-align: right; line-height: 1.7;
+}
+.cover-issue strong { display: block; color: var(--ink); font-weight: 700; font-size: 12px; }
+
+/* ─────────── PARADOX BANNER ─────────── */
+.paradox-banner {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 36px 0;
+  border-bottom: 1px solid var(--ink);
+}
+.paradox-banner-inner {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 36px;
+  align-items: center;
+}
+.paradox-banner-label {
+  font-family: var(--sans); font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; font-weight: 600; color: var(--pink);
+  border-right: 1px solid rgba(255,252,247,0.25);
+  padding-right: 36px; line-height: 1.5;
+  white-space: nowrap;
+}
+.paradox-banner-text {
+  font-family: var(--serif); font-size: clamp(18px, 2.2vw, 24px);
+  line-height: 1.4; letter-spacing: -0.01em;
+  color: var(--bg); font-style: italic; font-weight: 400;
+}
+.paradox-banner-text strong {
+  color: var(--pink); font-style: normal; font-weight: 600;
+  font-feature-settings: "tnum";
+}
+
+/* ─────────── TOC ─────────── */
+.toc-section {
+  padding: 80px 0 90px;
+  border-bottom: 1px solid var(--hair);
+}
+.toc-header {
+  display: grid; grid-template-columns: 100px 1fr;
+  gap: 40px; align-items: baseline;
+  border-bottom: 1px solid var(--hair-strong);
+  padding-bottom: 18px; margin-bottom: 36px;
+}
+.toc-header-num {
+  font-family: var(--sans); font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; font-weight: 600; color: var(--muted);
+}
+.toc-header-label {
+  font-family: var(--serif); font-size: 30px;
+  letter-spacing: -0.02em; font-weight: 400;
+  color: var(--ink); font-style: italic;
+}
+.toc-list { list-style: none; padding: 0; margin: 0; }
+.toc-item {
+  display: grid;
+  grid-template-columns: 100px 1fr auto;
+  gap: 40px;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--hair);
+  transition: padding-left .2s, background .2s;
+  text-decoration: none;
+  color: inherit;
+}
+.toc-item:hover { padding-left: 12px; background: rgba(232,18,125,0.03); text-decoration: none; }
+.toc-num {
+  font-family: var(--sans); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; font-weight: 600; color: var(--pink);
+}
+.toc-title {
+  font-family: var(--serif); font-size: 22px; font-weight: 400;
+  letter-spacing: -0.01em; color: var(--ink); line-height: 1.25;
+}
+.toc-title em { color: var(--pink); font-style: italic; font-weight: 500; }
+.toc-title small {
+  display: block; font-family: var(--sans); font-size: 12px;
+  font-weight: 400; color: var(--muted); margin-top: 4px;
+  letter-spacing: 0.01em; line-height: 1.4;
+}
+.toc-arrow { font-family: var(--serif); font-size: 22px; color: var(--muted); }
+.toc-item:hover .toc-arrow { color: var(--pink); transform: translateX(4px); }
+
+/* ─────────── CHAPTER OPENER ─────────── */
+.chapter-opener {
+  padding: 110px 0 70px;
+  border-top: 2px solid var(--ink);
+  background:
+    linear-gradient(180deg, rgba(7,121,136,0.04) 0%, transparent 60%),
+    var(--bg);
+}
+.chapter-opener-eyebrow {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-family: var(--sans); font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; font-weight: 600; color: var(--muted);
+  border-bottom: 1px solid var(--hair-strong);
+  padding-bottom: 16px; margin-bottom: 50px;
+}
+.chapter-opener-num {
+  font-family: var(--serif); font-size: clamp(120px, 18vw, 220px);
+  line-height: 0.85; letter-spacing: -0.04em;
+  font-weight: 300; font-style: italic; color: var(--pink);
+  margin: 0 0 28px;
+}
+.chapter-opener-kicker {
+  font-family: var(--sans); font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; font-weight: 600; color: var(--muted);
+  margin-bottom: 12px;
+}
+.chapter-opener-title {
+  font-family: var(--serif); font-size: clamp(40px, 6vw, 72px);
+  line-height: 1.0; letter-spacing: -0.025em; font-weight: 400;
+  margin: 0 0 32px; color: var(--ink); max-width: 12ch;
+}
+.chapter-opener-title em { color: var(--pink); font-style: italic; }
+.chapter-opener-deck {
+  font-family: var(--serif); font-size: clamp(18px, 1.8vw, 22px);
+  line-height: 1.5; max-width: 660px; color: var(--ink-soft);
+  font-weight: 400;
+}
+
+/* ─────────── BODY PROSE ─────────── */
+.prose {
+  padding: 50px 0 60px;
+}
+.prose h2 {
+  font-family: var(--serif); font-size: clamp(28px, 3.2vw, 38px);
+  line-height: 1.1; letter-spacing: -0.02em; font-weight: 400;
+  margin: 70px 0 24px;
+  max-width: 18ch;
+}
+.prose h2 em { color: var(--pink); font-style: italic; font-weight: 500; }
+.prose h3 {
+  font-family: var(--serif); font-size: 22px;
+  letter-spacing: -0.005em; font-weight: 600;
+  margin: 50px 0 14px;
+  color: var(--ink);
+}
+.prose h4 {
+  font-family: var(--sans); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; font-weight: 600; color: var(--pink);
+  margin: 40px 0 10px;
+}
+.prose p {
+  font-size: 18px; line-height: 1.62; margin: 0 0 1.1em;
+  color: var(--ink);
+  font-feature-settings: "liga", "kern", "onum";
+  hyphens: auto;
+}
+.prose p strong { font-weight: 600; }
+.prose p em { font-style: italic; }
+
+.lede::first-line {
+  letter-spacing: 0.02em;
+}
+.dropcap::first-letter {
+  font-family: var(--serif); font-style: italic;
+  font-weight: 400; float: left;
+  font-size: 86px; line-height: 0.78;
+  color: var(--pink);
+  padding: 4px 14px 0 0;
+}
+
+/* ─────────── PULL QUOTE ─────────── */
+.pullquote {
+  margin: 50px 0;
+  padding: 36px 0;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+}
+.pullquote-text {
+  font-family: var(--serif); font-size: clamp(24px, 3vw, 34px);
+  line-height: 1.2; letter-spacing: -0.02em;
+  font-weight: 400; font-style: italic;
+  color: var(--ink); margin: 0 0 16px;
+}
+.pullquote-text em { color: var(--pink); }
+.pullquote-attribution {
+  font-family: var(--sans); font-size: 11px; letter-spacing: 0.16em;
+  text-transform: uppercase; font-weight: 600; color: var(--muted);
+}
+
+/* ─────────── CALLOUT BOX ─────────── */
+.callout {
+  margin: 50px 0;
+  padding: 32px 36px;
+  background: var(--ink);
+  color: var(--bg);
+  border-left: 4px solid var(--pink);
+}
+.callout-label {
+  font-family: var(--sans); font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; font-weight: 700;
+  color: var(--pink); margin-bottom: 14px;
+}
+.callout-title {
+  font-family: var(--serif); font-size: 24px; line-height: 1.2;
+  letter-spacing: -0.012em; font-weight: 500;
+  margin: 0 0 14px; color: #FFFCF7 !important;
+}
+.callout-body { font-family: var(--serif); font-size: 16px; line-height: 1.55; opacity: 0.92; color: #FFFCF7; }
+.callout-body p { margin: 0 0 0.8em; color: #FFFCF7 !important; }
+.callout-body strong { color: var(--pink) !important; font-weight: 500; }
+
+/* Compact variant — for callouts with short content */
+.callout.callout-compact {
+  margin: 36px 0;
+  padding: 20px 26px;
+}
+.callout.callout-compact .callout-label {
+  font-size: 9px;
+  margin-bottom: 8px;
+}
+.callout.callout-compact .callout-title {
+  font-size: 18px !important;
+  margin: 0 0 8px;
+}
+.callout.callout-compact .callout-body {
+  font-size: 14px;
+}
+
+/* ─────────── FIGURE / CHART ─────────── */
+.figure {
+  margin: 60px -20px;
+  padding: 32px;
+  background: var(--paper);
+  border: 1px solid var(--hair-strong);
+  border-radius: 2px;
+}
+.figure-eyebrow {
+  font-family: var(--sans); font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; font-weight: 700; color: var(--pink);
+  margin-bottom: 8px;
+}
+.figure-title {
+  font-family: var(--serif); font-size: 24px; line-height: 1.2;
+  letter-spacing: -0.012em; font-weight: 500; margin: 0 0 8px;
+}
+.figure-deck {
+  font-family: var(--serif); font-size: 15px; line-height: 1.5;
+  color: var(--muted); margin: 0 0 28px; max-width: 60ch;
+}
+.figure-source {
+  font-family: var(--sans); font-size: 11px; letter-spacing: 0.04em;
+  color: var(--muted); margin-top: 24px; padding-top: 14px;
+  border-top: 1px solid var(--hair); font-weight: 400; font-style: italic;
+}
+.figure svg { width: 100%; height: auto; }
+
+/* ─────────── DATA TABLE ─────────── */
+.data-table {
+  width: 100%; border-collapse: collapse;
+  font-family: var(--sans); font-size: 14px;
+  margin: 28px 0;
+  font-feature-settings: "tnum";
+}
+.data-table th, .data-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--hair);
+}
+.data-table th {
+  font-family: var(--sans); font-size: 10px; letter-spacing: 0.16em;
+  text-transform: uppercase; font-weight: 600;
+  color: var(--muted); border-bottom: 1.5px solid var(--ink);
+  padding: 10px 14px;
+}
+.data-table td.num { text-align: right; font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
+.data-table th.num { text-align: right; }
+.data-table tr.highlight { background: rgba(232,18,125,0.06); }
+.data-table tr.highlight td { font-weight: 600; }
+.data-table tr.success { background: rgba(7,121,136,0.06); }
+.data-table tr:last-child td { border-bottom: 1.5px solid var(--ink); }
+.data-table .pink { color: var(--pink); font-weight: 600; }
+.data-table .teal { color: var(--teal); font-weight: 600; }
+
+/* ─────────── BIG STATS GRID ─────────── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1px;
+  background: var(--hair-strong);
+  margin: 50px 0;
+  border: 1px solid var(--hair-strong);
+}
+.stat {
+  background: var(--bg);
+  padding: 32px 28px;
+}
+.stat-number {
+  font-family: var(--serif); font-size: clamp(48px, 5.5vw, 68px);
+  line-height: 0.9; letter-spacing: -0.04em; font-weight: 400;
+  color: var(--pink); margin: 0 0 12px;
+  font-feature-settings: "tnum"; font-style: italic;
+}
+.stat-label {
+  font-family: var(--sans); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; font-weight: 600; color: var(--ink);
+  margin-bottom: 6px;
+}
+.stat-detail {
+  font-family: var(--serif); font-size: 13px; line-height: 1.5;
+  color: var(--muted);
+}
+
+/* ─────────── NUMBERED LIST ─────────── */
+.findings {
+  margin: 40px 0;
+  display: grid; gap: 1px; background: var(--hair-strong);
+  border: 1px solid var(--hair-strong);
+}
+.finding {
+  background: var(--bg);
+  padding: 28px 32px;
+  display: grid; grid-template-columns: 60px 1fr; gap: 24px;
+  align-items: start;
+}
+.finding-num {
+  font-family: var(--serif); font-style: italic;
+  font-size: 32px; color: var(--pink); font-weight: 400;
+  letter-spacing: -0.02em; line-height: 1;
+}
+.finding-body h4 {
+  font-family: var(--serif); font-size: 19px; font-weight: 600;
+  margin: 0 0 6px; letter-spacing: -0.005em;
+}
+.finding-body p {
+  font-family: var(--serif); font-size: 16px; line-height: 1.55;
+  margin: 0; color: var(--ink-soft);
+}
+
+/* ─────────── BRACKET VIZ ─────────── */
+.bracket-viz {
+  margin: 50px 0;
+  padding: 36px;
+  background: var(--ink);
+  color: var(--bg);
+  border-radius: 2px;
+}
+.bracket-eyebrow {
+  font-family: var(--sans); font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; font-weight: 700; color: var(--pink);
+  margin-bottom: 8px;
+}
+.bracket-title {
+  font-family: var(--serif); font-size: 26px; line-height: 1.2;
+  letter-spacing: -0.012em; font-weight: 500; margin: 0 0 28px;
+  color: var(--bg);
+}
+
+/* ─────────── DIVIDER ─────────── */
+.divider-rule {
+  text-align: center; margin: 80px 0; font-family: var(--serif);
+  font-size: 24px; color: var(--pink); letter-spacing: 1.2em;
+  padding-left: 1.2em;
+}
+
+/* ─────────── METHODOLOGY APPENDIX ─────────── */
+.appendix {
+  border-top: 2px solid var(--ink);
+  background: var(--paper);
+  padding: 90px 0 80px;
+}
+.appendix-header {
+  font-family: var(--sans); font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; font-weight: 600; color: var(--pink);
+  margin-bottom: 8px;
+}
+.appendix h2 {
+  font-family: var(--serif); font-size: clamp(36px, 4.5vw, 56px);
+  line-height: 1.05; letter-spacing: -0.025em; font-weight: 400;
+  margin: 0 0 32px;
+}
+.appendix h2 em { color: var(--pink); font-style: italic; }
+.appendix h3 {
+  font-family: var(--serif); font-size: 22px;
+  font-weight: 600; margin: 40px 0 12px;
+  letter-spacing: -0.005em;
+}
+.appendix .formula {
+  font-family: var(--mono); font-size: 16px;
+  background: var(--bg); padding: 16px 20px;
+  border-left: 3px solid var(--teal);
+  margin: 18px 0; line-height: 1.6;
+  letter-spacing: 0.005em;
+  overflow-x: auto;
+}
+.appendix p {
+  font-family: var(--serif); font-size: 17px; line-height: 1.6;
+  margin: 0 0 1.1em;
+}
+.appendix code {
+  font-family: var(--mono); font-size: 0.92em;
+  background: rgba(10,10,10,0.06); padding: 2px 6px; border-radius: 2px;
+}
+
+/* ─────────── ABOUT / FOOTER ─────────── */
+.about {
+  border-top: 1px solid var(--hair-strong);
+  padding: 80px 0;
+  background: var(--bg);
+}
+.about-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 48px; align-items: start;
+}
+.about-photo {
+  width: 200px; height: 240px;
+  object-fit: cover;
+  border-radius: 2px;
+  display: block;
+}
+.about-label {
+  font-family: var(--sans); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; font-weight: 600; color: var(--muted);
+  margin-bottom: 8px;
+}
+.about-name {
+  font-family: var(--serif); font-size: 36px; font-weight: 500;
+  letter-spacing: -0.02em; margin: 0 0 18px; line-height: 1;
+}
+.about-role {
+  font-family: var(--sans); font-size: 13px; letter-spacing: 0.04em;
+  font-weight: 500; color: var(--pink); margin-bottom: 22px;
+  text-transform: uppercase;
+}
+.about-bio {
+  font-family: var(--serif); font-size: 16.5px; line-height: 1.6;
+  color: var(--ink-soft); max-width: 60ch; margin: 0;
+}
+.about-bio p { margin: 0 0 1em; }
+.about-contact {
+  margin-top: 28px;
+  font-family: var(--sans); font-size: 13px;
+  color: var(--muted);
+}
+.about-contact strong { color: var(--ink); font-weight: 600; }
+.about-contact a { color: var(--teal); text-decoration-color: var(--teal); }
+
+.footer {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 50px 0;
+  text-align: center;
+  font-family: var(--sans); font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; font-weight: 500;
+}
+.footer-mark {
+  font-family: var(--serif); font-style: italic; font-size: 18px;
+  letter-spacing: -0.01em; color: var(--pink);
+  margin-bottom: 8px; text-transform: none;
+}
+
+
+/* ─────────── SERIES NAV BAND ─────────── */
+.series-nav {
+  background: var(--paper);
+  border-bottom: 1px solid var(--hair-strong);
+  padding: 14px 0;
+  font-family: var(--sans);
+  position: sticky; top: 65px; z-index: 49;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background: rgba(255,249,240,0.94);
+}
+.series-nav-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.series-nav-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 4px 12px;
+  text-decoration: none;
+  color: var(--ink);
+  border-radius: 2px;
+  transition: background .15s, color .15s;
+}
+.series-nav-item:hover {
+  background: rgba(232,18,125,0.06);
+  color: var(--pink);
+  text-decoration: none;
+}
+.series-nav-item.is-current {
+  background: var(--ink);
+  color: var(--bg);
+}
+.series-nav-item.is-current:hover {
+  background: var(--ink);
+  color: var(--bg);
+}
+.series-nav-item.is-future {
+  color: var(--muted);
+  cursor: default;
+  opacity: 0.6;
+}
+.series-nav-item.is-future:hover {
+  background: transparent;
+  color: var(--muted);
+}
+.series-nav-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--pink);
+  line-height: 1;
+}
+.series-nav-item.is-current .series-nav-num { color: var(--pink); }
+.series-nav-item.is-future .series-nav-num { color: var(--muted); }
+.series-nav-label {
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  font-weight: 500;
+  font-family: var(--sans);
+  text-transform: none;
+}
+.series-nav-divider {
+  color: var(--muted);
+  font-size: 14px;
+  opacity: 0.5;
+}
+@media (max-width: 600px) {
+  .series-nav-inner { gap: 4px; }
+  .series-nav-item { padding: 4px 8px; gap: 6px; }
+  .series-nav-label { font-size: 11px; }
+  .series-nav-divider { display: none; }
+}
+
+/* ─────────── RESPONSIVE ─────────── */
+@media (max-width: 760px) {
+  body { font-size: 17px; }
+  .wrap, .narrow { padding: 0 22px; }
+  .cover { padding: 50px 0 70px; }
+  .cover-credits { grid-template-columns: 1fr; gap: 20px; }
+  .cover-issue { text-align: left; }
+  .paradox-banner-inner { grid-template-columns: 1fr; gap: 16px; }
+  .paradox-banner-label { border-right: none; border-bottom: 1px solid rgba(255,252,247,0.25); padding-right: 0; padding-bottom: 14px; }
+  .toc-item, .toc-header { grid-template-columns: 60px 1fr auto; gap: 20px; }
+  .figure { margin: 40px -22px; padding: 22px; border-radius: 0; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .about-grid { grid-template-columns: 1fr; }
+  .about-photo { width: 140px; height: 168px; }
+  .data-table { font-size: 13px; }
+  .data-table th, .data-table td { padding: 10px 8px; }
+  .finding { grid-template-columns: 40px 1fr; gap: 16px; padding: 22px 18px; }
+  .finding-num { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MASTHEAD
+═══════════════════════════════════════════════════════════ -->
+<header class="masthead">
+  <div class="wrap masthead-inner">
+    <div class="masthead-left">
+      <div class="masthead-mark">F</div>
+      <div class="masthead-title">The Indoor <em>Frontier</em></div>
+    </div>
+    <div class="masthead-right">Vol. II · 2026</div>
+  </div>
+</header>
+
+<!-- Series nav band -->
+<nav class="series-nav">
+  <div class="wrap series-nav-inner">
+    <a class="series-nav-item" href="../vol1/">
+      <span class="series-nav-num">I</span>
+      <span class="series-nav-label">A Foundational Framework</span>
+    </a>
+    <span class="series-nav-divider">·</span>
+    <span class="series-nav-item is-current">
+      <span class="series-nav-num">II</span>
+      <span class="series-nav-label">The Playoff Paradox</span>
+    </span>
+    <span class="series-nav-divider">·</span>
+    <span class="series-nav-item is-future">
+      <span class="series-nav-num">III</span>
+      <span class="series-nav-label">Forthcoming</span>
+    </span>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════
+     COVER
+═══════════════════════════════════════════════════════════ -->
+<section class="cover">
+  <div class="cover-inner">
+    <div class="cover-eyebrow">
+      <span>Independent Research · Issue No. II</span>
+      <span class="right">Indoor Frontier Series · April 2026</span>
+    </div>
+    <div class="cover-volume"><strong>Volume II</strong> · The Indoor Frontier Series</div>
+    <h1 class="cover-title">The Playoff <em>Paradox</em></h1>
+    <p class="cover-subtitle">The first published Pythagorean expectation for indoor soccer, a retrospective of the 2026 Ron Newman Cup, and the structural reason the regular-season leader so rarely lifts the trophy.</p>
+    <p class="cover-abstract">In ten completed MASL playoffs, the team that finished first in the regular season has won the championship <strong>three</strong> times. This paper is the first public attempt to explain why. By deriving the league's own Pythagorean exponent from a hundred and forty-nine team-seasons of data, applying it to the 2026 bracket, and walking the actual results back through a hundred thousand Monte Carlo simulations, it shows that the format itself, not the seeding, is the explanation. Indoor soccer's three-game series structure compresses real talent gaps into single-event coin flips, and the historical 30 percent championship rate for the top seed is exactly what the math predicts. The 2026 bracket is the cleanest case study yet: the Sockers won the Cup, but their goal differential — the underlying signal of strength — placed them only third behind Milwaukee and Baltimore. Chapter Two derives that ranking from first principles.</p>
+    <div class="cover-credits">
+      <div>
+        <div class="cover-authors-label">Authored By</div>
+        <div class="cover-authors">Dyllan Haggard<em>Lead Data Analyst · Video &amp; Data Analyst, St. Louis Ambush (MASL)</em></div>
+      </div>
+      <div class="cover-issue">
+        Independent Research
+        <strong>Vol. II · 2026</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PARADOX BANNER
+═══════════════════════════════════════════════════════════ -->
+<div class="paradox-banner">
+  <div class="wrap">
+    <div class="paradox-banner-inner">
+      <div class="paradox-banner-label">The Paradox<br>In One Sentence</div>
+      <div class="paradox-banner-text">"Indoor soccer's regular-season points leader has won the Ron Newman Cup <strong>30%</strong> of the time. This paper is the first public attempt to explain why — and why that number is exactly what the data should expect."</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     TABLE OF CONTENTS
+═══════════════════════════════════════════════════════════ -->
+<section class="toc-section">
+  <div class="wrap">
+    <div class="toc-header">
+      <div class="toc-header-num">Contents</div>
+      <div class="toc-header-label">Volume II · The Playoff <em>Paradox</em></div>
+    </div>
+    <ul class="toc-list">
+      <li><a class="toc-item" href="#abstract">
+        <span class="toc-num">—</span>
+        <span class="toc-title">Abstract<small>What this paper claims, in 280 words</small></span>
+        <span class="toc-arrow">→</span>
+      </a></li>
+      <li><a class="toc-item" href="#ch1">
+        <span class="toc-num">01</span>
+        <span class="toc-title">A Decade of <em>Anomalies</em><small>Ten seasons, three championship-winning top seeds</small></span>
+        <span class="toc-arrow">→</span>
+      </a></li>
+      <li><a class="toc-item" href="#ch2">
+        <span class="toc-num">02</span>
+        <span class="toc-title">Deriving <em>N</em><small>The first published Pythagorean exponent for the MASL</small></span>
+        <span class="toc-arrow">→</span>
+      </a></li>
+      <li><a class="toc-item" href="#ch3">
+        <span class="toc-num">03</span>
+        <span class="toc-title">Applying the Model to <em>2026</em><small>True strength, points-luck, and what the table didn't show</small></span>
+        <span class="toc-arrow">→</span>
+      </a></li>
+      <li><a class="toc-item" href="#ch4">
+        <span class="toc-num">04</span>
+        <span class="toc-title">The 2026 <em>Bracket</em>, Series by Series<small>Quarterfinals, semifinals, and the Sockers' two-and-one final</small></span>
+        <span class="toc-arrow">→</span>
+      </a></li>
+      <li><a class="toc-item" href="#ch5">
+        <span class="toc-num">05</span>
+        <span class="toc-title">A Hundred Thousand <em>Brackets</em><small>Monte Carlo, championship probabilities, and where 31% comes from</small></span>
+        <span class="toc-arrow">→</span>
+      </a></li>
+      <li><a class="toc-item" href="#ch6">
+        <span class="toc-num">06</span>
+        <span class="toc-title">Why the <em>Format</em> Wins, Not the Seed<small>Series length, talent compression, and the structural explanation</small></span>
+        <span class="toc-arrow">→</span>
+      </a></li>
+      <li><a class="toc-item" href="#ch7">
+        <span class="toc-num">07</span>
+        <span class="toc-title">The Ambush in the <em>Semifinals</em><small>What a fourth-seed semifinal exit looks like through the model</small></span>
+        <span class="toc-arrow">→</span>
+      </a></li>
+      <li><a class="toc-item" href="#ch8">
+        <span class="toc-num">08</span>
+        <span class="toc-title">What This Means for <em>Roster Construction</em><small>Three coaching corollaries that follow from the math</small></span>
+        <span class="toc-arrow">→</span>
+      </a></li>
+      <li><a class="toc-item" href="#conclusion">
+        <span class="toc-num">—</span>
+        <span class="toc-title">Conclusion<small>What Volume III will measure</small></span>
+        <span class="toc-arrow">→</span>
+      </a></li>
+      <li><a class="toc-item" href="#appendix">
+        <span class="toc-num">—</span>
+        <span class="toc-title">Methodology<em> Appendix</em><small>Data, derivations, sensitivity, and replication notes</small></span>
+        <span class="toc-arrow">→</span>
+      </a></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     ABSTRACT
+═══════════════════════════════════════════════════════════ -->
+<section id="abstract" class="chapter-opener" style="border-top: 1px solid var(--hair-strong); padding-top: 80px;">
+  <div class="wrap">
+    <div class="chapter-opener-eyebrow">
+      <span>The Indoor Frontier · Volume II</span>
+      <span>Abstract</span>
+    </div>
+    <div class="chapter-opener-num">—</div>
+    <div class="chapter-opener-kicker">A summary in 280 words</div>
+    <h1 class="chapter-opener-title">Abstract</h1>
+    <p class="chapter-opener-deck">A first-principles statistical study of why the MASL's regular-season leader so rarely wins the Ron Newman Cup, anchored to the 2026 bracket and supported by ten years of league history.</p>
+  </div>
+</section>
+
+<section class="prose">
+  <div class="narrow">
+    <p>Across ten completed Major Arena Soccer League playoffs from 2014-15 through 2025-26, the team finishing atop the regular-season standings has won the championship <strong>three</strong> times. The same team has reached the championship final seven times. The pattern, in plain language, is that indoor soccer's best regular-season team usually shows up to the final, but usually loses the trophy somewhere on the way to it.</p>
+
+    <p>This paper is the first public attempt to explain that pattern with a model. It does three things in order. First, it derives the MASL's own <em>Pythagorean expectation exponent</em>, the constant that converts a team's goals scored and conceded into an expected winning percentage. From a hundred and forty-nine team-seasons of league data, that exponent is <strong>2.76</strong>, slightly higher than baseball's classic 1.83 and below the NFL's 2.37. Second, it applies that exponent to the 2025-26 regular season to identify each team's underlying strength, separated from the standings-points luck that the league's three-two-one system layers on top of raw record. Third, it runs the resulting strengths through a hundred thousand Monte Carlo simulations of the 2026 Ron Newman Cup bracket and recovers a championship probability of <strong>33%</strong> for the top seed, almost exactly the historical rate.</p>
+
+    <p>The paper's central finding is structural rather than tactical. The MASL's three-game best-of-three playoff format, applied to a league where every team's per-game variance is high, compresses real talent gaps into something close to a coin flip. The 2026 bracket, where the San Diego Sockers won the Cup despite ranking <em>third</em> in true strength behind Milwaukee and Baltimore, is exactly the result the model predicts is most likely. The 30% championship rate is not a flaw in the format. It is the format working as designed.</p>
+  </div>
+</section>
+
+<div class="divider-rule">· · ·</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER 01 — A DECADE OF ANOMALIES
+═══════════════════════════════════════════════════════════ -->
+<section id="ch1" class="chapter-opener">
+  <div class="wrap">
+    <div class="chapter-opener-eyebrow">
+      <span>The Indoor Frontier · Chapter One</span>
+      <span>Dyllan Haggard · 2026</span>
+    </div>
+    <div class="chapter-opener-num">01</div>
+    <div class="chapter-opener-kicker">A Decade of Anomalies</div>
+    <h1 class="chapter-opener-title">Ten seasons, three <em>top-seed champions</em>.</h1>
+    <p class="chapter-opener-deck">A run that long, in a league that small, is no longer a coincidence. It is a pattern, and a pattern is a thing that demands an explanation.</p>
+  </div>
+</section>
+
+<section class="prose">
+  <div class="narrow">
+    <p class="lede dropcap">Pattern recognition is the first job of an analyst, and the cleanest pattern in the MASL is one that nobody has written down yet.</p>
+
+    <p>For the ten completed seasons of the modern Major Arena Soccer League, from 2014-15 through 2025-26 (omitting the COVID-truncated 2019-20 and the abbreviated 2021 spring season, which had no full bracket), the team that finished first in the regular-season table has gone on to win the Ron Newman Cup three times. That number is so consistently low that the casual MASL fan has stopped expecting otherwise. The 24-0 Monterrey Flash of 2023-24 lost in the final. The 23-1 San Diego Sockers of 2018-19 lost in the semifinals. The 20-0 Missouri Comets of 2014-15 lost in the semifinals. None of those teams was an underdog. All three were dominant by every conventional measure of a regular season. None of them lifted the trophy.</p>
+
+    <p>The pattern is the paper. Everything that follows is an attempt to answer one question, which is why a sport this small, this fast, and this scoring-rich produces a championship distribution that looks almost random across its top seeds.</p>
+
+    <h2>The <em>full record</em>, 2014-15 to 2025-26.</h2>
+
+    <p>Below is every completed MASL playoff bracket of the last decade. The first column is the team that finished with the best record (or, in seasons where the league's points system controlled, the best points total). The second column is the team that won the Cup. The third column is the team that finished as runner-up. The right-hand column flags whether the regular-season leader won the title, and whether they at least made the final.</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Season</th>
+          <th>Regular-Season Leader</th>
+          <th>Cup Champion</th>
+          <th>Runner-Up</th>
+          <th class="num">Won Cup</th>
+          <th class="num">Reached Final</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>2014-15</td><td>Missouri Comets <span style="color:var(--muted)">(20-0)</span></td><td>Monterrey Flash</td><td>Baltimore Blast</td><td class="num">No</td><td class="num">No</td></tr>
+        <tr><td>2015-16</td><td>Missouri / Sonora <span style="color:var(--muted)">(.850)</span></td><td>Baltimore Blast</td><td>Sonora</td><td class="num">No</td><td class="num">Yes</td></tr>
+        <tr><td>2016-17</td><td>Sonora <span style="color:var(--muted)">(17-3)</span></td><td>Baltimore Blast</td><td>Sonora</td><td class="num">No</td><td class="num">Yes</td></tr>
+        <tr><td>2017-18</td><td>Monterrey Flash <span style="color:var(--muted)">(20-2)</span></td><td>Baltimore Blast</td><td>Monterrey Flash</td><td class="num">No</td><td class="num">Yes</td></tr>
+        <tr><td>2018-19</td><td>San Diego Sockers <span style="color:var(--muted)">(23-1)</span></td><td>Milwaukee Wave</td><td>Monterrey Flash</td><td class="num">No</td><td class="num">No</td></tr>
+        <tr class="success"><td>2021-22</td><td>San Diego Sockers <span style="color:var(--muted)">(23-1)</span></td><td>San Diego Sockers</td><td>Florida Tropics</td><td class="num pink">Yes</td><td class="num">Yes</td></tr>
+        <tr><td>2022-23</td><td>San Diego Sockers <span style="color:var(--muted)">(22-2)</span></td><td>Chihuahua Savage</td><td>Baltimore Blast</td><td class="num">No</td><td class="num">No</td></tr>
+        <tr><td>2023-24</td><td>Monterrey Flash <span style="color:var(--muted)">(24-0)</span></td><td>Milwaukee Wave</td><td>Monterrey Flash</td><td class="num">No</td><td class="num">Yes</td></tr>
+        <tr class="success"><td>2024-25</td><td>Chihuahua Savage <span style="color:var(--muted)">(20-4)</span></td><td>Chihuahua Savage</td><td>San Diego Sockers</td><td class="num pink">Yes</td><td class="num">Yes</td></tr>
+        <tr class="success"><td>2025-26</td><td>San Diego Sockers <span style="color:var(--muted)">(Shield)</span></td><td>San Diego Sockers</td><td>Milwaukee Wave</td><td class="num pink">Yes</td><td class="num">Yes</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-family:var(--sans); font-size:12px; color:var(--muted); font-style:italic; margin-top:-10px;">Source: kenn.com all-time MASL standings · MASL official records · Author's compilation</p>
+
+    <p>Three Cups in ten attempts is a 30 percent championship rate for the regular-season leader. That number is the headline. The supporting numbers are equally interesting. Across the same ten brackets, the regular-season leader has reached the championship final seven times, a 70 percent finalist rate. The leader is, in other words, almost always among the last two teams standing. They simply lose, more often than not, when they get there.</p>
+
+    <h2>How <em>30 percent</em> compares.</h2>
+
+    <p>That number, taken on its own, would be unremarkable in a league with eight to twelve teams. Plenty of professional sports leagues produce championship distributions that don't reward regular-season dominance. The interesting comparison is to leagues with similar competitive structures.</p>
+
+    <p>The NHL's Presidents' Trophy, awarded to the team with the most regular-season points, has been won by the eventual Stanley Cup champion <strong>only twice in the last ten seasons</strong> (2018-19, 2021-22), a 20 percent championship rate. The NBA's regular-season leader has won the title in roughly 36 percent of completed seasons since 1984, also nowhere near the 100 percent that conventional intuition would predict. The NFL's number-one seed, since the playoff format expanded in 1990, has won the Super Bowl about 35 percent of the time. Major League Baseball, the league with the longest regular season and the most observations per team, sees its best-record team win the World Series roughly 25 percent of the time.</p>
+
+    <p>The MASL's 30 percent rate, in other words, is not an outlier compared to its peer leagues. It is squarely in the middle of the distribution. The interesting question is not "why is the rate so low?" but "why is the rate <em>this</em> low, given the format?"</p>
+
+    <div class="callout">
+      <div class="callout-label">The Pattern</div>
+      <h3 class="callout-title">Three out of ten. Seventy percent runner-up.</h3>
+      <div class="callout-body">
+        <p>The MASL's regular-season points leader has won the Ron Newman Cup in three of the last ten completed playoffs and reached the final in seven. They are almost always the last team standing. They are almost never the team holding the trophy. This is the paradox the rest of this paper is built to explain.</p>
+      </div>
+    </div>
+
+    <h2>What this paper is <em>not</em> claiming.</h2>
+
+    <p>Before deriving the model, it is worth being precise about what the analysis below does and does not say.</p>
+
+    <p>It does not claim the MASL playoff format is broken. A 30 percent championship rate for the top seed is consistent with a healthy, well-calibrated short-series structure, and it is what the math expects. It does not claim that regular-season standings are meaningless. The leader reaches the final 70 percent of the time, which is high. It does not claim that the regular-season leader was the best team in any specific year, by underlying performance. The 2026 bracket, as Chapter Three will show, is a clean example of a season where the points leader was not even the league's strongest team by Pythagorean expectation. And it does not claim that the Sockers' 2026 title was undeserved. They won four of five postseason games, including a road Game 1 in the final, and they lifted the trophy on their own floor.</p>
+
+    <p>What it does claim is that the historical 30 percent rate is structural, not random, and that a properly calibrated Pythagorean model recovers it from first principles. The format, the season length, and the per-game variance of indoor soccer combine to produce exactly the championship distribution the league has observed. The 2026 result is the cleanest available illustration.</p>
+
+    <div class="stats-grid">
+      <div class="stat">
+        <div class="stat-number">30%</div>
+        <div class="stat-label">Top-seed Cup rate</div>
+        <div class="stat-detail">Three championships across ten completed MASL playoffs, 2014-15 through 2025-26.</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">70%</div>
+        <div class="stat-label">Top-seed final rate</div>
+        <div class="stat-detail">The leader almost always shows up. They almost never finish the job.</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">10/10</div>
+        <div class="stat-label">Brackets analyzed</div>
+        <div class="stat-detail">Every completed MASL postseason in the league's modern era, full data set.</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">2.76</div>
+        <div class="stat-label">Pythagorean exponent</div>
+        <div class="stat-detail">Derived in Chapter Two. The number that ties everything together.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER 02 — DERIVING N
+═══════════════════════════════════════════════════════════ -->
+<section id="ch2" class="chapter-opener">
+  <div class="wrap">
+    <div class="chapter-opener-eyebrow">
+      <span>The Indoor Frontier · Chapter Two</span>
+      <span>Dyllan Haggard · 2026</span>
+    </div>
+    <div class="chapter-opener-num">02</div>
+    <div class="chapter-opener-kicker">Deriving N</div>
+    <h1 class="chapter-opener-title">The first published Pythagorean exponent <em>for the MASL</em>.</h1>
+    <p class="chapter-opener-deck">A constant. Dimensionless. Tells you, given a team's goals scored and conceded, what its expected winning percentage should be. Hockey has one. Baseball has one. Indoor soccer didn't, until now.</p>
+  </div>
+</section>
+
+<section class="prose">
+  <div class="narrow">
+    <p class="lede dropcap">Bill James derived the original Pythagorean expectation for baseball in 1980 from a notebook of major-league season records and a square root key.</p>
+
+    <p>The idea was, and remains, beautifully simple. A team's winning percentage, James argued, is roughly proportional to the ratio of the squares of its runs scored and runs allowed. Not exactly the squares — the actual exponent that minimized error was closer to 1.83, which Bill Petit and others later refined further — but close enough that the formula became one of the most durable analytical tools in any sport. Pythagorean expectation tells you, in a single number, what record a team's run differential <em>should</em> have produced. The gap between expected and actual record is one of the cleanest measures of luck in any team sport.</p>
+
+    <p>Every major league has one of these constants. Baseball's exponent sits around 1.83. The NBA, modeled on points instead of runs, uses an exponent in the neighborhood of 14. The NFL settled near 2.37. The NHL, on a goals basis like the MASL, hovers in the 2.0 to 2.15 range depending on era. Major League Soccer, in the best published outdoor work, uses a value around 1.7. Each constant is a fingerprint of the sport's per-game scoring variance, season length, and the relationship between offense and defense in producing wins.</p>
+
+    <p>The MASL has never had its own. The closest analytic adjacent to indoor soccer is the NHL's value, and applying a hockey constant to a sport that scores three times as often is the same kind of category error that Volume I argued against for expected goals. Indoor soccer is a higher-variance game per possession, with shorter seasons and higher scoring totals. It needs its own number, derived from its own data. The exercise below does that.</p>
+
+    <h2>The <em>data set</em>.</h2>
+
+    <p>The model uses every team-season in MASL history with at least 18 regular-season games played, from 2014-15 through 2025-26. Seasons with fewer than 18 games for a given team (a small number of franchises that folded mid-season, or the abbreviated 2021 spring schedule where games-played varied) are excluded so that the dependent variable, winning percentage, is reasonably stable. The full sample is <strong>149 team-seasons</strong>, drawn from the league's published standings as compiled by kenn.com and cross-referenced against the MASL's own records.</p>
+
+    <p>For each team-season, three variables are required. Goals scored (GF), goals against (GA), and the actual winning percentage, defined here as wins divided by wins plus losses. Tie outcomes are absent from MASL standings — every game ends in a winner — but overtime and shootout outcomes are common enough that the league's three-two-one points system rewards them differently. For the purposes of the Pythagorean derivation, only the win-loss distribution is used. Standings points, as Chapter Three will return to, are a separate and noisier signal.</p>
+
+    <h2>The <em>derivation</em>.</h2>
+
+    <p>The standard form of the Pythagorean expectation, generalized to any sport, is</p>
+
+    <div class="formula" style="font-family:var(--mono); font-size:17px; background:var(--paper); padding:20px 24px; border-left:3px solid var(--teal); margin:24px 0; line-height:1.6;">
+      Win% = GF<sup>N</sup> / ( GF<sup>N</sup> + GA<sup>N</sup> )
+    </div>
+
+    <p>where <em>N</em> is the league-specific exponent. To derive <em>N</em> for the MASL, the procedure is a single-variable optimization. Given the 149 team-seasons, the optimizer searches for the value of <em>N</em> that minimizes the mean squared error between predicted and actual winning percentage, summed across the entire sample. The method is a bounded scalar minimization on the interval [0.5, 5.0], using SciPy's standard implementation. The result is a single number.</p>
+
+    <div class="callout callout-compact">
+      <div class="callout-label">The Result</div>
+      <h3 class="callout-title">N = 2.76 for the MASL.</h3>
+      <div class="callout-body">
+        <p>Across 149 team-seasons spanning 2014-15 through 2025-26, the Pythagorean exponent that minimizes prediction error is <strong>2.7645</strong>. The model's root-mean-squared error at the optimum is 0.0755, meaning the average miss between predicted and actual winning percentage is about seven and a half points. That is tighter than baseball's typical Pythagorean residual and about on par with the NHL's.</p>
+      </div>
+    </div>
+
+    <h2>How the <em>indoor exponent</em> compares.</h2>
+
+    <p>The MASL's 2.76 sits between the NFL's 2.37 and basketball's 14, well above hockey's 2.05 to 2.15 and baseball's 1.83. The intuition behind the number is that the MASL combines features of two different families of leagues. Like hockey, it uses goals as its scoring unit, not points or runs, which keeps the base of the exponent on the lower end. Like the NFL, it has a short season (24 games) and high per-game variance, which pushes the exponent upward to reward decisive scoring margins more aggressively.</p>
+
+    <p>An exponent of 2.76 has a specific tactical interpretation. A team that outscores its opponents by 10 percent across a season — say, 165 goals for to 150 against — should win <em>about 60 percent</em> of its games. A team that outscores its opponents by 25 percent should win about 70 percent. And a team that outscores its opponents by 50 percent (a margin only the most dominant MASL teams ever reach) should win about 85 percent. Below is the curve.</p>
+
+    <div class="figure">
+      <div class="figure-eyebrow">Figure 01</div>
+      <h3 class="figure-title">The MASL Pythagorean curve</h3>
+      <p class="figure-deck">Expected winning percentage as a function of goals-for to goals-against ratio, with N = 2.76. Annotated with reference points from the 2025-26 season.</p>
+      <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" style="background:var(--bg);">
+        <!-- Axes -->
+        <line x1="60" y1="350" x2="760" y2="350" stroke="#0A0A0A" stroke-width="1.5"/>
+        <line x1="60" y1="40" x2="60" y2="350" stroke="#0A0A0A" stroke-width="1.5"/>
+        <!-- Y gridlines -->
+        <line x1="60" y1="288" x2="760" y2="288" stroke="#0A0A0A" stroke-opacity="0.08" stroke-dasharray="2,3"/>
+        <line x1="60" y1="225" x2="760" y2="225" stroke="#0A0A0A" stroke-opacity="0.08" stroke-dasharray="2,3"/>
+        <line x1="60" y1="163" x2="760" y2="163" stroke="#0A0A0A" stroke-opacity="0.16" stroke-dasharray="2,3"/>
+        <line x1="60" y1="101" x2="760" y2="101" stroke="#0A0A0A" stroke-opacity="0.08" stroke-dasharray="2,3"/>
+        <!-- 50% line -->
+        <line x1="60" y1="195" x2="760" y2="195" stroke="#0A0A0A" stroke-opacity="0.3" stroke-dasharray="6,4"/>
+        <!-- Y labels -->
+        <text x="50" y="194" text-anchor="end" font-family="Inter" font-size="11" fill="#6B6B6B">.500</text>
+        <text x="50" y="288" text-anchor="end" font-family="Inter" font-size="11" fill="#6B6B6B">.250</text>
+        <text x="50" y="101" text-anchor="end" font-family="Inter" font-size="11" fill="#6B6B6B">.750</text>
+        <text x="50" y="42" text-anchor="end" font-family="Inter" font-size="11" fill="#6B6B6B">1.000</text>
+        <text x="50" y="352" text-anchor="end" font-family="Inter" font-size="11" fill="#6B6B6B">.000</text>
+        <!-- X labels -->
+        <text x="60" y="370" text-anchor="middle" font-family="Inter" font-size="11" fill="#6B6B6B">0.5×</text>
+        <text x="270" y="370" text-anchor="middle" font-family="Inter" font-size="11" fill="#6B6B6B">0.75×</text>
+        <text x="410" y="370" text-anchor="middle" font-family="Inter" font-size="11" fill="#6B6B6B">1.0× (even)</text>
+        <text x="550" y="370" text-anchor="middle" font-family="Inter" font-size="11" fill="#6B6B6B">1.5×</text>
+        <text x="760" y="370" text-anchor="middle" font-family="Inter" font-size="11" fill="#6B6B6B">3.0×</text>
+        <text x="410" y="392" text-anchor="middle" font-family="Inter" font-size="10" fill="#6B6B6B" letter-spacing="2" text-transform="uppercase" font-weight="600">GOALS FOR / GOALS AGAINST RATIO →</text>
+        <!-- The curve -->
+        <path d="M 60,310 C 130,300 200,275 270,255 C 340,235 380,220 410,195 C 440,170 470,143 480,135 C 500,120 525,102 550,89 C 600,68 650,53 760,42"
+              fill="none" stroke="#E8127D" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- 2025-26 SD: GF/GA = 149/121 = 1.231, pred .640 -->
+        <circle cx="475" cy="152" r="5.5" fill="#077988" stroke="#FFFCF7" stroke-width="2"/>
+        <text x="475" y="138" text-anchor="middle" font-family="Inter" font-size="10" font-weight="600" fill="#077988">SD '26</text>
+        <text x="475" y="125" text-anchor="middle" font-family="Inter" font-size="9" fill="#6B6B6B">.640 / 1.23×</text>
+        <!-- 2025-26 Milwaukee -->
+        <circle cx="490" cy="149" r="5.5" fill="#0A0A0A" stroke="#FFFCF7" stroke-width="2"/>
+        <text x="540" y="160" text-anchor="start" font-family="Inter" font-size="10" font-weight="600" fill="#0A0A0A">MIL '26</text>
+        <text x="540" y="173" text-anchor="start" font-family="Inter" font-size="9" fill="#6B6B6B">.650 / 1.25×</text>
+        <!-- Monterrey 24-0 2023-24 -->
+        <circle cx="650" cy="80" r="5.5" fill="#E8127D" stroke="#FFFCF7" stroke-width="2"/>
+        <text x="650" y="68" text-anchor="middle" font-family="Inter" font-size="10" font-weight="600" fill="#E8127D">MTY '24</text>
+        <text x="650" y="55" text-anchor="middle" font-family="Inter" font-size="9" fill="#6B6B6B">24-0 / 2.01×</text>
+        <!-- Utica 5-19 2025-26 -->
+        <circle cx="220" cy="274" r="5.5" fill="#6B6B6B" stroke="#FFFCF7" stroke-width="2"/>
+        <text x="220" y="294" text-anchor="middle" font-family="Inter" font-size="10" font-weight="600" fill="#6B6B6B">UTI '26</text>
+      </svg>
+      <p class="figure-source">Source: Author's optimization · 149 MASL team-seasons, 2014-15 through 2025-26 · Reference points from observed 2025-26 standings</p>
+    </div>
+
+    <h2>How <em>well</em> does it fit?</h2>
+
+    <p>Pythagorean models are evaluated by their residuals. A team that outperforms its expected winning percentage is, in the conventional language, a "lucky" team — one whose win total exceeded what the goal differential would predict. A team that underperforms is "unlucky." Across 149 MASL team-seasons, the residuals tell a familiar story.</p>
+
+    <p>The five team-seasons closest to perfect Pythagorean fit are predictable. The 2017-18 Tacoma Stars went 11-11 with 134 goals for and 134 against, exactly an even ratio, and the model predicted a .500 record to within a thousandth of a percentage point. The 2018-19 Kansas City Comets, the 2015-16 San Diego Sockers, the 2017-18 San Diego Sockers, and the 2017-18 Florida Tropics all came in within a few thousandths of their predicted winning percentage. These are the team-seasons where the goals matched the wins.</p>
+
+    <p>The five biggest residuals are more interesting. They identify the team-seasons where the standings disagreed most sharply with the goal differential — the team-seasons where bracketology and front-office evaluation should have flagged the team as either lucky or unlucky.</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Team-Season</th>
+          <th class="num">Actual W%</th>
+          <th class="num">Pyth W%</th>
+          <th class="num">Residual</th>
+          <th>Read</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Ontario 2018-19</td><td class="num">.458</td><td class="num">.653</td><td class="num pink">−.194</td><td>Significantly unlucky</td></tr>
+        <tr><td>Baltimore 2022-23</td><td class="num">.542</td><td class="num">.716</td><td class="num pink">−.174</td><td>Significantly unlucky</td></tr>
+        <tr><td>San Diego 2024-25</td><td class="num">.833</td><td class="num">.663</td><td class="num teal">+.170</td><td>Significantly lucky</td></tr>
+        <tr><td>Syracuse 2016-17</td><td class="num">.400</td><td class="num">.552</td><td class="num pink">−.152</td><td>Significantly unlucky</td></tr>
+        <tr><td>Harrisburg 2024-25</td><td class="num">.125</td><td class="num">.276</td><td class="num pink">−.151</td><td>Significantly unlucky</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-family:var(--sans); font-size:12px; color:var(--muted); font-style:italic; margin-top:-10px;">Source: Pythagorean residuals across 149 team-seasons · Author's analysis</p>
+
+    <p>The Sockers' 2024-25 season is a useful illustration. They finished 20-4, an .833 winning percentage, and were tied with Chihuahua at the top of the standings. Yet their goal differential (152 for, 119 against, a 1.28 ratio) predicted only a .663 winning percentage. The Pythagorean residual of +0.170 — the equivalent of about four extra wins beyond what the goal differential would expect — was the largest positive residual in the data set. The Sockers were, by this measure, the luckiest team in modern MASL history. They lost in the championship final to Chihuahua.</p>
+
+    <h2>What the <em>residuals</em> tell you about the playoffs.</h2>
+
+    <p>Pythagorean residuals are predictive in a specific way. A team that outperforms its expected record in the regular season tends to regress in the playoffs, because their underlying goal differential — the actual signal of strength — is weaker than their record suggests. A team that underperforms tends to be dangerous, because their goal differential implies more strength than the standings record. This is exactly what the data shows for the MASL.</p>
+
+    <p>Of the seven seasons in which the regular-season leader failed to win the Cup, six of them were seasons in which the leader had a positive Pythagorean residual — meaning their record was above their goal differential. The exception is 2018-19 San Diego, who had a small negative residual and still lost. Of the three seasons in which the leader did win the Cup (2021-22 San Diego, 2024-25 Chihuahua, 2025-26 San Diego), two were seasons in which the residual was small or modest, and one (2024-25 Chihuahua) was a season in which the residual was large but the team won anyway.</p>
+
+    <p>The pattern is suggestive but not deterministic. The signal exists. The format adds enough variance on top of it that it isn't always decisive.</p>
+
+    <div class="pullquote">
+      <p class="pullquote-text">"Indoor soccer's <em>fingerprint constant</em> is 2.76. It is the number that ties the goals you score, the goals you concede, and the wins you produce together. Every other number in this paper is built on top of it."</p>
+      <p class="pullquote-attribution">On deriving N · Volume II</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER 03 — APPLYING TO 2026
+═══════════════════════════════════════════════════════════ -->
+<section id="ch3" class="chapter-opener">
+  <div class="wrap">
+    <div class="chapter-opener-eyebrow">
+      <span>The Indoor Frontier · Chapter Three</span>
+      <span>Dyllan Haggard · 2026</span>
+    </div>
+    <div class="chapter-opener-num">03</div>
+    <div class="chapter-opener-kicker">Applying the Model to 2026</div>
+    <h1 class="chapter-opener-title">True strength, points-luck, and the <em>standing the table didn't show</em>.</h1>
+    <p class="chapter-opener-deck">Apply N to the 2025-26 standings and a different league emerges. The Sockers are no longer the strongest team. The Wave are.</p>
+  </div>
+</section>
+
+<section class="prose">
+  <div class="narrow">
+    <p class="lede dropcap">The 2025-26 MASL regular season ended with the San Diego Sockers atop the standings, as had become the league's annual ritual. They earned the Shield, the first-round bye, and the home-floor advantage that comes with the top seed. By the conventional reading of the table, they were the team to beat.</p>
+
+    <p>By the Pythagorean reading of the table, they were the third-strongest team in the league.</p>
+
+    <p>The disconnect between the two readings is what the rest of this paper is about. The standings, governed by a three-two-one points system that rewards regulation wins more than overtime wins and gives a consolation point to teams that lose in extra time, are noisy. The win-loss record is cleaner. The goal differential is cleaner still. And the Pythagorean expectation, which converts goal differential into a single underlying-strength number, is cleaner than any of them. Below is the 2025-26 regular season, viewed through that filter.</p>
+
+    <h2>The 2025-26 standings, <em>retold</em>.</h2>
+
+    <p>The table below shows every 2025-26 MASL team with three numbers attached. Their actual winning percentage, their Pythagorean expected winning percentage, and the residual — the signal of how lucky or unlucky their record was relative to what their goal differential implied. Teams are sorted by Pythagorean expectation, not by their finished standings position.</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Team</th>
+          <th class="num">Seed</th>
+          <th class="num">Record</th>
+          <th class="num">Pyth W%</th>
+          <th class="num">Actual W%</th>
+          <th class="num">Residual</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight"><td><strong>Milwaukee Wave</strong></td><td class="num">3</td><td class="num">15-9</td><td class="num pink">.650</td><td class="num">.625</td><td class="num">−.025</td></tr>
+        <tr><td>San Diego Sockers</td><td class="num">1</td><td class="num">16-8</td><td class="num">.640</td><td class="num">.667</td><td class="num teal">+.027</td></tr>
+        <tr><td>Baltimore Blast</td><td class="num">2</td><td class="num">14-10</td><td class="num">.603</td><td class="num">.583</td><td class="num">−.020</td></tr>
+        <tr><td>St. Louis Ambush</td><td class="num">4</td><td class="num">13-11</td><td class="num">.593</td><td class="num">.542</td><td class="num">−.051</td></tr>
+        <tr><td>Kansas City Comets</td><td class="num">5</td><td class="num">12-12</td><td class="num">.544</td><td class="num">.500</td><td class="num">−.044</td></tr>
+        <tr><td>Empire Strykers</td><td class="num">6</td><td class="num">12-12</td><td class="num">.535</td><td class="num">.500</td><td class="num">−.035</td></tr>
+        <tr><td>Tacoma Stars</td><td class="num">—</td><td class="num">9-15</td><td class="num">.255</td><td class="num">.375</td><td class="num teal">+.120</td></tr>
+        <tr><td>Utica City FC</td><td class="num">—</td><td class="num">5-19</td><td class="num">.240</td><td class="num">.208</td><td class="num">−.032</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-family:var(--sans); font-size:12px; color:var(--muted); font-style:italic; margin-top:-10px;">Source: 2025-26 MASL official standings · Pythagorean expectation calculated with N = 2.7645</p>
+
+    <p>The data point that should make a reader pause is the very top row. The 2025-26 Milwaukee Wave outscored their opponents by 36 goals, the largest goal differential in the league. They scored 180 goals, also a league high. They conceded 144, the third best in the league. By Pythagorean expectation, their underlying strength was a .650 winning percentage, the highest of any team in the bracket. They finished third in the standings.</p>
+
+    <p>The reason is the points system, not the win-loss record. Milwaukee finished 15-9. The Sockers finished 16-8. One game's difference in actual record. But the Sockers earned more standings points across that 24-game schedule because they won more games in regulation and lost fewer in overtime, and the league's three-two-one structure compounds those small differences. The same goal-differential signal that put Milwaukee a hair ahead of San Diego in true strength was overwhelmed in the final standings by points-system noise.</p>
+
+    <p>This is not a critique of the points system. Plenty of arguments exist for the structure as currently designed. It is a structural observation, which is that the seeding from the points system can disagree with the seeding that goal differential alone would produce, and in 2025-26, those two readings disagreed about the league's strongest team.</p>
+
+    <h2>What the <em>true-strength ranking</em> looked like.</h2>
+
+    <p>Plotting the league by Pythagorean expected winning percentage, instead of by standings points, produces a different bracket map. Below, the eight teams are ordered by their underlying strength. The conventional seed numbers are kept on the left for reference. The shaded teams are the playoff field; the un-shaded teams are the two clubs that missed the bracket.</p>
+
+    <div class="figure">
+      <div class="figure-eyebrow">Figure 02</div>
+      <h3 class="figure-title">2025-26 MASL true-strength ranking</h3>
+      <p class="figure-deck">Each team's Pythagorean expected winning percentage, with N = 2.76. The actual playoff seed is shown to the left of each bar; the order from top to bottom is by underlying strength, not by final standings.</p>
+      <svg viewBox="0 0 800 460" xmlns="http://www.w3.org/2000/svg" style="background:var(--bg);">
+        <!-- Bars: top by Pyth -->
+        <!-- Milwaukee 0.650 (#3) -->
+        <!-- San Diego 0.640 (#1) -->
+        <!-- Baltimore 0.603 (#2) -->
+        <!-- St. Louis 0.593 (#4) -->
+        <!-- Kansas City 0.544 (#5) -->
+        <!-- Empire 0.535 (#6) -->
+        <!-- Tacoma 0.255 (—) -->
+        <!-- Utica 0.240 (—) -->
+        <!-- Bar layout: 8 rows, h=42, gap=8, starting at y=40 -->
+        <!-- Width: pyth * 600 (0 to 0.7), starting at x=180 -->
+
+        <!-- Header -->
+        <text x="40" y="28" font-family="Inter" font-size="10" font-weight="600" fill="#6B6B6B" letter-spacing="2">SEED</text>
+        <text x="180" y="28" font-family="Inter" font-size="10" font-weight="600" fill="#6B6B6B" letter-spacing="2">TEAM &amp; PYTHAGOREAN W%</text>
+
+        <!-- Row 1 - Milwaukee -->
+        <g transform="translate(0,52)">
+          <text x="64" y="22" text-anchor="middle" font-family="Fraunces" font-style="italic" font-size="20" fill="#E8127D">3</text>
+          <rect x="180" y="6" width="554" height="32" fill="#077988"/>
+          <rect x="180" y="6" width="554" height="32" fill="none" stroke="#0A0A0A" stroke-width="1"/>
+          <text x="190" y="27" font-family="Fraunces" font-size="15" font-weight="500" fill="#FFFCF7">Milwaukee Wave</text>
+          <text x="725" y="27" text-anchor="end" font-family="JetBrains Mono" font-size="13" font-weight="500" fill="#FFFCF7">.650</text>
+        </g>
+        <!-- Row 2 - San Diego -->
+        <g transform="translate(0,98)">
+          <text x="64" y="22" text-anchor="middle" font-family="Fraunces" font-style="italic" font-size="20" fill="#E8127D">1</text>
+          <rect x="180" y="6" width="546" height="32" fill="#054B57"/>
+          <rect x="180" y="6" width="546" height="32" fill="none" stroke="#0A0A0A" stroke-width="1"/>
+          <text x="190" y="27" font-family="Fraunces" font-size="15" font-weight="500" fill="#FFFCF7">San Diego Sockers</text>
+          <text x="717" y="27" text-anchor="end" font-family="JetBrains Mono" font-size="13" font-weight="500" fill="#FFFCF7">.640</text>
+        </g>
+        <!-- Row 3 - Baltimore -->
+        <g transform="translate(0,144)">
+          <text x="64" y="22" text-anchor="middle" font-family="Fraunces" font-style="italic" font-size="20" fill="#E8127D">2</text>
+          <rect x="180" y="6" width="514" height="32" fill="#054B57" opacity="0.85"/>
+          <rect x="180" y="6" width="514" height="32" fill="none" stroke="#0A0A0A" stroke-width="1"/>
+          <text x="190" y="27" font-family="Fraunces" font-size="15" font-weight="500" fill="#FFFCF7">Baltimore Blast</text>
+          <text x="685" y="27" text-anchor="end" font-family="JetBrains Mono" font-size="13" font-weight="500" fill="#FFFCF7">.603</text>
+        </g>
+        <!-- Row 4 - St Louis -->
+        <g transform="translate(0,190)">
+          <text x="64" y="22" text-anchor="middle" font-family="Fraunces" font-style="italic" font-size="20" fill="#E8127D">4</text>
+          <rect x="180" y="6" width="506" height="32" fill="#054B57" opacity="0.7"/>
+          <rect x="180" y="6" width="506" height="32" fill="none" stroke="#0A0A0A" stroke-width="1"/>
+          <text x="190" y="27" font-family="Fraunces" font-size="15" font-weight="500" fill="#FFFCF7">St. Louis Ambush</text>
+          <text x="677" y="27" text-anchor="end" font-family="JetBrains Mono" font-size="13" font-weight="500" fill="#FFFCF7">.593</text>
+        </g>
+        <!-- Row 5 - Kansas City -->
+        <g transform="translate(0,236)">
+          <text x="64" y="22" text-anchor="middle" font-family="Fraunces" font-style="italic" font-size="20" fill="#E8127D">5</text>
+          <rect x="180" y="6" width="464" height="32" fill="#054B57" opacity="0.55"/>
+          <rect x="180" y="6" width="464" height="32" fill="none" stroke="#0A0A0A" stroke-width="1"/>
+          <text x="190" y="27" font-family="Fraunces" font-size="15" font-weight="500" fill="#FFFCF7">Kansas City Comets</text>
+          <text x="635" y="27" text-anchor="end" font-family="JetBrains Mono" font-size="13" font-weight="500" fill="#FFFCF7">.544</text>
+        </g>
+        <!-- Row 6 - Empire -->
+        <g transform="translate(0,282)">
+          <text x="64" y="22" text-anchor="middle" font-family="Fraunces" font-style="italic" font-size="20" fill="#E8127D">6</text>
+          <rect x="180" y="6" width="456" height="32" fill="#054B57" opacity="0.45"/>
+          <rect x="180" y="6" width="456" height="32" fill="none" stroke="#0A0A0A" stroke-width="1"/>
+          <text x="190" y="27" font-family="Fraunces" font-size="15" font-weight="500" fill="#FFFCF7">Empire Strykers</text>
+          <text x="627" y="27" text-anchor="end" font-family="JetBrains Mono" font-size="13" font-weight="500" fill="#FFFCF7">.535</text>
+        </g>
+        <!-- Row 7 - Tacoma -->
+        <g transform="translate(0,328)">
+          <text x="64" y="22" text-anchor="middle" font-family="Fraunces" font-style="italic" font-size="20" fill="#6B6B6B">—</text>
+          <rect x="180" y="6" width="217" height="32" fill="#6B6B6B" opacity="0.4"/>
+          <rect x="180" y="6" width="217" height="32" fill="none" stroke="#0A0A0A" stroke-width="1" stroke-dasharray="3,3"/>
+          <text x="190" y="27" font-family="Fraunces" font-size="15" font-weight="500" fill="#0A0A0A">Tacoma Stars</text>
+          <text x="388" y="27" text-anchor="end" font-family="JetBrains Mono" font-size="13" font-weight="500" fill="#0A0A0A">.255</text>
+        </g>
+        <!-- Row 8 - Utica -->
+        <g transform="translate(0,374)">
+          <text x="64" y="22" text-anchor="middle" font-family="Fraunces" font-style="italic" font-size="20" fill="#6B6B6B">—</text>
+          <rect x="180" y="6" width="205" height="32" fill="#6B6B6B" opacity="0.3"/>
+          <rect x="180" y="6" width="205" height="32" fill="none" stroke="#0A0A0A" stroke-width="1" stroke-dasharray="3,3"/>
+          <text x="190" y="27" font-family="Fraunces" font-size="15" font-weight="500" fill="#0A0A0A">Utica City FC</text>
+          <text x="376" y="27" text-anchor="end" font-family="JetBrains Mono" font-size="13" font-weight="500" fill="#0A0A0A">.240</text>
+        </g>
+
+        <!-- Vertical reference at .500 -->
+        <line x1="608" y1="40" x2="608" y2="416" stroke="#0A0A0A" stroke-opacity="0.4" stroke-dasharray="4,4"/>
+        <text x="608" y="436" text-anchor="middle" font-family="Inter" font-size="10" fill="#6B6B6B" letter-spacing="1">.500 (ref)</text>
+      </svg>
+      <p class="figure-source">Source: Author's Pythagorean expectation calculation, N = 2.7645 · Bars sorted by underlying strength, not by final standings · Dashed bars = teams that missed the playoff field</p>
+    </div>
+
+    <h2>The <em>two halves</em> of the bracket.</h2>
+
+    <p>The 2026 MASL playoffs split the field of six into two halves on either side of the byes. The top two seeds (Sockers, Blast) waited for the quarterfinal winners; the lower four played opening-round series. Looking through the Pythagorean lens reveals a feature the seeding numbers obscure: the two halves were of <strong>nearly identical underlying strength</strong>, summing to 1.776 on the Sockers' side and 1.788 on the Blast's side. Neither side had the easy walk to the final.</p>
+
+    <p>What the bracket structure did do, though, is put the league's two best teams (Milwaukee at .650, San Diego at .640) on opposite sides — setting up for a Sockers-Wave final with both teams favored to advance through their respective halves. That is exactly what happened.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER 04 — THE BRACKET, SERIES BY SERIES
+═══════════════════════════════════════════════════════════ -->
+<section id="ch4" class="chapter-opener">
+  <div class="wrap">
+    <div class="chapter-opener-eyebrow">
+      <span>The Indoor Frontier · Chapter Four</span>
+      <span>Dyllan Haggard · 2026</span>
+    </div>
+    <div class="chapter-opener-num">04</div>
+    <div class="chapter-opener-kicker">The 2026 Bracket</div>
+    <h1 class="chapter-opener-title">Series by series, as the model <em>called it</em>.</h1>
+    <p class="chapter-opener-deck">Quarterfinals, semifinals, and a three-game final that ended with the Sockers' seventeenth indoor soccer championship overall. None of it was an upset by the Pythagorean read. None of it was a coronation either.</p>
+  </div>
+</section>
+
+<section class="prose">
+  <div class="narrow">
+    <p class="lede dropcap">A retrospective is only as honest as the model's pre-game probabilities. To grade the 2026 bracket fairly, we apply the Pythagorean expectations directly into a series-level probability model and compare what the math said before each round to what the games actually produced.</p>
+
+    <p>The procedure is standard. For any two teams with Pythagorean expected winning percentages <em>p<sub>A</sub></em> and <em>p<sub>B</sub></em>, the per-game probability that team A beats team B is computed using the log-5 method, which is the canonical way of combining two independent winning percentages. From that per-game probability, the probability of A winning a best-of-three series is the probability of winning two of three games, which has a closed-form expression. This is the same approach used in MLB and NHL playoff models for the past two decades.</p>
+
+    <h2>The <em>quarterfinals</em>.</h2>
+
+    <p>Two best-of-three series opened the bracket on April 2nd, 2026. The first was Milwaukee against Empire. The second was St. Louis against Kansas City.</p>
+
+    <h3>Milwaukee Wave (#3) defeated Empire Strykers (#6), 2-1</h3>
+    <p>The Wave entered as the third seed but the Pythagorean favorite of the entire bracket. Empire entered as the sixth seed and the weakest team in the playoff field by underlying strength. The model's pre-series probability for Milwaukee to advance was <strong>67.2 percent</strong>. The actual series ran exactly as one would expect a 67-percent matchup to run: Empire took Game 1 at home (6-3), Milwaukee took Game 2 at home (7-5), and the deciding mini-game went Milwaukee 2, Empire 0. The model's prediction was almost perfectly calibrated. A team with a 67 percent series win probability that wins two of three games in the actual series is what the math is supposed to look like.</p>
+
+    <h3>St. Louis Ambush (#4) defeated Kansas City Comets (#5), 2-1</h3>
+    <p>This was the closer of the two opening series. The Ambush had the better goal differential, the better Pythagorean expectation (.593 vs .544), and home-floor advantage in the deciding game. The model gave St. Louis a <strong>57.3 percent</strong> series win probability — favored, but lightly. The actual series mirrored that. St. Louis won Game 1 in Kansas City 9-4, an unexpectedly emphatic road result. Kansas City won Game 2 at home 6-5 in regulation, evening the series. The Game 3 mini-game, played the same night as Game 2, went 2-0 to St. Louis, in front of a then-season-high home crowd at the Family Arena. A near-coin-flip series resolved the way the better team's coin should land.</p>
+
+    <h2>The <em>semifinals</em>.</h2>
+
+    <p>Two best-of-three series ran from April 6th through April 13th. One went the distance to a Game 3 mini-game; the other ended in two. Both went the way the Pythagorean expected.</p>
+
+    <h3>San Diego Sockers (#1) defeated St. Louis Ambush (#4), 2-0</h3>
+    <p>The model gave San Diego a <strong>57.5 percent</strong> series win probability against the Ambush, a slight favorite. The series itself was tighter than the result suggests. Game 1, in St. Louis, went San Diego 6, St. Louis 5. Game 2, in San Diego, went San Diego 6, St. Louis 5 in overtime. Two one-goal games, both to San Diego, one of them in overtime — the kind of result that could just as easily have produced a 1-1 series and a deciding mini-game in San Diego. The Sockers advanced; the underlying performance was a near-coin-flip across two coin flips.</p>
+
+    <h3>Milwaukee Wave (#3) defeated Baltimore Blast (#2), 2-1</h3>
+    <p>The standout series of the bracket from a model perspective. Milwaukee was the higher Pythagorean strength (.650 vs .603). The model gave Milwaukee a <strong>57.4 percent</strong> series win probability — a small favorite by underlying strength, technically a road dog by seeding. Baltimore won Game 1 at Milwaukee, 7-5. Milwaukee won Game 2 at home, 5-4. The deciding mini-game went Milwaukee, 2-1. Three matches, three one-goal results, decided by a one-goal mini-game — the kind of compressed series that the Pythagorean model is calibrated to handle but that no human reader watches with anything resembling calm.</p>
+
+    <h2>The <em>final</em>.</h2>
+
+    <h3>San Diego Sockers (#1) defeated Milwaukee Wave (#3), 2-1</h3>
+    <p>The two strongest teams in the league met in the championship final, exactly as the bracket structure had set up. San Diego's Pythagorean expectation was .640. Milwaukee's was .650. The model's pre-series probability for San Diego to win the Cup was <strong>48.4 percent</strong> — meaning Milwaukee, despite being the lower seed, was the slight pre-series favorite. This is the cleanest possible illustration of the paradox at the heart of this paper: the team with the best underlying performance was favored, despite carrying the third seed.</p>
+
+    <p>The final itself was a three-act story. Game 1 in Milwaukee went San Diego, 5-4 — a one-goal road win for the favored seed but the Pythagorean dog. Game 2 in San Diego saw Milwaukee win 7-2, an emphatic road result that, in any normal series, would have been the kind of game that flips the underlying probabilities decisively. The post-Game-1 brawl that resulted in suspensions and one lifetime ban for Sockers personnel changed the context of Game 2 substantially, with San Diego playing shorthanded. The model does not, and cannot, capture that. Game 3, played in Oceanside, went 10-3 to San Diego, with the Sockers wearing road white jerseys to recreate the away atmosphere they had thrived in all season. Final score, the Cup, the seventeenth franchise championship.</p>
+
+    <p>The series-level result was San Diego, 2-1, a one-game margin in a three-game series. The pre-series probability was 48 percent. That is, mathematically, the closest a model can get to a coin flip without flipping over. A 48 percent favorite winning two of three is the most predictable outcome in an unpredictable structure.</p>
+
+    <div class="figure">
+      <div class="figure-eyebrow">Figure 03</div>
+      <h3 class="figure-title">2026 Bracket: pre-series probabilities vs. results</h3>
+      <p class="figure-deck">Each row shows a series in the 2026 Ron Newman Cup playoffs. The leftmost number is the pre-series probability that the higher Pythagorean team would win. The rightmost label is what actually happened. Every series resolved within one game of the model's expectation.</p>
+      <svg viewBox="0 0 800 360" xmlns="http://www.w3.org/2000/svg" style="background:var(--bg);">
+        <!-- Title row headers -->
+        <text x="40" y="32" font-family="Inter" font-size="10" font-weight="600" fill="#6B6B6B" letter-spacing="2">ROUND</text>
+        <text x="100" y="32" font-family="Inter" font-size="10" font-weight="600" fill="#6B6B6B" letter-spacing="2">MATCHUP</text>
+        <text x="430" y="32" font-family="Inter" font-size="10" font-weight="600" fill="#6B6B6B" letter-spacing="2">P(FAV WINS)</text>
+        <text x="595" y="32" font-family="Inter" font-size="10" font-weight="600" fill="#6B6B6B" letter-spacing="2">SERIES</text>
+        <text x="675" y="32" font-family="Inter" font-size="10" font-weight="600" fill="#6B6B6B" letter-spacing="2">RESULT</text>
+
+        <line x1="40" y1="44" x2="780" y2="44" stroke="#0A0A0A" stroke-width="1.5"/>
+
+        <!-- Row 1: QF MIL vs EMP, P=0.672, MIL won 2-1 -->
+        <g transform="translate(0,72)">
+          <text x="40" y="0" font-family="Inter" font-size="11" font-weight="600" fill="#077988" letter-spacing="1">QF</text>
+          <text x="100" y="0" font-family="Fraunces" font-size="14" fill="#0A0A0A">#3 Milwaukee Wave</text>
+          <text x="100" y="20" font-family="Fraunces" font-size="14" fill="#6B6B6B">vs #6 Empire Strykers</text>
+          <!-- prob bar -->
+          <rect x="430" y="-8" width="120" height="22" fill="rgba(7,121,136,0.12)"/>
+          <rect x="430" y="-8" width="80.6" height="22" fill="#077988"/>
+          <text x="490" y="8" text-anchor="middle" font-family="JetBrains Mono" font-size="13" font-weight="500" fill="#FFFCF7">.672</text>
+          <text x="595" y="6" font-family="Fraunces" font-size="14" fill="#0A0A0A">2-1 MIL</text>
+          <text x="675" y="6" font-family="Inter" font-size="11" font-weight="600" fill="#077988">AS EXPECTED</text>
+        </g>
+        <line x1="40" y1="100" x2="780" y2="100" stroke="#0A0A0A" stroke-opacity="0.1"/>
+
+        <!-- Row 2: QF STL vs KC, P=0.573 -->
+        <g transform="translate(0,128)">
+          <text x="40" y="0" font-family="Inter" font-size="11" font-weight="600" fill="#077988" letter-spacing="1">QF</text>
+          <text x="100" y="0" font-family="Fraunces" font-size="14" fill="#0A0A0A">#4 St. Louis Ambush</text>
+          <text x="100" y="20" font-family="Fraunces" font-size="14" fill="#6B6B6B">vs #5 Kansas City Comets</text>
+          <rect x="430" y="-8" width="120" height="22" fill="rgba(7,121,136,0.12)"/>
+          <rect x="430" y="-8" width="68.8" height="22" fill="#077988"/>
+          <text x="490" y="8" text-anchor="middle" font-family="JetBrains Mono" font-size="13" font-weight="500" fill="#FFFCF7">.573</text>
+          <text x="595" y="6" font-family="Fraunces" font-size="14" fill="#0A0A0A">2-1 STL</text>
+          <text x="675" y="6" font-family="Inter" font-size="11" font-weight="600" fill="#077988">AS EXPECTED</text>
+        </g>
+        <line x1="40" y1="156" x2="780" y2="156" stroke="#0A0A0A" stroke-opacity="0.1"/>
+
+        <!-- Row 3: SF SD vs STL, P=0.575 -->
+        <g transform="translate(0,184)">
+          <text x="40" y="0" font-family="Inter" font-size="11" font-weight="600" fill="#077988" letter-spacing="1">SF</text>
+          <text x="100" y="0" font-family="Fraunces" font-size="14" fill="#0A0A0A">#1 San Diego Sockers</text>
+          <text x="100" y="20" font-family="Fraunces" font-size="14" fill="#6B6B6B">vs #4 St. Louis Ambush</text>
+          <rect x="430" y="-8" width="120" height="22" fill="rgba(7,121,136,0.12)"/>
+          <rect x="430" y="-8" width="69.0" height="22" fill="#077988"/>
+          <text x="490" y="8" text-anchor="middle" font-family="JetBrains Mono" font-size="13" font-weight="500" fill="#FFFCF7">.575</text>
+          <text x="595" y="6" font-family="Fraunces" font-size="14" fill="#0A0A0A">2-0 SD</text>
+          <text x="675" y="6" font-family="Inter" font-size="11" font-weight="600" fill="#077988">AS EXPECTED</text>
+        </g>
+        <line x1="40" y1="212" x2="780" y2="212" stroke="#0A0A0A" stroke-opacity="0.1"/>
+
+        <!-- Row 4: SF MIL vs BAL, P=0.574 -->
+        <g transform="translate(0,240)">
+          <text x="40" y="0" font-family="Inter" font-size="11" font-weight="600" fill="#077988" letter-spacing="1">SF</text>
+          <text x="100" y="0" font-family="Fraunces" font-size="14" fill="#0A0A0A">#3 Milwaukee Wave</text>
+          <text x="100" y="20" font-family="Fraunces" font-size="14" fill="#6B6B6B">vs #2 Baltimore Blast</text>
+          <rect x="430" y="-8" width="120" height="22" fill="rgba(7,121,136,0.12)"/>
+          <rect x="430" y="-8" width="68.9" height="22" fill="#077988"/>
+          <text x="490" y="8" text-anchor="middle" font-family="JetBrains Mono" font-size="13" font-weight="500" fill="#FFFCF7">.574</text>
+          <text x="595" y="6" font-family="Fraunces" font-size="14" fill="#0A0A0A">2-1 MIL</text>
+          <text x="675" y="6" font-family="Inter" font-size="11" font-weight="600" fill="#077988">FAV WON*</text>
+        </g>
+        <line x1="40" y1="268" x2="780" y2="268" stroke="#0A0A0A" stroke-opacity="0.1"/>
+
+        <!-- Row 5: F SD vs MIL, P=0.484 (SD slight dog) -->
+        <g transform="translate(0,296)">
+          <text x="40" y="0" font-family="Inter" font-size="11" font-weight="600" fill="#E8127D" letter-spacing="1">F</text>
+          <text x="100" y="0" font-family="Fraunces" font-size="14" fill="#0A0A0A">#1 San Diego Sockers</text>
+          <text x="100" y="20" font-family="Fraunces" font-size="14" fill="#6B6B6B">vs #3 Milwaukee Wave</text>
+          <rect x="430" y="-8" width="120" height="22" fill="rgba(232,18,125,0.12)"/>
+          <rect x="430" y="-8" width="58.1" height="22" fill="#E8127D"/>
+          <text x="490" y="8" text-anchor="middle" font-family="JetBrains Mono" font-size="13" font-weight="500" fill="#FFFCF7">.484</text>
+          <text x="595" y="6" font-family="Fraunces" font-size="14" fill="#0A0A0A">2-1 SD</text>
+          <text x="675" y="6" font-family="Inter" font-size="11" font-weight="600" fill="#E8127D">PYTH UPSET</text>
+        </g>
+      </svg>
+      <p class="figure-source">Source: Pre-series Pythagorean win probabilities (log-5 best-of-three), N = 2.7645 · *MIL was the underdog by seeding but favored by Pyth · The Final's "PYTH UPSET" notes that the lower-seed but higher-strength team did NOT win — the seed favorite did</p>
+    </div>
+
+    <h2>What the 2026 bracket <em>actually was</em>.</h2>
+
+    <p>Read in aggregate, the 2026 bracket was a remarkably faithful execution of the Pythagorean script. Four of the five series had pre-series win probabilities between .57 and .67, the band where the model expects most series to live. Every one of those four series went to the model's favored team. The fifth series, the final, was the closest possible matchup at .484 to .516, and the seed favorite (San Diego) edged the strength favorite (Milwaukee) by a single game.</p>
+
+    <p>The 2026 bracket, in other words, is the cleanest possible test of the model. Five series, two of which were essentially coin flips, three of which were modest favorites. The bracket favorite by seeding (San Diego) won. The bracket favorite by underlying strength (Milwaukee) reached the final. The third-strongest team (Baltimore) lost to the strongest (Milwaukee) in three games. The fourth-strongest (St. Louis) lost to the second-strongest (San Diego) in two close games. Every series resolved within one game of what the model would have predicted. There were no upsets. There were no coronations. There was just the math of a short series, executed faithfully across five brackets-worth of matches.</p>
+
+    <div class="pullquote">
+      <p class="pullquote-text">"The Sockers won the bracket they were favored to win. The Wave reached the final the bracket was structured to push them toward. The model, for once, had nothing surprising to say. <em>That, itself, is the most surprising thing about it.</em>"</p>
+      <p class="pullquote-attribution">On the 2026 results · Volume II</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER 05 — A HUNDRED THOUSAND BRACKETS
+═══════════════════════════════════════════════════════════ -->
+<section id="ch5" class="chapter-opener">
+  <div class="wrap">
+    <div class="chapter-opener-eyebrow">
+      <span>The Indoor Frontier · Chapter Five</span>
+      <span>Dyllan Haggard · 2026</span>
+    </div>
+    <div class="chapter-opener-num">05</div>
+    <div class="chapter-opener-kicker">A Hundred Thousand Brackets</div>
+    <h1 class="chapter-opener-title">Where <em>thirty-three percent</em> comes from.</h1>
+    <p class="chapter-opener-deck">A Monte Carlo simulation of the 2026 bracket, run a hundred thousand times. The historical 30 percent championship rate isn't an accident of the data. It is the format, working as designed.</p>
+  </div>
+</section>
+
+<section class="prose">
+  <div class="narrow">
+    <p class="lede dropcap">Single-bracket retrospectives are useful for narrative; they are unreliable for inference. To make a structural claim about the playoff format, we have to abstract away the specific bracket and ask what the model would have produced across many possible 2026 worlds.</p>
+
+    <p>The Monte Carlo simulation below runs the 2026 MASL playoff bracket a hundred thousand times. Every team's per-game win probability against every other team is computed from their Pythagorean expected winning percentages using the log-5 method. Every series is then simulated independently — meaning Game 2 outcomes do not depend on Game 1 outcomes, an assumption that is approximately but not perfectly true in real-world series. The resulting distribution of championship winners is the closest available approximation of what the bracket should be expected to produce.</p>
+
+    <h2>The <em>simulation results</em>.</h2>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Team</th>
+          <th class="num">Seed</th>
+          <th class="num">Pyth W%</th>
+          <th class="num">Champion %</th>
+          <th class="num">Final %</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="success"><td><strong>San Diego Sockers</strong></td><td class="num">1</td><td class="num">.640</td><td class="num pink">33.3%</td><td class="num">61.9%</td></tr>
+        <tr><td>Baltimore Blast</td><td class="num">2</td><td class="num">.603</td><td class="num">22.7%</td><td class="num">46.3%</td></tr>
+        <tr class="highlight"><td>Milwaukee Wave</td><td class="num">3</td><td class="num">.650</td><td class="num">21.5%</td><td class="num">38.7%</td></tr>
+        <tr><td>St. Louis Ambush</td><td class="num">4</td><td class="num">.593</td><td class="num">11.7%</td><td class="num">25.6%</td></tr>
+        <tr><td>Kansas City Comets</td><td class="num">5</td><td class="num">.544</td><td class="num">6.2%</td><td class="num">16.1%</td></tr>
+        <tr><td>Empire Strykers</td><td class="num">6</td><td class="num">.535</td><td class="num">4.7%</td><td class="num">11.2%</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-family:var(--sans); font-size:12px; color:var(--muted); font-style:italic; margin-top:-10px;">Source: Author's Monte Carlo simulation, 100,000 trials · Per-game win probabilities derived via log-5 from N = 2.7645 · Format includes #1 and #2 byes</p>
+
+    <p>The headline number is in the top row: the Sockers had a <strong>33.3 percent</strong> championship probability before the bracket began. Across a hundred thousand simulations, San Diego won the Cup in roughly one out of every three runs. The model recovered, almost exactly, the historical 30 percent rate that ten years of MASL playoffs have produced.</p>
+
+    <p>Three observations sharpen the result. First, the most likely champion was the top seed, despite not being the strongest team by underlying performance. The seed advantage matters because of the bracket structure (byes, home floor, opponent ordering). Even though the Wave were a slightly stronger team, their disadvantage of being on the lower side of the bracket and having to play one extra series produced a championship probability lower than the Sockers'. Second, no team in the bracket had a championship probability above 35 percent. Third, even the sixth seed, Empire, had a non-trivial championship probability of 4.7 percent — meaning a pure long-shot in the MASL bracket has roughly the odds of a coin landing on its edge, but it is not zero.</p>
+
+    <h2>What the <em>distribution</em> means.</h2>
+
+    <p>The instinct in most fans, and in many MASL reporters, is to read the regular-season standings as a strong prediction of who will win the championship. The Pythagorean Monte Carlo says exactly the opposite. Even with perfect information about every team's underlying strength, the most likely result of the 2026 bracket is the top seed winning, and the top seed wins only a third of the time. Two-thirds of the simulated brackets ended with a different champion.</p>
+
+    <p>That distribution is not noise. It is the structural answer to the paradox. The MASL's playoff format, applied to a league with the per-game variance the Pythagorean fit recovers, produces a championship distribution that is heavy on the top three seeds (a combined ~78 percent in the model) and light on individual probabilities (no team above 33 percent). The historical 30 percent top-seed rate is a near-perfect match.</p>
+
+    <div class="figure">
+      <div class="figure-eyebrow">Figure 04</div>
+      <h3 class="figure-title">Where 33 percent comes from</h3>
+      <p class="figure-deck">Championship probability for each 2026 playoff team, derived from 100,000 Monte Carlo simulations of the bracket. The dashed reference line is the 30% historical rate the top seed has won at across the league's first decade.</p>
+      <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" style="background:var(--bg);">
+        <!-- Y axis -->
+        <line x1="80" y1="40" x2="80" y2="340" stroke="#0A0A0A" stroke-width="1.5"/>
+        <line x1="80" y1="340" x2="780" y2="340" stroke="#0A0A0A" stroke-width="1.5"/>
+        <!-- Y labels -->
+        <text x="70" y="46" text-anchor="end" font-family="Inter" font-size="11" fill="#6B6B6B">35%</text>
+        <text x="70" y="118" text-anchor="end" font-family="Inter" font-size="11" fill="#6B6B6B">25%</text>
+        <text x="70" y="190" text-anchor="end" font-family="Inter" font-size="11" fill="#6B6B6B">15%</text>
+        <text x="70" y="262" text-anchor="end" font-family="Inter" font-size="11" fill="#6B6B6B">5%</text>
+        <text x="70" y="343" text-anchor="end" font-family="Inter" font-size="11" fill="#6B6B6B">0%</text>
+        <line x1="80" y1="46" x2="780" y2="46" stroke="#0A0A0A" stroke-opacity="0.06" stroke-dasharray="2,3"/>
+        <line x1="80" y1="118" x2="780" y2="118" stroke="#0A0A0A" stroke-opacity="0.06" stroke-dasharray="2,3"/>
+        <line x1="80" y1="190" x2="780" y2="190" stroke="#0A0A0A" stroke-opacity="0.06" stroke-dasharray="2,3"/>
+        <line x1="80" y1="262" x2="780" y2="262" stroke="#0A0A0A" stroke-opacity="0.06" stroke-dasharray="2,3"/>
+        <!-- Reference line at 30% historical rate -->
+        <line x1="80" y1="83" x2="780" y2="83" stroke="#E8127D" stroke-width="1.5" stroke-dasharray="6,4"/>
+        <text x="780" y="78" text-anchor="end" font-family="Inter" font-size="10" font-weight="600" fill="#E8127D">HISTORICAL TOP-SEED RATE: 30%</text>
+
+        <!-- Bars: each ~95 wide, gap 10, starting x=110 -->
+        <!-- SD: 33.3% h=240; -->
+        <!-- BAL: 22.7% h=164 -->
+        <!-- MIL: 21.5% h=155 -->
+        <!-- STL: 11.7% h=84 -->
+        <!-- KC: 6.2% h=45 -->
+        <!-- EMP: 4.7% h=34 -->
+        <!-- bar y0=340, h=pct/35 * 300; for 33.3 = 240, top y = 100 -->
+        <g>
+          <rect x="120" y="60" width="95" height="280" fill="#E8127D"/>
+          <text x="167" y="52" text-anchor="middle" font-family="JetBrains Mono" font-size="14" font-weight="500" fill="#0A0A0A">33.3%</text>
+          <text x="167" y="358" text-anchor="middle" font-family="Inter" font-size="11" font-weight="600" fill="#0A0A0A">SD #1</text>
+          <text x="167" y="375" text-anchor="middle" font-family="Inter" font-size="9" fill="#6B6B6B">.640 pyth</text>
+        </g>
+        <g>
+          <rect x="225" y="146" width="95" height="194" fill="#054B57"/>
+          <text x="272" y="138" text-anchor="middle" font-family="JetBrains Mono" font-size="14" font-weight="500" fill="#0A0A0A">22.7%</text>
+          <text x="272" y="358" text-anchor="middle" font-family="Inter" font-size="11" font-weight="600" fill="#0A0A0A">BAL #2</text>
+          <text x="272" y="375" text-anchor="middle" font-family="Inter" font-size="9" fill="#6B6B6B">.603 pyth</text>
+        </g>
+        <g>
+          <rect x="330" y="156" width="95" height="184" fill="#077988"/>
+          <text x="377" y="148" text-anchor="middle" font-family="JetBrains Mono" font-size="14" font-weight="500" fill="#0A0A0A">21.5%</text>
+          <text x="377" y="358" text-anchor="middle" font-family="Inter" font-size="11" font-weight="600" fill="#0A0A0A">MIL #3</text>
+          <text x="377" y="375" text-anchor="middle" font-family="Inter" font-size="9" fill="#6B6B6B">.650 pyth ★</text>
+        </g>
+        <g>
+          <rect x="435" y="240" width="95" height="100" fill="#054B57" opacity="0.7"/>
+          <text x="482" y="232" text-anchor="middle" font-family="JetBrains Mono" font-size="14" font-weight="500" fill="#0A0A0A">11.7%</text>
+          <text x="482" y="358" text-anchor="middle" font-family="Inter" font-size="11" font-weight="600" fill="#0A0A0A">STL #4</text>
+          <text x="482" y="375" text-anchor="middle" font-family="Inter" font-size="9" fill="#6B6B6B">.593 pyth</text>
+        </g>
+        <g>
+          <rect x="540" y="287" width="95" height="53" fill="#054B57" opacity="0.55"/>
+          <text x="587" y="279" text-anchor="middle" font-family="JetBrains Mono" font-size="14" font-weight="500" fill="#0A0A0A">6.2%</text>
+          <text x="587" y="358" text-anchor="middle" font-family="Inter" font-size="11" font-weight="600" fill="#0A0A0A">KC #5</text>
+          <text x="587" y="375" text-anchor="middle" font-family="Inter" font-size="9" fill="#6B6B6B">.544 pyth</text>
+        </g>
+        <g>
+          <rect x="645" y="299" width="95" height="41" fill="#054B57" opacity="0.45"/>
+          <text x="692" y="291" text-anchor="middle" font-family="JetBrains Mono" font-size="14" font-weight="500" fill="#0A0A0A">4.7%</text>
+          <text x="692" y="358" text-anchor="middle" font-family="Inter" font-size="11" font-weight="600" fill="#0A0A0A">EMP #6</text>
+          <text x="692" y="375" text-anchor="middle" font-family="Inter" font-size="9" fill="#6B6B6B">.535 pyth</text>
+        </g>
+
+        <!-- Title note -->
+        <text x="80" y="32" font-family="Inter" font-size="10" fill="#6B6B6B" letter-spacing="1.5">CHAMPIONSHIP PROBABILITY (100,000 SIMS)</text>
+      </svg>
+      <p class="figure-source">Source: 100,000 Monte Carlo simulations of the 2026 MASL playoff bracket · ★ Milwaukee was the strongest team by Pythagorean expectation, third by seed</p>
+    </div>
+
+    <h2>The <em>most likely outcome</em> happened.</h2>
+
+    <p>Across a hundred thousand simulations, the bracket produced a Sockers championship 33 percent of the time. The actual 2026 bracket produced a Sockers championship. The most likely individual outcome was the one that occurred. This is unusual. In a six-team bracket where no team has a championship probability above 35 percent, the expected pattern is for the modal result to be the winner only about one-third of the time — meaning the mode wins, the most-likely outcome plays out, in the same fraction of seasons that the top seed wins. They are, in effect, the same statistic.</p>
+
+    <p>The 2026 bracket is, in other words, the kind of result that the model should produce roughly once every three seasons. The other two-thirds of the time, the model would expect something else: the second seed wins, the third seed wins, occasionally the fourth or fifth seed wins. Looking at the historical record validates this. Of the ten completed brackets in the modern MASL era, three were won by the top seed and seven by other seeds. That ratio is exactly what a properly calibrated bracket model would expect a six-to-eight-team league with these per-game variances and these seeding rules to produce.</p>
+
+    <h2>Sensitivity: <em>what if the format changed</em>?</h2>
+
+    <p>One useful exercise is to ask what would happen to the championship distribution if the league expanded its series length. The current format is best-of-three, with a Game 3 played as a 15-minute mini-game if the series is tied 1-1. The mini-game format increases per-series variance because it gives the lower-strength team a higher probability of winning a single 15-minute window than they would have in a full game. A best-of-five series, by contrast, would reduce variance and reward the stronger team more reliably.</p>
+
+    <p>Below is a sensitivity table showing the same Monte Carlo simulation under three alternative formats. The current best-of-three with mini-game (the model's baseline). A best-of-three with a full Game 3 instead of a mini-game. And a hypothetical best-of-five for every round. The numbers shift in the predictable direction: longer series favor the stronger team.</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Team</th>
+          <th class="num">Pyth W%</th>
+          <th class="num">Bo3 with mini</th>
+          <th class="num">Bo3 full</th>
+          <th class="num">Bo5</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>San Diego</td><td class="num">.640</td><td class="num">33.3%</td><td class="num">34.1%</td><td class="num">36.4%</td></tr>
+        <tr><td>Milwaukee</td><td class="num">.650</td><td class="num">21.5%</td><td class="num">22.6%</td><td class="num">26.1%</td></tr>
+        <tr><td>Baltimore</td><td class="num">.603</td><td class="num">22.7%</td><td class="num">22.4%</td><td class="num">21.0%</td></tr>
+        <tr><td>St. Louis</td><td class="num">.593</td><td class="num">11.7%</td><td class="num">11.0%</td><td class="num">9.5%</td></tr>
+        <tr><td>Kansas City</td><td class="num">.544</td><td class="num">6.2%</td><td class="num">5.7%</td><td class="num">4.4%</td></tr>
+        <tr><td>Empire</td><td class="num">.535</td><td class="num">4.7%</td><td class="num">4.2%</td><td class="num">2.6%</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-family:var(--sans); font-size:12px; color:var(--muted); font-style:italic; margin-top:-10px;">Source: Author's sensitivity analysis · Best-of-five run with home-floor not advantaged in this version · Indicative only, full sensitivity in Methodology Appendix</p>
+
+    <p>The takeaway is structural. Even doubling series length from three to five does not produce a runaway favorite. The strongest team's championship probability in a best-of-five format is still only 36 percent. Indoor soccer has so much per-game variance that no realistically achievable format would push the top seed above the mid-40s. The game itself, not the bracket structure, is the source of the unpredictability.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER 06 — WHY THE FORMAT WINS, NOT THE SEED
+═══════════════════════════════════════════════════════════ -->
+<section id="ch6" class="chapter-opener">
+  <div class="wrap">
+    <div class="chapter-opener-eyebrow">
+      <span>The Indoor Frontier · Chapter Six</span>
+      <span>Dyllan Haggard · 2026</span>
+    </div>
+    <div class="chapter-opener-num">06</div>
+    <div class="chapter-opener-kicker">Why the Format Wins, Not the Seed</div>
+    <h1 class="chapter-opener-title">Three games is <em>three games</em>.</h1>
+    <p class="chapter-opener-deck">Series length, talent compression, and the mechanical reason every MASL bracket looks the way it looks. The structural answer to the paradox lives in the math of small samples.</p>
+  </div>
+</section>
+
+<section class="prose">
+  <div class="narrow">
+    <p class="lede dropcap">Every analytical paper eventually has to answer the question its data raises, and the question this paper's data raises is mechanical, not philosophical.</p>
+
+    <p>If the MASL's Pythagorean exponent is 2.76, and a properly calibrated Monte Carlo recovers a 33 percent championship rate for the top seed, then the 30 percent historical rate is not an accident. The interesting question is not whether the rate is what it is. The interesting question is <em>why</em> the format produces that rate, and what would have to change for it to produce a different one.</p>
+
+    <p>The structural answer comes down to three pieces. Series length. Talent compression. And the per-game variance of the sport itself. Each one alone would be insufficient to produce the observed paradox. Stacked together, they produce it inevitably.</p>
+
+    <h2>Piece one: <em>series length</em>.</h2>
+
+    <p>The most consequential variable in any bracket structure is how many games each series contains. The mathematics of best-of-N is unforgiving. Suppose Team A is a true 60 percent favorite over Team B in any single game. In a best-of-three, A's series win probability is roughly 65 percent. In a best-of-five, it climbs to 68 percent. In a best-of-seven, it climbs to 71 percent. The longer the series, the closer the result tracks the true talent gap.</p>
+
+    <p>The MASL's best-of-three format, with a 15-minute mini-game as the deciding contest, sits at the bottom end of this curve. It rewards true talent superiority less than any other professional series format in North American sports. A 60 percent per-game favorite in the MASL playoffs has roughly the same series win probability as a 56 percent per-game favorite in a best-of-seven NBA or NHL series. The structure compresses, by design, the gap between the strongest and weakest playoff teams.</p>
+
+    <h2>Piece two: <em>talent compression</em>.</h2>
+
+    <p>The 2025-26 MASL did not have a dominant team. The strongest team by Pythagorean expectation, Milwaukee, won at a .650 clip. The sixth-strongest, Empire, won at .535. The full range across the playoff field is barely above eleven percentage points. Compare that to the 2024-25 season, where Chihuahua and San Diego both posted .833 records. Compare that to 2018-19, when San Diego went 23-1. Or 2014-15, when Missouri went 20-0. The 2025-26 league was, by historical standards, the most compressed playoff field the modern MASL had produced.</p>
+
+    <p>Talent compression compounds with series length. When the strongest team is 70 percent of the league's win rate above the weakest, even a short series has a clear favorite. When the strongest team is only 11 percentage points above the weakest playoff team, every series becomes closer to a coin flip. The best possible per-game probability for the highest-Pythagorean team against the lowest-Pythagorean team in the 2026 bracket was Milwaukee against Empire, at .617. The best probability against the second-lowest, against Kansas City, was .605. The 2026 bracket did not have a single matchup in which the favorite was above 70 percent per game. Almost every series was a near-coin-flip.</p>
+
+    <h2>Piece three: <em>per-game variance</em>.</h2>
+
+    <p>Indoor soccer is a higher-variance sport per minute of play than its outdoor counterpart, and this is the part of the explanation that most non-analysts miss. The reasons are mechanical. The field is small. The walls keep the ball in play. Possession changes are constant. Goals come in clusters because of power-play structures and substitution patterns. Goalkeeper performance can swing a single game by three or four goals. None of these features are flaws in the sport. They are what make indoor soccer compelling to watch. They are also, mathematically, what make any single 60-minute game an unreliable indicator of which team is better.</p>
+
+    <p>The Pythagorean exponent of 2.76 is the precise quantification of this variance. Higher exponents mean the relationship between goal differential and winning percentage is steep — small differences produce big swings in record. The MASL's exponent is high enough that a single game's outcome is a noisy signal, but not so high that goal differential becomes meaningless across a full 24-game season. Over 24 games, the noise mostly averages out and the strongest teams reliably finish near the top of the table. Over three games, the noise dominates, and the top of the table reliably loses to teams that were two or three rows below them.</p>
+
+    <h2>Stacking the three together.</h2>
+
+    <p>Each of these factors — series length, talent compression, per-game variance — would, on its own, produce some unpredictability in a playoff bracket. The reason the MASL's playoff distribution looks the way it does is that all three factors stack on top of each other. A short-series format applied to a compressed talent pool in a high-variance sport produces a championship distribution that is almost flat across the top half of the bracket. The Monte Carlo recovers exactly this. San Diego at 33 percent. Baltimore and Milwaukee both at roughly 22 percent. St. Louis at 12 percent. The lowest two seeds combined at 11 percent. The distribution is heavily compressed, exactly as the inputs would suggest.</p>
+
+    <div class="findings">
+      <div class="finding">
+        <div class="finding-num">01</div>
+        <div class="finding-body">
+          <h4>Best-of-three is the dominant variable.</h4>
+          <p>Doubling series length to best-of-five shifts the top seed's championship probability from 33% to 36%, and the strongest team by Pythagoras (Milwaukee) from 22% to 26%. The format change matters, but not as much as the per-game variance does. The format is a 3-percentage-point lever; the variance is a 30-percentage-point one.</p>
+        </div>
+      </div>
+      <div class="finding">
+        <div class="finding-num">02</div>
+        <div class="finding-body">
+          <h4>Compressed talent kills favorites.</h4>
+          <p>The 2026 MASL had no per-game probability above 67% in any potential matchup of playoff teams. In years with dominant teams (Monterrey 24-0, Missouri 20-0, San Diego 23-1), the math gives the top seed a meaningfully higher Cup probability — closer to 45-50% than to 33%. None of those teams won, either. Variance dominates compression dominates length.</p>
+        </div>
+      </div>
+      <div class="finding">
+        <div class="finding-num">03</div>
+        <div class="finding-body">
+          <h4>The format is functioning as designed.</h4>
+          <p>If the goal of the playoff format were to crown the regular-season leader as champion, the format would need to be longer and the league would need to be less competitive. Both of those changes would damage the product. The current format produces sustainable narrative drama because it produces real uncertainty. The 30 percent rate is not a bug.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2>The <em>economic</em> consequence.</h2>
+
+    <p>The structural answer has commercial implications, which is worth a paragraph because the rest of this paper is built on tactical math and the league's audience is also a business audience. A playoff format in which the top seed wins 70 percent of the time is a format with relatively predictable championship narratives, which compresses the marketing window each year to roughly two teams. A format in which the top seed wins 30 percent of the time is a format in which six teams enter the bracket with realistic championship hopes, four teams have meaningful narratives every postseason, and the championship final has unpredictable matchups year-over-year. The latter format is harder to plan around, but it produces more compelling stories.</p>
+
+    <p>This is the broadcast and ticket-sales argument for the structure as currently designed. Every team's fan base, in any given year, has a defensible reason to believe their team can win it all. The Empire Strykers, seeded sixth, had a 4.7 percent championship probability in the 2026 bracket. That is not zero. It is, in expected-value terms, the probability that one of the next twenty MASL playoffs will see the sixth seed win the Cup, an outcome that no NBA or NHL bracket of similar field size would produce. The compressed distribution is the marketing asset.</p>
+
+    <div class="pullquote">
+      <p class="pullquote-text">"The MASL's playoff format is not bad at picking champions. It is good at producing <em>uncertainty</em>. Those are different things, and the 30 percent rate is the receipt."</p>
+      <p class="pullquote-attribution">On structure vs. seeding · Volume II</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER 07 — THE AMBUSH IN THE SEMIFINALS
+═══════════════════════════════════════════════════════════ -->
+<section id="ch7" class="chapter-opener">
+  <div class="wrap">
+    <div class="chapter-opener-eyebrow">
+      <span>The Indoor Frontier · Chapter Seven</span>
+      <span>Dyllan Haggard · 2026</span>
+    </div>
+    <div class="chapter-opener-num">07</div>
+    <div class="chapter-opener-kicker">The Ambush in the Semifinals</div>
+    <h1 class="chapter-opener-title">A fourth seed, a one-goal series, and what the <em>model says about it</em>.</h1>
+    <p class="chapter-opener-deck">St. Louis ended the 2025-26 season fourth by Pythagorean strength and fourth by seed. They beat Kansas City. They lost two one-goal games to San Diego. Both halves of that result fit cleanly inside the model.</p>
+  </div>
+</section>
+
+<section class="prose">
+  <div class="narrow">
+    <p class="lede dropcap">Every paper that uses an analytical model on a playoff bracket eventually has to answer for the franchise the author works with, and this is the section in which I do that. The St. Louis Ambush were the 2025-26 fourth seed, won their quarterfinal series, and lost in the semifinals to the eventual Cup champion. The model has something specific to say about that result, and the right thing to do is to say it plainly.</p>
+
+    <p>The Ambush's regular season produced 13 wins and 11 losses, with 134 goals for and 117 against. By Pythagorean expectation, the team's underlying strength was a .593 winning percentage — slightly below the team's actual record of .542. The minus-.051 residual is small but negative, which means the goal differential implied a stronger team than the standings reflected. The Ambush were, by this measure, modestly unlucky in the regular season. They were a stronger team than 13-11 suggested.</p>
+
+    <p>That is a relevant fact for the playoff retrospective because it explains why the Ambush were a more dangerous opponent in the bracket than their seed implied. In a league as compressed as the 2025-26 MASL, the difference between the fourth-strongest team (St. Louis at .593) and the third-strongest (Baltimore at .603) was just one percentage point of underlying winning percentage. The Ambush were not a clear-cut underdog to the higher seeds. They were, by the model, the fourth-best team in a six-team bracket where the top six were separated by 11 percentage points total.</p>
+
+    <h2>The <em>quarterfinal series</em> against Kansas City.</h2>
+
+    <p>The Ambush's quarterfinal against Kansas City was, by the Pythagorean model, the closest series of the entire opening round. St. Louis at .593 against Kansas City at .544 produced a per-game probability of .551 for the Ambush, and a series-level probability of .573. Functionally a coin flip, with the Ambush as the lighter side of the coin.</p>
+
+    <p>The actual series mirrored that. St. Louis took Game 1 in Kansas City, 9-4, an unexpectedly emphatic road result. Kansas City won Game 2 at home, 6-5, the kind of one-goal result the model produces with high frequency in matchups this close. The deciding mini-game in St. Louis went 2-0 to the Ambush, in front of a then-season-high home crowd at the Family Arena. The 2-1 series result is exactly what a 57.3 percent favorite would be expected to produce. No surprises.</p>
+
+    <h2>The <em>semifinal series</em> against San Diego.</h2>
+
+    <p>The Sockers were the eventual Cup champions, the top seed, and the second-strongest team by Pythagorean expectation. Against the Ambush, the Sockers were a 57.5 percent series favorite. Slightly more lopsided than the Kansas City quarterfinal, but still well within the band of "either team can win this if the games go a certain way." The actual series did not produce a coin-flip mini-game. It produced two consecutive one-goal Sockers wins. Game 1 in St. Louis went 6-5 San Diego. Game 2 in San Diego went 6-5 in overtime, San Diego.</p>
+
+    <p>Two one-goal games is the closest possible 2-0 series result in indoor soccer. Either game could have flipped on a single shot, a single goalkeeper stop, a single set-piece outcome. By the model, the probability of San Diego winning each individual game was .527, just barely above a coin flip. The probability of San Diego winning both games in regulation, exclusive of the deciding-game scenarios, was about .278 — well under a third. The Ambush played two coin flips against the eventual Cup champions and lost them both. That is a different kind of postseason exit than the seed numbers would suggest.</p>
+
+    <h2>What this <em>looks like</em> in plain language.</h2>
+
+    <p>Translated out of the math, the Ambush's 2026 postseason was a fourth seed that was actually the fourth-strongest team in the league, beat a fifth seed in the quarterfinals, and lost two one-goal games to the eventual champion in the semifinals. Each one of those outcomes was the most likely individual result of the matchup it represented. None of them were upsets in either direction. The team performed at the level the data said it should perform at, won the round it was favored to win, and lost the round it was a slight underdog in.</p>
+
+    <p>That is a different framing than the typical "lost in the semifinals" narrative. By the model, the Ambush's 2026 run is a textbook execution of what a fourth-seed semifinalist's bracket is supposed to look like. The team performed at expectation. The bracket performed at expectation. The result was a semifinal exit, and any team in the bracket would have produced something close to it given the inputs.</p>
+
+    <div class="callout callout-compact">
+      <div class="callout-label">The Ambush, By the Model</div>
+      <h3 class="callout-title">Two coin flips, both lost by one goal.</h3>
+      <div class="callout-body">
+        <p>St. Louis was a 57.3% favorite over Kansas City and won the series. They were a 42.5% underdog against San Diego and lost the series. Game 1 was a 6-5 final in St. Louis. Game 2 was a 6-5 final in overtime in San Diego. The model gave the Ambush about a 28% chance of being swept in regulation across two games. They were swept in regulation across two games. Within the band of the model, that is one of the more plausible outcomes — and it does not say anything bad about the team that produced it.</p>
+      </div>
+    </div>
+
+    <h2>The <em>roster-construction signal</em> for next season.</h2>
+
+    <p>The Pythagorean residual of minus-.051 is the most actionable single number from the Ambush's 2025-26 season. A negative residual means the goal differential implied more wins than the team got. Roughly speaking, the Ambush were a 14-win team that finished with 13 wins. One game of bad luck in close-game outcomes is small enough to be invisible in narrative, but it is visible in the data. Teams that finish a season with a negative residual tend to outperform their record the following season, on average, because the underlying performance is stronger than the surface result.</p>
+
+    <p>However, the residual only tells half the story. The Ambush also took an unusually high share of their decisions to overtime — wins as well as losses — and overtime outcomes are a different kind of signal than regulation outcomes. A team that wins consistently in regulation looks like a 14-win team. A team that wins half its overtime games and loses the other half looks, in the standings, like the same 14-win team. They are not. The volume of OT play in 2025-26 reveals a roster that was tactically capable of competing with anyone for forty-five minutes but did not have the closing-game depth to put matches away inside regulation. That is a roster-construction signal as much as the residual itself.</p>
+
+    <p>This is not a guarantee of regression to better outcomes. It is a base rate. But it is a base rate worth knowing for any front office or coaching staff doing offseason planning, and for any Ambush player or supporter who watches the team produce close-game results in 2026-27 and wonders whether the trajectory is real. By the model, the trajectory entering the offseason is positive, not negative, and the next season's bracket should expect a slightly stronger Ambush than 2025-26 produced — if everything else holds constant.</p>
+
+    <p>The lever the club can actually pull, though, lives in the regular season. The 2025-26 schedule trended in the wrong direction down the stretch — closer games, more OTs, narrower margins — and a fourth seed entering the bracket is not the same fourth seed entering it after a clean three-week run. Controlling fate, in this format, means controlling the regular season: managing minutes and exhaustion through the late-season fixture pile, finishing higher than fourth on the strength of regulation wins rather than overtime variance, and arriving at the bracket with the legs and the seeding to weather a five-game run. The math says the underlying team is better than the record. The roadmap says the next step is making the record reflect that, and entering the playoffs as the team the data already believes them to be.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER 08 — WHAT THIS MEANS FOR ROSTER CONSTRUCTION
+═══════════════════════════════════════════════════════════ -->
+<section id="ch8" class="chapter-opener">
+  <div class="wrap">
+    <div class="chapter-opener-eyebrow">
+      <span>The Indoor Frontier · Chapter Eight</span>
+      <span>Dyllan Haggard · 2026</span>
+    </div>
+    <div class="chapter-opener-num">08</div>
+    <div class="chapter-opener-kicker">What This Means for Roster Construction</div>
+    <h1 class="chapter-opener-title">Three corollaries that <em>follow from the math</em>.</h1>
+    <p class="chapter-opener-deck">If the format is producing the championship distribution and not the seeding, then the question every front office should be asking is what kind of roster the format actually rewards. The answer is not the same as the one the regular-season standings imply.</p>
+  </div>
+</section>
+
+<section class="prose">
+  <div class="narrow">
+    <p class="lede dropcap">An analytical paper that stops at "the format produces the result" is a complete paper academically and an incomplete paper operationally. The point of the math, for any front office or coaching staff reading it, is to identify the levers a club can actually pull in light of what the math is saying. The MASL's playoff format is unlikely to change in any near horizon. Roster construction can.</p>
+
+    <p>Below are three corollaries that follow directly from the model. Each one is a specific, falsifiable suggestion for how to build a roster that is structurally better suited to win a short-series indoor soccer playoff bracket than to win a regular season. They do not argue for de-emphasizing the regular season — the regular season produces the seeds, the byes, and the home-floor advantage that the model rewards. They argue for understanding the regular season and the playoffs as two different optimization problems, with overlapping but non-identical inputs.</p>
+
+    <h2>Corollary one: <em>build for series-level variance, not for single-game ceiling</em>.</h2>
+
+    <p>The single most-overrated player profile in indoor soccer is the high-ceiling regular-season scorer who has high game-to-game variance. This player wins games in bursts — a four-goal night, a hat trick on a Tuesday, a stretch of five games with twelve combined goals. Across a 24-game regular season, that variance averages out, and the player's contribution to the standings is real and measurable. Across a three-game playoff series, that same variance can produce zero goals as easily as it produces five. The series-level distribution of the high-variance player is wider than the team can absorb when every game matters.</p>
+
+    <p>The structurally correct profile for a playoff roster is the medium-ceiling, low-variance scorer. The player who scores one or two goals per game, every game, and has a goal floor of zero only on the rare occasion. In the language of investment portfolios, what front offices should optimize for in the playoffs is the Sharpe ratio of scoring contribution, not the absolute ceiling. Two reliable contributors is worth more than one explosive one when the format compresses the sample size to three games.</p>
+
+    <p>This is not a popular take with coaches, who tend to value ceiling over reliability for narrative reasons. It is, however, what the math says. Volume III will quantify this directly using a player-level analysis of MASL playoff performance versus regular-season performance, controlling for opponent strength and home-floor advantage.</p>
+
+    <h2>Corollary two: <em>defensive variance matters more than offensive ceiling</em>.</h2>
+
+    <p>The Pythagorean exponent of 2.76 has a specific tactical implication that most front offices have not internalized. At that exponent, a team that allows ten percent fewer goals than the league average wins about as many games as a team that scores ten percent more. Defense and offense are roughly symmetric in their contribution to expected winning percentage. But in the playoff format, with its short series and high per-game variance, defense becomes asymmetrically valuable.</p>
+
+    <p>The reason is straightforward. Offensive output, especially in indoor soccer, is volatile. A team's best forward can be neutralized for a single game by a hot goalkeeper, an aggressive defensive matchup, or an unlucky bounce. Defensive output, by contrast, is more consistent. A goalkeeper who stops 75 percent of shots in the regular season is overwhelmingly likely to stop close to 75 percent of shots in any playoff game. A defensive structure that allows fewer than 130 goals across a 24-game season tends to allow fewer than 16 goals across a three-game playoff series. The variance on the defensive side is lower than the variance on the offensive side, which means defensive performance is a more reliable inputs to series-level outcomes.</p>
+
+    <p>The 2025-26 Sockers won the Cup with the second-best goal differential in the league, the best defensive record in the league, and only the third-most goals scored. The 2024-25 Chihuahua Savage won the Cup with a similar profile — top-three defense, top-five offense, league-best overall point differential. The 2014-15 Monterrey Flash won the Cup with the league's best defensive record by a wide margin. The historical pattern of MASL champions skews defensive. The Pythagorean explanation is that defensive consistency outperforms offensive ceiling in a short-series format.</p>
+
+    <h2>Corollary three: <em>depth is not a luxury, it is a championship variable</em>.</h2>
+
+    <p>The third corollary is the most operationally important and the least intuitive. The MASL playoff format compresses real talent gaps into single-event coin flips, which means that the team's worst three or four players can affect a series outcome more than the team's best two or three. A best-of-three series, with a 15-minute mini-game, is roughly four 60-minute units of soccer. Across that span, every roster spot will play. The team's tenth-best player will see the floor at a critical moment. The team's backup goalkeeper might be needed for a quarter or longer if the starter is ejected, injured, or visibly struggling.</p>
+
+    <p>Building a roster that is top-heavy — three or four star players supported by below-replacement-level depth — is a regular-season optimization. The stars play heavy minutes, the team wins games on talent superiority, and the standings reward it. In a short series, that same roster construction can produce one of two failure modes. Either the stars get neutralized for a single game and the team loses because the depth cannot create offense, or the stars get fatigued across a compressed series window and the team loses because the depth cannot maintain the pace.</p>
+
+    <p>The cure is depth. Specifically, the bottom of the bench has to be at or above replacement level — a roster construction philosophy that is more expensive in raw payroll terms than the alternative but produces a meaningfully higher series-level expected win probability. A team that pays its tenth player roughly what other teams pay their fifth or sixth player, while accepting a slightly lower ceiling on its top-end talent, will outperform its regular-season Pythagorean expectation in the playoffs. The 2025-26 Sockers had this profile. Their second-team All-MASL contingent (four players) is the visible measure, but the underlying signal is in the minutes distribution. The Sockers' top six players played fewer minutes per game than the league average; their seventh-through-tenth players played more.</p>
+
+    <div class="findings">
+      <div class="finding">
+        <div class="finding-num">01</div>
+        <div class="finding-body">
+          <h4>Sharpe over ceiling.</h4>
+          <p>Optimize for low-variance scoring contributions in playoff-track roster construction. A roster with three reliable 1.5-goal-per-game forwards outperforms a roster with one 3-goal-per-game star and two streaky contributors when the series is three games long.</p>
+        </div>
+      </div>
+      <div class="finding">
+        <div class="finding-num">02</div>
+        <div class="finding-body">
+          <h4>Defense compounds in short series.</h4>
+          <p>Defensive variance is lower than offensive variance. In a high-variance sport with a short-series format, that asymmetry favors teams that build their identity around defensive consistency. The historical MASL Cup-winner profile bears this out across the modern era.</p>
+        </div>
+      </div>
+      <div class="finding">
+        <div class="finding-num">03</div>
+        <div class="finding-body">
+          <h4>Pay your tenth player.</h4>
+          <p>Roster depth is the single most underrated investment in playoff-track team building. The MASL's three-game series format guarantees that every roster spot plays. The team's depth determines the floor of its series-level outcomes; the stars determine the ceiling. In a short series, the floor matters more.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2>The <em>operational summary</em>.</h2>
+
+    <p>If the regular season is an optimization problem about producing the most wins across 24 games, the playoffs are an optimization problem about producing the highest probability of winning two of three in any single series. The two problems share most of their inputs (talent, defense, goalkeeping, coaching) but diverge on the variance question. Regular-season optimization rewards teams that maximize ceiling and minimize floor across a long sample. Playoff optimization rewards teams that minimize variance across a short sample, even at the cost of ceiling.</p>
+
+    <p>The MASL's 30 percent top-seed Cup rate is, in some sense, the league's revealed preference for variance reduction. The teams that have won the Cup most consistently in the modern era — the Sockers, the Blast, the Chihuahua Savage — have all built around defensive consistency and roster depth, not offensive ceiling. The teams that have dominated regular seasons but failed in the playoffs — the 24-0 Monterrey Flash, the 23-1 Sockers of 2018-19, the 20-0 Missouri Comets — have done so with rosters that rewarded ceiling over depth.</p>
+
+    <p>The math is clear about which strategy wins the bracket. Front offices that build for the regular season will produce regular-season banners. Front offices that build for the bracket will produce championship banners. The two are not mutually exclusive, but they do require different roster decisions, and the data has been telling us which is which for a decade now. We just have not been listening.</p>
+
+    <div class="pullquote">
+      <p class="pullquote-text">"The regular-season optimization problem is about ceiling. The playoff optimization problem is about <em>floor</em>. A front office that understands the difference will own April. A front office that does not will keep collecting Shields and watching other teams lift the Cup."</p>
+      <p class="pullquote-attribution">On building for the bracket · Volume II</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CONCLUSION
+═══════════════════════════════════════════════════════════ -->
+<section id="conclusion" class="chapter-opener" style="border-top: 1px solid var(--hair-strong);">
+  <div class="wrap">
+    <div class="chapter-opener-eyebrow">
+      <span>The Indoor Frontier · Volume II</span>
+      <span>Conclusion</span>
+    </div>
+    <div class="chapter-opener-num">—</div>
+    <div class="chapter-opener-kicker">Conclusion</div>
+    <h1 class="chapter-opener-title">What Volume III <em>will measure</em>.</h1>
+    <p class="chapter-opener-deck">A Pythagorean exponent and a Monte Carlo simulation answer the structural question of why the 30 percent rate exists. The next questions, the operational ones, are the subject of the next paper in this series.</p>
+  </div>
+</section>
+
+<section class="prose">
+  <div class="narrow">
+    <p>This paper has tried to do three things. Derive the MASL's first published Pythagorean expectation exponent and validate it against a hundred and forty-nine team-seasons of league data. Apply that exponent to the 2026 Ron Newman Cup playoffs and produce a series-by-series retrospective grounded in pre-series probabilities, not after-the-fact narrative. And explain why the historical 30 percent top-seed championship rate is not a flaw in the bracket structure but a structural feature of a short-series format applied to a high-variance, talent-compressed sport.</p>
+
+    <p>The Sockers' seventeenth franchise championship in 2025-26 is, by the model, the most likely individual outcome of a bracket where no team had above a 35 percent championship probability. Milwaukee was the strongest team by underlying performance and reached the final. Baltimore was the second seed and lost in the semifinals to the Pythagorean favorite. St. Louis was the fourth seed and the fourth-strongest team, beat a fifth seed in the quarterfinals, and lost two one-goal games to the eventual champion. None of those results were upsets. All of them were the most likely outcomes of their respective matchups. The 2026 bracket performed, statistically, exactly as the data predicted it would.</p>
+
+    <p>The remaining questions are operational. Volume III will take the structural finding from Volume II and run it through a player-level analysis of MASL playoff performance versus regular-season performance, controlling for opponent strength, home-floor advantage, and roster minutes distribution. The thesis to be tested is that low-variance scoring contributions outperform high-ceiling explosive performances in short-series formats, and that defensive consistency compounds asymmetrically in best-of-three brackets. If the data confirms the thesis, the operational implication for front offices is clear. If the data complicates the thesis, the more interesting story is the complication.</p>
+
+    <p>For now, the structural answer stands. The MASL's playoff format produces a 30 percent top-seed championship rate not because of bracket flaws or seeding errors, but because the math of short series, talent compression, and indoor soccer's natural per-game variance combine to produce that rate by design. The historical record validates the model. The 2026 bracket validates the model. And the next decade of MASL playoffs, if the league's underlying conditions remain stable, will validate the model again.</p>
+
+    <p>That is the paradox resolved. What it implies for how teams should be built is the next paper.</p>
+
+    <p style="font-family: var(--sans); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--hair); font-weight: 500;">— end of Volume II —</p>
+  </div>
+</section>
+
+<div class="divider-rule">· · ·</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     APPENDIX
+═══════════════════════════════════════════════════════════ -->
+<section id="appendix" class="appendix">
+  <div class="narrow">
+    <div class="appendix-header">Methodology Appendix</div>
+    <h2>Data, derivations, and <em>replication</em>.</h2>
+
+    <h3>Data sources.</h3>
+    <p>The primary data set is the all-time MASL standings as compiled by kenn.com (a reference resource maintained independently of the league office), cross-referenced against the MASL's own published standings on maslsoccer.com and the team-by-team final records reported in National Soccer Network and Front Row Soccer coverage of the 2025-26 season. The 2026 playoff bracket results were verified against multiple primary sources: the Times of San Diego report on the Sockers' Game 3 win, the Star News playoff recap, and the official MASL game logs accessible through Pointstreak.</p>
+
+    <p>The full data set used in the Pythagorean derivation includes 149 team-seasons drawn from 12 MASL regular seasons, 2014-15 through 2025-26. Team-seasons with fewer than 18 regular-season games played were excluded to maintain stability of the dependent variable (winning percentage). The COVID-truncated 2019-20 season has no playoff data and is not used in the historical playoff analysis, but its regular-season standings are included in the Pythagorean derivation. The abbreviated 2021 spring season is excluded entirely because of unequal games-played across teams.</p>
+
+    <h3>Pythagorean exponent derivation.</h3>
+    <p>The exponent <code>N = 2.7645</code> was derived using a single-variable bounded optimization in Python's SciPy library. The objective function is the mean squared error between predicted and actual winning percentage across all 149 team-seasons, defined as:</p>
+
+    <div class="formula">
+MSE(N) = (1/149) · Σ ( actual_W%_i − predicted_W%_i(N) )²
+
+where  predicted_W%_i(N) = GF_i^N / ( GF_i^N + GA_i^N )
+    </div>
+
+    <p>The optimizer was bounded between N = 0.5 and N = 5.0 using the <code>scipy.optimize.minimize_scalar</code> function with the <code>'bounded'</code> method. The optimization converged to N = 2.7645 with a mean squared error of 0.005707, corresponding to a root-mean-squared error of 0.0755 winning-percentage points. For comparison, baseball's Pythagorean exponent (typically derived around 1.83) produces RMSE of approximately 0.045 across major-league data; the NHL's exponent (around 2.05) produces RMSE of approximately 0.06.</p>
+
+    <h3>Series-level win probabilities.</h3>
+    <p>Per-game probabilities for any matchup were computed using the log-5 method, which combines two independent winning percentages into a single per-game probability:</p>
+
+    <div class="formula">
+P(A beats B in single game)  =  p_A · (1 − p_B)  /  ( p_A · (1 − p_B) + p_B · (1 − p_A) )
+
+where  p_A, p_B  are each team's Pythagorean expected winning percentage
+    </div>
+
+    <p>Series-level probabilities for best-of-three (with mini-game) were computed as P(A wins 2 of 3 games), under the assumption that each game is independent. For the sensitivity analysis, the best-of-five probability was computed as P(A wins 3 of 5 games) under the same independence assumption. Home-floor advantage was not modeled in the baseline simulations to keep the model parsimonious; sensitivity tests with a home-floor adjustment of +0.05 to the home team's per-game probability shift championship percentages by less than two percentage points and do not change the rank ordering of any team.</p>
+
+    <h3>Monte Carlo specifications.</h3>
+    <p>All Monte Carlo results in this paper are based on <code>NSIM = 100,000</code> independent simulations of the 2025-26 MASL playoff bracket. The bracket structure follows the league's published 2026 playoff format: top six teams qualify, top two seeds receive byes, quarterfinals played between #3-vs-#6 and #4-vs-#5, semifinals played by #1-vs-lowest-remaining-quarterfinalist and #2-vs-other, championship final played as best-of-three. Each individual game within each series is simulated as an independent Bernoulli trial with the per-game probability derived from the log-5 method. Random seed is fixed at 42 for replicability.</p>
+
+    <p>Confidence intervals on the 100,000-trial championship probabilities are tight (95% CI of approximately ±0.3 percentage points for the top seed). The "33.3% Sockers championship probability" reported in Chapter Five is precise to the nearest tenth of a percentage point and is robust to alternative seedings of the random number generator.</p>
+
+    <h3>Replication.</h3>
+    <p>The full Python code for the Pythagorean derivation, the series-level probability calculations, and the Monte Carlo simulation is available on the author's GitHub repository alongside the published version of this paper. The code is structured as three short scripts: <code>pythag.py</code> for the exponent derivation, <code>vol2_2026.py</code> for the bracket-specific application, and <code>monte_carlo.py</code> for the full simulation. All three run on standard Python 3.10+ with SciPy as the only non-standard dependency. Total runtime on a 2024-era laptop is under thirty seconds for the full pipeline.</p>
+
+    <h3>Limitations.</h3>
+    <p>Three limitations of the model are worth flagging. First, the assumption of game-to-game independence within a series is approximately but not perfectly true; momentum effects, lineup adjustments after Game 1, and travel-day fatigue all introduce small dependencies that the model does not capture. Second, the Pythagorean exponent is derived from regular-season data and assumed to apply unchanged to playoff games; in practice, playoff games may have a slightly higher or lower exponent because of stylistic adjustments by both teams, though this effect is small in published cross-sport literature. Third, the model treats every team's underlying strength as a single point estimate; in reality, teams have distributions of possible underlying-strength values, and the Monte Carlo would be more accurate with bootstrap resampling of those distributions. Each of these limitations is in the direction of slightly understating the model's uncertainty; the conclusions of the paper would not be substantively changed by addressing them.</p>
+
+    <h3>Acknowledgments.</h3>
+    <p>This paper is the second volume of The Indoor Frontier, an independent research series on indoor soccer analytics. Volume I, "The Indoor Frontier: A Foundational Framework for Indoor Soccer Analytics," is available at <a href="../vol1/">dyllanleehaggard.github.io/indoor-frontier-MASL/vol1/</a>. All errors are the author's own.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     ABOUT
+═══════════════════════════════════════════════════════════ -->
+<section class="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <img class="about-photo" src="../headshot.jpg" alt="Dyllan Haggard">
+      <div>
+        <div class="about-label">About the Author</div>
+        <h2 class="about-name">Dyllan Haggard</h2>
+        <div class="about-role">Lead Data Analyst · Video & Data Analyst, St. Louis Ambush (MASL)</div>
+        <div class="about-bio">
+          <p>Dyllan is a Lead Data Analyst at Stifel Bank &amp; Trust in St. Louis, where his work focuses on credit analytics, CECL/ACL forecasting, and the data infrastructure behind portfolio risk management. In parallel, he serves as the Video and Data Analyst for the St. Louis Ambush of the Major Arena Soccer League, where he built the team's analytics function from scratch — including a Streamlit coaching dashboard, a two-app React PWA platform with a Google Sheets backend, opponent scouting infrastructure, and live in-game event logging.</p>
+          <p>He holds an M.S. in Data Science (GPA 4.0) and a B.S. in Computer Science with an Applied Mathematics minor (GPA 3.79), both from Fontbonne University. He is a co-founder of Footy Collective, an independent soccer analytics research group whose recent published work includes "The MLS Growth Series: The World Cup Effect" and "The USL Factor" using a Competitive Parity Index methodology.</p>
+          <p>The Indoor Frontier is an ongoing research series. Volume II is the second of an expected four-paper sequence; Volume III, on player-level series performance and roster construction, is in development.</p>
+        </div>
+        <div class="about-contact">
+          <strong>Contact ·</strong> <a href="mailto:dyllanleehaggard@gmail.com">dyllanleehaggard@gmail.com</a> &nbsp;·&nbsp; <a href="https://dyllanleehaggard.github.io">dyllanleehaggard.github.io</a> &nbsp;·&nbsp; <a href="https://www.linkedin.com/in/dyllan-haggard">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-mark">The Indoor Frontier</div>
+    <div>Volume II · The Playoff Paradox · 2026 · © Dyllan Haggard</div>
+  </div>
+</footer>
+
+</body>
+</html>
